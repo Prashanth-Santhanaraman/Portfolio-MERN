@@ -63,7 +63,7 @@ export default function Home() {
         <div className="w-20 md:w-40 lg:md-40 mb-4 md:m-0 lg:m-0 rounded-full">
           <img
             src={profileImg}
-            className="rounded-2xl border border-gray-700"
+            className="rounded-lg border border-gray-700"
             alt="Prashanth Profile Pic"
           />
         </div>
