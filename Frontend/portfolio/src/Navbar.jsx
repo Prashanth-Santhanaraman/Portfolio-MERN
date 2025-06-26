@@ -51,12 +51,12 @@ export default function Navbar() {
               </li>
             </ul>
           </div>
-          <a
+          <Link
             className="btn btn-ghost text-xl font-unbounded font-medium"
-            href="/"
+            to={"/"}
           >
             &lt;Prashanth. /&gt;
-          </a>
+          </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
