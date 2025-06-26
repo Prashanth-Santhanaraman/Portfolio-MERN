@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import profileImg from "./images/prashanth_1.jpg";
+import { FaLinkedin, FaGithub } from "react-icons/fa";
+import { SiGeeksforgeeks } from "react-icons/si";
+import { TbHomeFilled } from "react-icons/tb";
 export default function Home() {
   return (
     <>
-
-
       <div className="flex flex-row mx-10 md:mx-36 lg:mx-96 justify-between mt-12 items-center">
         <div className="flex flex-col">
           <h1 className="font-light text-2xl md:text-4xl lg:text-4xl font-unbounded">
@@ -18,7 +19,7 @@ export default function Home() {
             !
           </h1>
           <p className="text-xs mt-2">
-            Pre-final year at{" "}
+            Final year at{" "}
             <a
               href="https://www.rajalakshmi.org/"
               className="text-sky-600 font-medium"
@@ -26,6 +27,23 @@ export default function Home() {
               Rajalakshmi Engineering College
             </a>
           </p>
+          <div className="flex mt-3">
+            <button className="btn btn-sm mr-1">
+              <p className="text-xl">
+                <FaLinkedin />
+              </p>
+            </button>
+            <button className="btn btn-sm mr-1">
+              <p className="text-xl">
+                <FaGithub />
+              </p>
+            </button>
+            <button className="btn btn-sm mr-1">
+              <p className="text-xl">
+                <SiGeeksforgeeks />
+              </p>
+            </button>
+          </div>
         </div>
         <div className="w-32 md:w-40 lg:md-40 rounded-full">
           <img
@@ -35,22 +53,22 @@ export default function Home() {
           />
         </div>
       </div>
-      <div className="flex flex-row mx-10 md:mx-36 lg:mx-96 justify-around mt-12 items-center font-inter font-normal text-pretty">
+      <div className="flex flex-row mx-10 md:mx-36 lg:mx-96 justify-around mt-10 items-center font-inter font-normal text-pretty">
         <p className="text-sm lg:text-base">
           I'm Prashanth, a web developer with a strong focus on the MERN stack.
           I enjoy building scalable and user-friendly web applications,
           leveraging technologies like React, Node.js, MongoDB, and Redux. My
           projects range from personal tools to full-fledged applications,
           emphasizing performance and clean UI/UX. Currently, I work as a
-          technical member at [Your Organization], where I collaborate on
-          innovative solutions. I’m always eager to explore new technologies,
-          contribute to open-source projects, and improve my development skills.
-          Let’s connect and build something amazing!
+          technical member at Elite club, where I collaborate on innovative
+          solutions. I’m always eager to explore new technologies, contribute to
+          open-source projects, and improve my development skills. Let’s connect
+          and build something amazing!
         </p>
       </div>
       <div className="mx-10 md:mx-36 lg:mx-96 justify-around mt-8 md:mt-12 lg:mt-12 items-center">
         <h2 className="text-left text-xl font-bold mb-4 md:mb-2 lg:md-2 font-unbounded">
-          &lt;Projects /&gt;
+          &lt;Top 3 Projects /&gt;
         </h2>
 
         <div className="flex flex-wrap flex-row justify-between">
@@ -77,9 +95,14 @@ export default function Home() {
                 you create, organize, and manage your notes easily. It features
                 secure authentication and responsive design
               </p>
-              <button className="btn btn-sm btn-outline btn-block mt-5">
-                View
-              </button>
+              <a
+                target="_blank"
+                href="https://github.com/Prashanth-Santhanaraman/Notifye"
+              >
+                <button className="btn btn-sm btn-outline btn-block mt-5">
+                  View
+                </button>
+              </a>
             </div>
             <div className="border border-slate-950 p-4 rounded-md md:w-60 lg:w-60 mb-2">
               <div className="flex items-center justify-center">
@@ -95,9 +118,14 @@ export default function Home() {
                 NPTEL Internal Marks Calculator: Calculate internal marks based
                 on course duration and assignment scores.
               </p>
-              <button className="btn btn-sm btn-outline btn-block mt-5">
-                View
-              </button>
+              <a
+                target="_blank"
+                href="https://github.com/Prashanth-Santhanaraman/NptelAssignmentCalculator"
+              >
+                <button className="btn btn-sm btn-outline btn-block mt-5">
+                  View
+                </button>
+              </a>
             </div>
 
             <div className="border border-slate-950 p-4 rounded-md md:w-60 lg:w-60 mb-2">
@@ -109,15 +137,19 @@ export default function Home() {
                   className="h-40 md:w-60 lg:w-60 rounded-lg"
                 />
               </div>
-              <h3 className="text-lg font-semibold mt-2">Project Title</h3>
+              <h3 className="text-lg font-semibold mt-2">PrintEase</h3>
               <p className="text-sm mt-2">
-                Project description. Project description. Project description.
-                Project description.
+                PrintEase is an internal document printing system where users
+                can upload PDFs, set print preferences, and submit print
+                requests. Admins can manage and track all print orders securely
+                within the organization.
               </p>
 
-              <button className="btn btn-sm btn-outline btn-block mt-5">
-                View
-              </button>
+              <a target="_blank" href="http://">
+                <button className="btn btn-sm btn-outline btn-block mt-5">
+                  View
+                </button>
+              </a>
             </div>
           </div>
           {/* <div>
@@ -228,9 +260,10 @@ export default function Home() {
         <h2 className="text-xl font-bold font-unbounded">&lt;Skills /&gt;</h2>
         <div className="mt-5 ml-3">
           <p className="">
-            ✔ Frontend: HTML, CSS, JavaScript, React, Redux, Tailwind
+            ✔ Frontend: HTML, CSS, JavaScript, React, EJS, Tailwind
           </p>
-          <p>✔ Backend: Node.js, Express.js</p>
+          <p>✔ Backend: Python, Node JS, Express JS</p>
+          <p>✔ Databases: MongoDB, MySQL</p>
           <p>✔ Version Control: Git, GitHub</p>
         </div>
       </div>
@@ -240,11 +273,18 @@ export default function Home() {
           &lt;Get in Touch /&gt;
         </h2>
         <div className="mt-5 ml-3 flex flex-row">
-          <a href="https://www.linkedin.com/in/prashanth-santhanaraman/">
-            <button className="btn btn-outline mr-2">Linkedin</button>
+          <a
+            target="_blank"
+            href="https://www.linkedin.com/in/prashanth-santhanaraman/"
+          >
+            <button className="btn btn-outline mr-2">
+              <FaLinkedin /> Linkedin
+            </button>
           </a>
-          <a href="https://github.com/prashanth-santhanaraman">
-            <button className="btn btn-outline">Github</button>
+          <a target="_blank" href="https://github.com/prashanth-santhanaraman">
+            <button className="btn btn-outline">
+              <FaGithub /> Github
+            </button>
           </a>
         </div>
       </div>

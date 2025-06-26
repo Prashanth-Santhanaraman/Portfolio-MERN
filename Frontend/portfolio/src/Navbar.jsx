@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-
+import { LuDownload } from "react-icons/lu";
+import { TbHomeFilled } from "react-icons/tb";
 export default function Navbar() {
   const navigate = useNavigate();
   return (
@@ -38,7 +39,7 @@ export default function Navbar() {
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
             >
               <li>
-                <Link to={"/"}>Home</Link>
+                <Link to={"/"}><TbHomeFilled /> Home</Link>
               </li>
               <li>
                 <Link to={"/blogs"}>Blogs</Link>
@@ -69,7 +70,7 @@ export default function Navbar() {
           </ul>
         </div>
         <div className="navbar-end m-2">
-          <label className="grid cursor-pointer place-items-center">
+          {/* <label className="grid cursor-pointer place-items-center">
             <input
               type="checkbox"
               value="synthwave"
@@ -104,7 +105,10 @@ export default function Navbar() {
             >
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
             </svg>
-          </label>
+          </label> */}
+          <div>
+            <button className="btn"> <LuDownload /> Resume</button>
+          </div>
         </div>
       </div>
     </>

@@ -1,21 +1,14 @@
 const express = require("express");
 const app = express();
-const port = process.env.PORT || 4000;
 const userModel = require("./models/userDetail");
 const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
+require("dotenv").config();
 const cors = require("cors");
+const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(cors());
-
-mongoose
-  .connect("mongodb://127.0.0.1:27017/Portfolio")
-  .then(() => {
-    console.log("Connected to the db successfully");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
 
 app.get("/", (req, res) => {
   res.send("Welcome to PRASHANTH portfolio backend");
@@ -31,16 +24,40 @@ app.get("/blogs", async (req, res) => {
 });
 
 app.post("/newBlog", async (req, res) => {
-  const { title, shortdescription, description, imglink } = req.body;
+  const { title, shortdescription, description, imglink, password } = req.body;
+  if (!title || !shortdescription || !description || !imglink || !password) {
+    return res.status(404).json({ message: "Please fill all details !" });
+  }
+  if (!password) {
+    return res.status(404).json({ message: "Password is missing !" });
+  }
 
   try {
+    const userDetail = await userModel
+      .findOne({ _id: `${process.env.MONGODBPROFILEID}` })
+      .select("+password");
+    // console.log(userDetail._doc.password);
+    // console.log("userDetail keys:", Object.keys(userDetail));
+    const passwordCheck = await bcrypt.compare(
+      password,
+      userDetail._doc.password
+    );
+    if (!passwordCheck) {
+      return res.status(400).json({ message: "Password is wrong !" });
+    }
+
     const updatedBlog = await userModel.findByIdAndUpdate(
-      "67a7626fb94f9ae0ba21b6cf",
+      `${process.env.MONGODBPROFILEID}`,
       { $push: { blogs: { title, shortdescription, description, imglink } } },
       { new: true }
     );
 
-    return res.status(200).json(updatedBlog);
+    return res
+      .status(200)
+      .json({
+        updatedBlog: updatedBlog,
+        message: "Successfully added the blog !",
+      });
   } catch (error) {
     res
       .status(400)
@@ -50,12 +67,34 @@ app.post("/newBlog", async (req, res) => {
 });
 
 app.post("/newProject", async (req, res) => {
-  const { title, shortdescription, description, websitelink, imglink } =
-    req.body;
+  const {
+    title,
+    shortdescription,
+    description,
+    websitelink,
+    imglink,
+    password,
+  } = req.body;
+
+  if (!password) {
+    return res.status(404).json({ message: "Password is missing !" });
+  }
 
   try {
+    const userDetail = await userModel
+      .findOne({ _id: `${process.env.MONGODBPROFILEID}` })
+      .select("+password");
+    // console.log(userDetail._doc.password);
+    // console.log("userDetail keys:", Object.keys(userDetail));
+    const passwordCheck = await bcrypt.compare(
+      password,
+      userDetail._doc.password
+    );
+    if (!passwordCheck) {
+      return res.status(400).json({ message: "Password is wrong !" });
+    }
     const updatedProject = await userModel.findByIdAndUpdate(
-      "67a7626fb94f9ae0ba21b6cf",
+      `${process.env.MONGODBPROFILEID}`,
       {
         $push: {
           projects: {
@@ -70,7 +109,12 @@ app.post("/newProject", async (req, res) => {
       { new: true }
     );
 
-    return res.status(200).json(updatedProject);
+    return res
+      .status(200)
+      .json({
+        updatedProject: updatedProject,
+        message: "Successfully added the project !",
+      });
   } catch (error) {
     res
       .status(400)
@@ -80,12 +124,34 @@ app.post("/newProject", async (req, res) => {
 });
 
 app.post("/newTop3Projects", async (req, res) => {
-  const { title, shortdescription, description, websitelink, imglink } =
-    req.body;
+  const {
+    title,
+    shortdescription,
+    description,
+    websitelink,
+    imglink,
+    password,
+  } = req.body;
+
+  if (!password) {
+    return res.status(404).json({ message: "Password is missing !" });
+  }
 
   try {
+    const userDetail = await userModel
+      .findOne({ _id: `${process.env.MONGODBPROFILEID}` })
+      .select("+password");
+    // console.log(userDetail._doc.password);
+    // console.log("userDetail keys:", Object.keys(userDetail));
+    const passwordCheck = await bcrypt.compare(
+      password,
+      userDetail._doc.password
+    );
+    if (!passwordCheck) {
+      return res.status(400).json({ message: "Password is wrong !" });
+    }
     const updatedProject = await userModel.findByIdAndUpdate(
-      "67a7626fb94f9ae0ba21b6cf",
+      `${process.env.MONGODBPROFILEID}`,
       {
         $push: {
           top3projects: {
@@ -124,6 +190,29 @@ app.get("/blog/post/:id", async (req, res) => {
   }
 });
 
-app.listen(4000, (req, res) => {
-  console.log(`Listening on port ${port}`);
+app.get("/project/post/:id", async (req, res) => {
+  const { id } = req.params;
+  console.log(id)
+  try {
+    const user = await userModel.findOne({ "projects._id": id }, { "projects.$": 1 });
+    if (user) {
+      res.status(200).json(user.projects[0]);
+    } else {
+      res.status(404).json({ message: "Project not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Server Error", error });
+  }
 });
+
+mongoose
+  .connect(`${process.env.MONGODBURI}`)
+  .then(() => {
+    console.log("Connected to the db successfully");
+    app.listen(port, (req, res) => {
+      console.log(`Listening on port ${port}`);
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+  });

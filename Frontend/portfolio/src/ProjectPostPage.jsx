@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-export default function PostPage() {
+export default function ProjectPostPage() {
   const [postInfo, setPostInfo] = useState(null);
   const { id } = useParams();
 
@@ -10,16 +10,14 @@ export default function PostPage() {
     console.log(id);
 
     axios
-      .get(`http://localhost:4000/blog/post/${id}`)
-      .then((res) => {
-        setPostInfo(res.data);
-      })
+      .get(`http://localhost:4000/project/post/${id}`)
+      .then((res) => setPostInfo(res.data))
       .catch((err) => console.error(err));
   }, []);
   return (
     <>
       <div className="mx-8 md:mx-36 lg:mx-96 justify-around mt-12">
-        <a href="/blogs">
+        <a href="/projects">
           <button className="btn btn-sm mb-4">&#8592;</button>
         </a>
         {postInfo ? (
@@ -34,8 +32,8 @@ export default function PostPage() {
             <h1 className="text-4xl mt-4 font-inter font-bold">
               {postInfo.title}
             </h1>
-            {/* {postInfo.blogDate ? <p className="">{postInfo.blogDate}</p> : ""} */}
             <p className="mt-4 text-md">{postInfo.description}</p>
+            <a href={postInfo.websitelink} target="_blank"><button className="btn btn-block mt-4">Github Repository</button></a>
           </>
         ) : (
           <p>Loading...</p>

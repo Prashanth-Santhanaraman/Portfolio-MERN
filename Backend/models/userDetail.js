@@ -16,6 +16,10 @@ const blogSchema = mongoose.Schema({
   imglink: {
     type: String,
   },
+  blogDate: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 const projectSchema = mongoose.Schema({
@@ -39,11 +43,13 @@ const projectSchema = mongoose.Schema({
   },
 });
 
-
 const userSchema = mongoose.Schema({
   blogs: [blogSchema],
   projects: [projectSchema],
-  top3projects: [projectSchema]
+  top3projects: [projectSchema],
+  password: {
+    type: String,
+  },
 });
 
 module.exports = mongoose.model("personal", userSchema);
