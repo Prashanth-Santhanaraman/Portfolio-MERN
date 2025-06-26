@@ -2,6 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { LuDownload } from "react-icons/lu";
 import { TbHomeFilled } from "react-icons/tb";
+import { MdNotes } from "react-icons/md";
+import { GoProjectRoadmap } from "react-icons/go";
 export default function Navbar() {
   const navigate = useNavigate();
   return (
@@ -42,10 +44,10 @@ export default function Navbar() {
                 <Link to={"/"}><TbHomeFilled /> Home</Link>
               </li>
               <li>
-                <Link to={"/blogs"}>Blogs</Link>
+                <Link to={"/blogs"}><MdNotes /> Blogs</Link>
               </li>
               <li>
-                <Link to={"/projects"}>Projects</Link>
+                <Link to={"/projects"}><GoProjectRoadmap /> Projects</Link>
               </li>
             </ul>
           </div>
@@ -59,13 +61,13 @@ export default function Navbar() {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
             <li>
-              <a href="/">Home</a>
+              <Link to={"/"}>Home</Link>
             </li>
             <li>
-              <a href="/blogs">Blogs</a>
+              <Link to={"/blogs"}>Blogs</Link>
             </li>
             <li>
-              <a href="/projects">Projects</a>
+              <Link to={"/projects"}>Projects</Link>
             </li>
           </ul>
         </div>

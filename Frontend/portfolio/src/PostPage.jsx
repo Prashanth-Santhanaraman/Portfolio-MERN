@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams,Link } from "react-router-dom";
 import axios from "axios";
 
 export default function PostPage() {
@@ -19,9 +19,9 @@ export default function PostPage() {
   return (
     <>
       <div className="mx-8 md:mx-36 lg:mx-96 justify-around mt-12">
-        <a href="/blogs">
+        <Link to={"/blogs"}>
           <button className="btn btn-sm mb-4">&#8592;</button>
-        </a>
+        </Link>
         {postInfo ? (
           <>
             <div className="flex justify-center border-2 rounded-lg p-2">

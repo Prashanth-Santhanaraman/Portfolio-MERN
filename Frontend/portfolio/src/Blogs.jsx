@@ -7,14 +7,14 @@ export default function Blogs() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    console.log(import.meta.env.VITE_BACKENDLINK)
+    console.log(import.meta.env.VITE_BACKENDLINK);
     setIsLoading(true);
     axios
       .get(`${import.meta.env.VITE_BACKENDLINK}/blogs`)
       .then((res) => {
-        console.log(res.data.blogs)
+        console.log(res.data.blogs);
         setBlogs(res.data.blogs);
-        setIsLoading(false)
+        setIsLoading(false);
       })
       .catch((err) => console.error(err));
   }, []);
@@ -32,21 +32,23 @@ export default function Blogs() {
               &lt;Blogs /&gt;
             </h1>
 
-            <div className="mx-1 flex flex-wrap flex-row justify-center md:justify-between lg:justify-between mt-10">
+            <div className="flex flex-wrap justify-center md:justify-normal gap-2 mt-8">
               {blogss.length === 0 ? (
                 <h1>No Blogs Available</h1>
               ) : (
                 blogss.map((blog) => (
                   <div
                     key={blog._id}
-                    className=" w-48 md:w-60 lg:w-60 border-2 border-slate-950 p-4 rounded-md mb-5"
+                    className="border-2 border-slate-950 p-4 rounded-md md:w-60 lg:w-60 mb-2 justify-center "
                   >
-                    <img
-                      src={blog.imglink}
-                      alt=""
-                      srcset=""
-                      className="h-40 w-60 rounded-lg"
-                    />
+                    <div className="flex items-center justify-center">
+                      <img
+                        src={blog.imglink}
+                        alt=""
+                        srcset=""
+                        className="h-40 w-60 rounded-lg"
+                      />
+                    </div>
                     <h3 className="text-lg font-semibold mt-2">{blog.title}</h3>
                     <p className="text-sm mt-2">{blog.shortdescription}</p>
                     <Link to={`/blogs/post/${blog._id}`}>

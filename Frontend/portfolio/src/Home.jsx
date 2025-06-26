@@ -6,7 +6,7 @@ import { TbHomeFilled } from "react-icons/tb";
 export default function Home() {
   return (
     <>
-      <div className="flex flex-row mx-10 md:mx-36 lg:mx-96 justify-between mt-12 items-center">
+      <div className="flex flex-row flex-wrap-reverse mx-10 md:mx-36 lg:mx-96 justify-between mt-12 items-center">
         <div className="flex flex-col">
           <h1 className="font-light text-2xl md:text-4xl lg:text-4xl font-unbounded">
             Hello ! 👋
@@ -45,10 +45,10 @@ export default function Home() {
             </button>
           </div>
         </div>
-        <div className="w-32 md:w-40 lg:md-40 rounded-full">
+        <div className="w-20 md:w-40 lg:md-40 mb-4 md:m-0 lg:m-0 rounded-full">
           <img
             src={profileImg}
-            className="rounded-full border-2 border-gray-700"
+            className="rounded-2xl border border-gray-700"
             alt="Prashanth Profile Pic"
           />
         </div>

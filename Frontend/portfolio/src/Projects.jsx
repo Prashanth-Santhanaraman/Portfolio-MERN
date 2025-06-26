@@ -27,24 +27,26 @@ export default function Projects() {
         <Loading />
       ) : (
         <>
-          <div className="mx-3 md:mx-36 lg:mx-96 justify-around mt-10 items-center">
+          <div className="mx-10 md:mx-36 lg:mx-96 justify-around mt-10 items-center">
             <h1 className="font-unbounded text-center md:text-left lg:text-left text-4xl font-semibold">
               &lt;Projects /&gt;
             </h1>
 
-            <div className="flex flex-wrap gap-2 mt-8 justify-center">
+            <div className="flex flex-wrap gap-2 mt-8">
               {projectInfo && projectInfo.length > 0
                 ? projectInfo.map((singleProject) => (
                     <div
                       key={singleProject._id}
-                      className="border-2 border-slate-950 p-4 rounded-md w-56 md:w-60 lg:w-60 mb-2 justify-center md:justify-between lg:justify-between"
+                      className="border-2 border-slate-950 p-4 rounded-md md:w-60 lg:w-60 mb-2 justify-center "
                     >
-                      <img
-                        src={singleProject.imglink}
-                        alt=""
-                        srcset=""
-                        className="h-40 w-60 rounded-lg"
-                      />
+                      <div className="flex items-center justify-center">
+                        <img
+                          src={singleProject.imglink}
+                          alt=""
+                          srcset=""
+                          className="h-40 w-60 rounded-lg"
+                        />
+                      </div>
                       <h3 className="text-lg font-semibold mt-2">
                         {singleProject.title}
                       </h3>
