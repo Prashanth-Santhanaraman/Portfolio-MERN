@@ -28,21 +28,36 @@ export default function Home() {
             </a>
           </p>
           <div className="flex mt-3">
-            <button className="btn btn-sm mr-1">
-              <p className="text-xl">
-                <FaLinkedin />
-              </p>
-            </button>
-            <button className="btn btn-sm mr-1">
-              <p className="text-xl">
-                <FaGithub />
-              </p>
-            </button>
-            <button className="btn btn-sm mr-1">
-              <p className="text-xl">
-                <SiGeeksforgeeks />
-              </p>
-            </button>
+            <a
+              href="https://www.linkedin.com/in/prashanth-santhanaraman/"
+              target="_blank"
+            >
+              <button className="btn btn-sm mr-1">
+                <p className="text-xl">
+                  <FaLinkedin />
+                </p>
+              </button>
+            </a>
+            <a
+              href="https://github.com/prashanth-santhanaraman"
+              target="_blank"
+            >
+              <button className="btn btn-sm mr-1">
+                <p className="text-xl">
+                  <FaGithub />
+                </p>
+              </button>
+            </a>
+            <a
+              href="https://www.geeksforgeeks.org/user/prashanth_santhanaraman/"
+              target="_blank"
+            >
+              <button className="btn btn-sm mr-1">
+                <p className="text-xl">
+                  <SiGeeksforgeeks />
+                </p>
+              </button>
+            </a>
           </div>
         </div>
         <div className="w-20 md:w-40 lg:md-40 mb-4 md:m-0 lg:m-0 rounded-full">
@@ -54,7 +69,7 @@ export default function Home() {
         </div>
       </div>
       <div className="flex flex-row mx-10 md:mx-36 lg:mx-96 justify-around mt-10 items-center font-inter font-normal text-pretty">
-        <p className="text-sm lg:text-base">
+        <p className="text-sm text-balance lg:text-base">
           I'm Prashanth, a web developer with a strong focus on the MERN stack.
           I enjoy building scalable and user-friendly web applications,
           leveraging technologies like React, Node.js, MongoDB, and Redux. My
@@ -265,6 +280,23 @@ export default function Home() {
           <p>✔ Backend: Python, Node JS, Express JS</p>
           <p>✔ Databases: MongoDB, MySQL</p>
           <p>✔ Version Control: Git, GitHub</p>
+        </div>
+      </div>
+
+      <div className="mx-10 md:mx-36 lg:mx-96 justify-around mt-10 items-center">
+        <h2 className="text-xl font-bold font-unbounded">
+          &lt;Certifications /&gt;
+        </h2>
+        <div className="mt-5 ml-3">
+          <ul className="list-decimal ml-3">
+            <li>Responsive Web Design, FreeCodeCamp.</li>
+            <li>Backend Development and APIs, FreeCodeCamp.</li>
+            <li>Python (Basic), HackerRank.</li>
+            <li>CSS (Basic), HackerRank.</li>
+            <li>Mastering Figma: Beginner to Expert UI/UX Design, Guvi.</li>
+            <li>Introduction to Internet of Things, NPTEL.</li>
+            <li>The Joy of Computing using Python, NPTEL.</li>
+          </ul>
         </div>
       </div>
 
