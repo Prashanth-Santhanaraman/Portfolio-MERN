@@ -7,9 +7,10 @@ export default function Blogs() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    console.log(import.meta.env.VITE_BACKENDLINK)
     setIsLoading(true);
     axios
-      .get("http://localhost:4000/blogs")
+      .get(`${import.meta.env.VITE_BACKENDLINK}/blogs`)
       .then((res) => {
         setBlogs(res.data[0].blogs);
         setIsLoading(false)

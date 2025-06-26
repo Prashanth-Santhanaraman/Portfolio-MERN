@@ -13,11 +13,11 @@ export default function AddProject() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:4000/newProject", {
+      .post(`${import.meta.env.VITE_BACKENDLINK}/newProject`, {
         title: title,
         shortdescription: shortDescription,
         description: description,
-        websitelink:websiteLink,
+        websitelink: websiteLink,
         imglink: imageLink,
         password: password,
       })
@@ -77,15 +77,15 @@ export default function AddProject() {
               </fieldset>
 
               <fieldset className="fieldset mt-2">
-              <legend className="fieldset-legend">Website Link</legend>
-              <input
-                type="text"
-                className="input"
-                placeholder="Enter the website link"
-                onChange={(e) => setWebsiteLink(e.target.value)}
-                required
-              />
-            </fieldset>
+                <legend className="fieldset-legend">Website Link</legend>
+                <input
+                  type="text"
+                  className="input"
+                  placeholder="Enter the website link"
+                  onChange={(e) => setWebsiteLink(e.target.value)}
+                  required
+                />
+              </fieldset>
 
               <fieldset className="fieldset mt-2">
                 <legend className="fieldset-legend">Image Link</legend>

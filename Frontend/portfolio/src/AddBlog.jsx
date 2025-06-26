@@ -14,7 +14,7 @@ export default function AddBlog() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:4000/newBlog", {
+      .post(`${import.meta.env.VITE_BACKENDLINK}/newBlog`, {
         title: title,
         shortdescription: shortDescription,
         description: description,

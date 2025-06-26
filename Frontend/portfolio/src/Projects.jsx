@@ -10,13 +10,13 @@ export default function Projects() {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get("http://localhost:4000/blogs")
+      .get(`${import.meta.env.VITE_BACKENDLINK}/blogs`)
       .then((res) => {
         setProjectInfo(res.data[0].projects);
         setIsLoading(false);
       })
       .catch((err) => {
-        console.error(err)
+        console.error(err);
         setIsLoading(false);
       });
   }, []);

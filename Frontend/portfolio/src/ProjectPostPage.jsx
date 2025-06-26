@@ -10,7 +10,7 @@ export default function ProjectPostPage() {
     console.log(id);
 
     axios
-      .get(`http://localhost:4000/project/post/${id}`)
+      .get(`${import.meta.env.VITE_BACKENDLINK}/project/post/${id}`)
       .then((res) => setPostInfo(res.data))
       .catch((err) => console.error(err));
   }, []);
@@ -33,7 +33,9 @@ export default function ProjectPostPage() {
               {postInfo.title}
             </h1>
             <p className="mt-4 text-md">{postInfo.description}</p>
-            <a href={postInfo.websitelink} target="_blank"><button className="btn btn-block mt-4">Github Repository</button></a>
+            <a href={postInfo.websitelink} target="_blank">
+              <button className="btn btn-block mt-4">Github Repository</button>
+            </a>
           </>
         ) : (
           <p>Loading...</p>

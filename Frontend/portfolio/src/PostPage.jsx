@@ -10,7 +10,7 @@ export default function PostPage() {
     console.log(id);
 
     axios
-      .get(`http://localhost:4000/blog/post/${id}`)
+      .get(`${import.meta.env.VITE_BACKENDLINK}/blog/post/${id}`)
       .then((res) => {
         setPostInfo(res.data);
       })
