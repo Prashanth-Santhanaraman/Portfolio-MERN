@@ -15,7 +15,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/blogs", async (req, res) => {
-  const userBlogs = await userModel.find();
+  const userBlogs = await userModel.findOne({_id:`${process.env.MONGODBPROFILEID}`});
   if (userBlogs) {
     return res.status(200).json(userBlogs);
   } else {
