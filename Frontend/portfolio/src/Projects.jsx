@@ -12,7 +12,7 @@ export default function Projects() {
     axios
       .get(`${import.meta.env.VITE_BACKENDLINK}/blogs`)
       .then((res) => {
-        setProjectInfo(res.data[0].projects);
+        setProjectInfo(res.data.projects);
         setIsLoading(false);
       })
       .catch((err) => {

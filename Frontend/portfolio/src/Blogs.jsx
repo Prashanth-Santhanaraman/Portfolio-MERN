@@ -12,7 +12,8 @@ export default function Blogs() {
     axios
       .get(`${import.meta.env.VITE_BACKENDLINK}/blogs`)
       .then((res) => {
-        setBlogs(res.data[0].blogs);
+        console.log(res.data.blogs)
+        setBlogs(res.data.blogs);
         setIsLoading(false)
       })
       .catch((err) => console.error(err));
