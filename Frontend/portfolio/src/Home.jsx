@@ -69,7 +69,7 @@ export default function Home() {
         </div>
       </div>
       <div className="flex flex-row mx-10 md:mx-36 lg:mx-96 justify-around mt-10 items-center font-inter font-normal text-pretty">
-        <p className="text-sm text-balance lg:text-base">
+        <p className="text-sm text-balance lg:text-base md:text-sm">
           I'm Prashanth, a web developer with a strong focus on the MERN stack.
           I enjoy building scalable and user-friendly web applications,
           leveraging technologies like React, Node.js, MongoDB, and Redux. My
@@ -273,7 +273,7 @@ export default function Home() {
       </div>
       <div className="mx-10 md:mx-36 lg:mx-96 justify-around mt-10 items-center">
         <h2 className="text-xl font-bold font-unbounded">&lt;Skills /&gt;</h2>
-        <div className="mt-5 ml-3">
+        <div className="mt-5 ml-3 text-sm">
           <p className="">
             ✔ Frontend: HTML, CSS, JavaScript, React, EJS, Tailwind
           </p>
@@ -288,7 +288,7 @@ export default function Home() {
           &lt;Certifications /&gt;
         </h2>
         <div className="mt-5 ml-3">
-          <ul className="list-decimal ml-3">
+          <ul className="list-decimal ml-3 text-sm">
             <li>Responsive Web Design, FreeCodeCamp.</li>
             <li>Backend Development and APIs, FreeCodeCamp.</li>
             <li>Python (Basic), HackerRank.</li>
