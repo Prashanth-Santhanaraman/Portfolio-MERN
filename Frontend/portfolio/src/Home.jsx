@@ -6,7 +6,7 @@ import { TbHomeFilled } from "react-icons/tb";
 export default function Home() {
   return (
     <>
-      <div className="flex flex-row flex-wrap-reverse mx-10 md:mx-36 lg:mx-96 justify-between mt-12 items-center">
+      <div className="flex flex-row flex-wrap-reverse mx-10 md:mx-36 lg:mx-96 justify-between mt-6 md:mt-12 lg:mt-12 items-center">
         <div className="flex flex-col">
           <h1 className="font-light text-2xl md:text-4xl lg:text-4xl font-unbounded">
             Hello ! 👋
@@ -68,7 +68,7 @@ export default function Home() {
           />
         </div>
       </div>
-      <div className="flex flex-row mx-10 md:mx-36 lg:mx-96 justify-around mt-10 items-center font-inter font-normal text-pretty">
+      <div className="flex flex-row mx-10 md:mx-36 lg:mx-96 justify-around mt-6 md:mt-10 lg:mt-10 items-center font-inter font-normal text-pretty">
         <p className="text-sm text-balance lg:text-base md:text-sm">
           I'm Prashanth, a web developer with a strong focus on the MERN stack.
           I enjoy building scalable and user-friendly web applications,
