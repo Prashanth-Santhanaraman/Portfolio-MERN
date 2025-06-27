@@ -20,7 +20,7 @@ export default function Navbar() {
       <div className="navbar bg-base-100 border-b-[2px]">
         <div className="navbar-start">
           <div className="dropdown">
-            <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+            <div tabIndex={0} role="button" className="btn btn-sm btn-ghost lg:hidden">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
@@ -38,7 +38,7 @@ export default function Navbar() {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+              className="menu menu-md dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-96 p-2 shadow"
             >
               <li>
                 <Link to={"/"}><TbHomeFilled /> Home</Link>
@@ -52,7 +52,7 @@ export default function Navbar() {
             </ul>
           </div>
           <Link
-            className="btn btn-ghost text-xl font-unbounded font-medium"
+            className="btn btn-ghost btn-sm text-lg font-unbounded font-medium"
             to={"/"}
           >
             &lt;Prashanth. /&gt;
@@ -109,7 +109,7 @@ export default function Navbar() {
             </svg>
           </label> */}
           <div>
-            <button className="btn"> <LuDownload /> Resume</button>
+            <a href="../Profile (1).pdf" target="_blank"><button className="btn btn-md"> <LuDownload /> Resume</button></a>
           </div>
         </div>
       </div>
