@@ -38,7 +38,7 @@ export default function Navbar() {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-md dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-96 p-2 shadow"
+              className="menu menu-md dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-60 p-2 shadow"
             >
               <li>
                 <Link to={"/"}><TbHomeFilled /> Home</Link>
