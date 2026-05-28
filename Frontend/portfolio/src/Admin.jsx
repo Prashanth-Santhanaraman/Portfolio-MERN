@@ -8,9 +8,11 @@ export default function Admin() {
         <h1 className="text-center md:text-left font-unbounded text-4xl font-semibold">
           &lt;Admin /&gt;
         </h1>
-        <div className="flex items-center justify-center min-h-screen">
-          <button className="btn mr-2" onClick={() => navigate("/admin/addblog")}>Add Blog</button>
-          <button className="btn"  onClick={() => navigate("/admin/addproject")}>Add Project</button>
+        <div className="flex flex-wrap items-center justify-center gap-2 min-h-screen">
+          <button className="btn" onClick={() => navigate("/admin/addblog")}>Add Blog</button>
+          <button className="btn" onClick={() => navigate("/admin/addproject")}>Add Project</button>
+          <button className="btn btn-warning" onClick={() => navigate("/admin/editblog")}>Edit Blog</button>
+          <button className="btn btn-error" onClick={() => navigate("/admin/deleteblog")}>Delete Blog</button>
         </div>
       </div>
     </>

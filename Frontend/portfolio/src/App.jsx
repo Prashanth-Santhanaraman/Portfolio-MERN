@@ -11,6 +11,8 @@ import Admin from "./Admin";
 import AddBlog from "./AddBlog";
 import AddProject from "./AddProject";
 import ProjectPostPage from "./ProjectPostPage";
+import DeleteBlog from "./DeleteBlog";
+import EditBlog from "./EditBlog";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -28,6 +30,8 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin/addblog" element={<AddBlog />} />
           <Route path="/admin/addproject" element={<AddProject />} />
+          <Route path="/admin/deleteblog" element={<DeleteBlog />} />
+          <Route path="/admin/editblog" element={<EditBlog />} />
           {/* <Route path="*" element={<PageNotFound />} /> */}
         </Routes>
         <Footer />

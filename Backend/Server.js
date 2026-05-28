@@ -16,7 +16,12 @@ const sanitizeOptions = {
 };
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+}));
+app.options("*", cors());
 
 app.get("/", (req, res) => {
   res.send("Welcome to PRASHANTH portfolio backend");
@@ -185,6 +190,53 @@ app.post("/newTop3Projects", async (req, res) => {
     res
       .status(400)
       .json({ message: "error in adding the project! check the console" });
+    console.log(error);
+  }
+});
+
+app.put("/editBlog/:id", async (req, res) => {
+  const { id } = req.params;
+  let { title, shortdescription, description, imglink, password } = req.body;
+
+  if (!password) {
+    return res.status(400).json({ message: "Password is required !" });
+  }
+  if (!title || !shortdescription || !description || !imglink) {
+    return res.status(400).json({ message: "Please fill all fields !" });
+  }
+
+  if (description) description = sanitizeHtml(description, sanitizeOptions);
+
+  try {
+    const userDetail = await userModel
+      .findOne({ _id: `${process.env.MONGODBPROFILEID}` })
+      .select("+password");
+
+    const passwordCheck = await bcrypt.compare(password, userDetail._doc.password);
+    if (!passwordCheck) {
+      return res.status(401).json({ message: "Password is wrong !" });
+    }
+
+    const updated = await userModel.findOneAndUpdate(
+      { _id: `${process.env.MONGODBPROFILEID}`, "blogs._id": id },
+      {
+        $set: {
+          "blogs.$.title": title,
+          "blogs.$.shortdescription": shortdescription,
+          "blogs.$.description": description,
+          "blogs.$.imglink": imglink,
+        },
+      },
+      { new: true }
+    );
+
+    if (!updated) {
+      return res.status(404).json({ message: "Blog not found !" });
+    }
+
+    return res.status(200).json({ message: "Blog updated successfully !", updatedBlogs: updated.blogs });
+  } catch (error) {
+    res.status(500).json({ message: "Error updating blog. Check the console." });
     console.log(error);
   }
 });
