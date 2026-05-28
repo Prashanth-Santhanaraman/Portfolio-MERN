@@ -21,8 +21,8 @@ export default function Navbar() {
         {/* ── Left: Branding & Mobile Menu ── */}
         <div className="navbar-start">
           <div className="dropdown">
-            <div tabIndex={0} role="button" className="btn btn-sm btn-ghost lg:hidden mr-2 border-2 border-slate-950 rounded-lg">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div tabIndex={0} role="button" className="btn btn-xs md:btn-sm btn-ghost lg:hidden mr-2 border-2 border-slate-950 rounded-md md:rounded-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 md:h-5 md:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" />
               </svg>
             </div>
@@ -44,7 +44,7 @@ export default function Navbar() {
               </li>
             </ul>
           </div>
-          <Link to="/" className="text-xl md:text-2xl font-unbounded font-bold hover:text-blue-600 transition-colors tracking-tight">
+          <Link to="/" className="text-base md:text-2xl font-unbounded font-bold hover:text-blue-600 transition-colors tracking-tight whitespace-nowrap">
             &lt;Prashanth. /&gt;
           </Link>
         </div>
