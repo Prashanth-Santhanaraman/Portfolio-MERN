@@ -1,335 +1,193 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import profileImg from "./images/prashanth_1.jpg";
-import { FaLinkedin, FaGithub } from "react-icons/fa";
-import { SiGeeksforgeeks } from "react-icons/si";
-import { TbHomeFilled } from "react-icons/tb";
+import { FaLinkedin, FaGithub, FaNodeJs, FaPython, FaReact } from "react-icons/fa";
+import { SiGeeksforgeeks, SiMongodb, SiExpress, SiTailwindcss, SiJavascript, SiHtml5, SiCss3, SiMysql, SiGit } from "react-icons/si";
+
 export default function Home() {
+  const [topProjects, setTopProjects] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_BACKENDLINK}/blogs`)
+      .then((res) => {
+        setTopProjects(res.data.top3projects || []);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setIsLoading(false);
+      });
+  }, []);
+
   return (
-    <>
-      <div className="flex flex-row flex-wrap-reverse mx-10 md:mx-36 lg:mx-96 justify-between mt-6 md:mt-12 lg:mt-12 items-center">
-        <div className="flex flex-col">
-          <h1 className="font-light text-2xl md:text-4xl lg:text-4xl font-unbounded">
-            Hello ! 👋
+    <div className="max-w-5xl mx-auto px-4 md:px-6 mt-8 md:mt-12 mb-24 animate-fade-in-up font-inter w-full overflow-x-hidden">
+      {/* ── Section 1: Hero ── */}
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-10 mb-20 md:mb-24">
+        <div className="flex-1 text-left order-2 md:order-1">
+          <h1 className="font-unbounded text-2xl md:text-4xl lg:text-5xl font-bold leading-tight mb-3 md:mb-4 mt-2 md:mt-0">
+            Hello! <span className="waving-hand">👋</span><br />
+            I am <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">Prashanth</span>
           </h1>
-          <h1 className="font-light text-3xl md:text-4xl lg:text-4xl font-unbounded">
-            I am{" "}
-            <span className="font-normal text-3xl md:text-4xl lg:text-4xl font-unbounded">
-              Prashanth
-            </span>{" "}
-            !
-          </h1>
-          <p className="text-xs mt-2">
-            Final year at{" "}
-            <a
-              href="https://www.rajalakshmi.org/"
-              className="text-sky-600 font-medium"
-            >
-              Rajalakshmi Engineering College
-            </a>
+          <p className="text-sm md:text-base opacity-70 mb-5 md:mb-6 max-w-xl md:mx-0 leading-relaxed">
+            Final year student at <a href="https://www.rajalakshmi.org/" target="_blank" rel="noreferrer" className="text-blue-600 font-semibold hover:underline">Rajalakshmi Engineering College</a>.<br className="hidden md:block"/>
+            I'm a passionate web developer focused on building scalable, user-friendly applications using the MERN stack.
           </p>
-          <div className="flex mt-3">
-            <a
-              href="https://www.linkedin.com/in/prashanth-santhanaraman/"
-              target="_blank"
-            >
-              <button className="btn btn-sm mr-1">
-                <p className="text-xl">
-                  <FaLinkedin />
-                </p>
-              </button>
+          <div className="flex flex-wrap justify-start gap-2 md:gap-3">
+            <a href="https://www.linkedin.com/in/prashanth-santhanaraman/" target="_blank" rel="noreferrer" className="btn btn-sm md:btn-md btn-outline border-2 border-slate-950 rounded-xl hover:bg-slate-950 hover:text-white transition-all">
+              <FaLinkedin className="text-lg md:text-xl" /> LinkedIn
             </a>
-            <a
-              href="https://github.com/prashanth-santhanaraman"
-              target="_blank"
-            >
-              <button className="btn btn-sm mr-1">
-                <p className="text-xl">
-                  <FaGithub />
-                </p>
-              </button>
+            <a href="https://github.com/prashanth-santhanaraman" target="_blank" rel="noreferrer" className="btn btn-sm md:btn-md btn-outline border-2 border-slate-950 rounded-xl hover:bg-slate-950 hover:text-white transition-all">
+              <FaGithub className="text-lg md:text-xl" /> GitHub
             </a>
-            <a
-              href="https://www.geeksforgeeks.org/user/prashanth_santhanaraman/"
-              target="_blank"
-            >
-              <button className="btn btn-sm mr-1">
-                <p className="text-xl">
-                  <SiGeeksforgeeks />
-                </p>
-              </button>
+            <a href="https://www.geeksforgeeks.org/user/prashanth_santhanaraman/" target="_blank" rel="noreferrer" className="btn btn-sm md:btn-md btn-outline border-2 border-slate-950 rounded-xl hover:bg-slate-950 hover:text-white transition-all">
+              <SiGeeksforgeeks className="text-lg md:text-xl" /> GFG
             </a>
           </div>
         </div>
-        <div className="w-20 md:w-40 lg:md-40 mb-4 md:m-0 lg:m-0 rounded-full">
-          <img
-            src={profileImg}
-            className="rounded-lg border border-gray-700"
-            alt="Prashanth Profile Pic"
-          />
-        </div>
-      </div>
-      <div className="flex flex-row mx-10 md:mx-36 lg:mx-96 justify-around mt-6 md:mt-10 lg:mt-10 items-center font-inter font-normal text-pretty">
-        <p className="text-sm text-balance lg:text-base md:text-sm">
-          I'm Prashanth, a web developer with a strong focus on the MERN stack.
-          I enjoy building scalable and user-friendly web applications,
-          leveraging technologies like React, Node.js, MongoDB, and Redux. My
-          projects range from personal tools to full-fledged applications,
-          emphasizing performance and clean UI/UX. Currently, I work as a
-          technical member at Elite club, where I collaborate on innovative
-          solutions. I’m always eager to explore new technologies, contribute to
-          open-source projects, and improve my development skills. Let’s connect
-          and build something amazing!
-        </p>
-      </div>
-      <div className="mx-10 md:mx-36 lg:mx-96 justify-around mt-8 md:mt-12 lg:mt-12 items-center">
-        <h2 className="text-left text-xl font-bold mb-4 md:mb-2 lg:md-2 font-unbounded">
-          &lt;Top 3 Projects /&gt;
-        </h2>
-
-        <div className="flex flex-wrap flex-row justify-between">
-          {/* <div>
-            <div className="bg-slate-300 p-2 rounded-lg">
-              <p className="text-sm">afddfasdasdasdasdasdasd efdgwe</p>
-
-              <button className="btn btn-sm mt-2">View</button>
-            </div>
-          </div> */}
-          <div className="flex flex-row flex-wrap gap-2">
-            <div className="border border-slate-950 p-4 rounded-md md:w-60 lg:w-60 mb-2">
-              <div className="flex items-center justify-center">
-                <img
-                  src="https://img.freepik.com/free-vector/abstract-scribble-icons-hand-drawn-doodle-coloring_179234-222.jpg?semt=ais_hybrid"
-                  alt=""
-                  srcset=""
-                  className="h-40 md:w-60 lg:w-60  rounded-lg"
-                />
-              </div>
-              <h3 className="text-lg font-semibold mt-2">Notifye</h3>
-              <p className="text-sm mt-2">
-                Notifye is a simple and user-friendly note-taking app that helps
-                you create, organize, and manage your notes easily. It features
-                secure authentication and responsive design
-              </p>
-              <a
-                target="_blank"
-                href="https://github.com/Prashanth-Santhanaraman/Notifye"
-              >
-                <button className="btn btn-sm btn-outline btn-block mt-5">
-                  View
-                </button>
-              </a>
-            </div>
-            <div className="border border-slate-950 p-4 rounded-md md:w-60 lg:w-60 mb-2">
-              <div className="flex items-center justify-center">
-                <img
-                  src="https://img.freepik.com/free-vector/abstract-scribble-icons-hand-drawn-doodle-coloring_179234-222.jpg?semt=ais_hybrid"
-                  alt=""
-                  srcset=""
-                  className="h-40 md:w-60 lg:w-60 rounded-lg"
-                />
-              </div>
-              <h3 className="text-lg font-semibold mt-2">NPTEL Calculator</h3>
-              <p className="text-sm mt-2">
-                NPTEL Internal Marks Calculator: Calculate internal marks based
-                on course duration and assignment scores.
-              </p>
-              <a
-                target="_blank"
-                href="https://github.com/Prashanth-Santhanaraman/NptelAssignmentCalculator"
-              >
-                <button className="btn btn-sm btn-outline btn-block mt-5">
-                  View
-                </button>
-              </a>
-            </div>
-
-            <div className="border border-slate-950 p-4 rounded-md md:w-60 lg:w-60 mb-2">
-              <div className="flex items-center justify-center">
-                <img
-                  src="https://img.freepik.com/free-vector/abstract-scribble-icons-hand-drawn-doodle-coloring_179234-222.jpg?semt=ais_hybrid"
-                  alt=""
-                  srcset=""
-                  className="h-40 md:w-60 lg:w-60 rounded-lg"
-                />
-              </div>
-              <h3 className="text-lg font-semibold mt-2">PrintEase</h3>
-              <p className="text-sm mt-2">
-                PrintEase is an internal document printing system where users
-                can upload PDFs, set print preferences, and submit print
-                requests. Admins can manage and track all print orders securely
-                within the organization.
-              </p>
-
-              <a target="_blank" href="http://">
-                <button className="btn btn-sm btn-outline btn-block mt-5">
-                  View
-                </button>
-              </a>
-            </div>
+        <div className="flex-shrink-0 order-1 md:order-2 self-start md:self-auto">
+          <div className="w-24 h-24 sm:w-32 sm:h-32 md:w-64 md:h-64 rounded-2xl md:rounded-3xl overflow-hidden border-2 md:border-4 border-slate-950 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] md:shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] transition-transform hover:-translate-y-2 hover:shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] md:hover:shadow-[12px_12px_0px_0px_rgba(15,23,42,1)]">
+            <img src={profileImg} alt="Prashanth" className="w-full h-full object-cover" />
           </div>
-          {/* <div>
-            <div className="card card-compact bg-base-100 w-60 shadow-xl">
-              <figure>
-                <img
-                  src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                  alt="Shoes"
-                />
-              </figure>
-              <div className="card-body">
-                <h2 className="card-title">NPTEL Assignment Calculator</h2>
-                <p>
-                  NPTEL Internal Marks Calculator: Calculate internal marks
-                  based on course duration and assignment scores.
-                </p>
-                <div className="card-actions justify-end">
-                  <button className="btn btn-block btn-sm px-10 mt-4">
-                    View
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div> */}
-          {/* <div>
-            <div className="card card-compact bg-base-100 w-60 shadow-xl">
-              <figure>
-                <img
-                  src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                  alt="Shoes"
-                />
-              </figure>
-              <div className="card-body">
-                <h2 className="card-title">Shoes!</h2>
-                <p>If a dog chews shoes whose shoes does he choose?</p>
-                <div className="card-actions justify-end">
-                  <button className="btn btn-block btn-sm px-10 mt-4">
-                    View
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div> */}
         </div>
-        <div className="flex justify-center">
-          <Link to={"/projects"}>
-            <button className="btn btn-outline btn-sm mt-4 px-10 justify-center">
-              View All
-            </button>
+      </div>
+
+      {/* ── Section 2: Top 3 Projects ── */}
+      <div className="mb-20 md:mb-24">
+        <div className="flex items-center gap-3 md:gap-4 mb-8 md:mb-10">
+          <h2 className="font-unbounded text-lg md:text-2xl font-bold">&lt;Top Projects /&gt;</h2>
+          <div className="flex-1 h-px bg-base-300" />
+        </div>
+
+        {isLoading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 md:gap-6">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="animate-pulse rounded-2xl border-2 border-base-300 overflow-hidden">
+                <div className="h-32 md:h-44 bg-base-300" />
+                <div className="p-3 md:p-4 space-y-3">
+                  <div className="h-4 md:h-5 bg-base-300 rounded w-3/4" />
+                  <div className="h-3 bg-base-300 rounded w-full" />
+                  <div className="h-3 bg-base-300 rounded w-4/5" />
+                  <div className="h-6 md:h-8 bg-base-300 rounded w-full mt-3 md:mt-4" />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : topProjects.length === 0 ? (
+          <div className="flex flex-col items-center justify-center h-32 md:h-48 border-2 border-dashed border-base-300 rounded-2xl opacity-50">
+            <p className="font-unbounded text-sm md:text-base">No projects featured yet.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 md:gap-6">
+            {topProjects.map((project) => (
+              <div key={project._id} className="group border-2 border-slate-950 rounded-2xl overflow-hidden flex flex-col bg-base-100 transition-all hover:shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] md:hover:shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] hover:-translate-y-1">
+                <div className="h-32 md:h-44 overflow-hidden border-b-2 border-slate-950 bg-base-200">
+                  <img src={project.imglink} alt={project.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onError={(e) => { e.target.src = "https://placehold.co/600x400/png?text=Project" }} />
+                </div>
+                <div className="p-3 md:p-4 flex flex-col flex-1">
+                  <h3 className="font-unbounded font-bold text-sm md:text-base mb-1 md:mb-2 line-clamp-1">{project.title}</h3>
+                  <p className="text-xs opacity-70 mb-3 md:mb-4 line-clamp-2 md:line-clamp-3 flex-1">{project.shortdescription}</p>
+                  <a href={project.websitelink} target="_blank" rel="noreferrer" className="btn btn-xs md:btn-sm btn-outline border-slate-950 w-full group-hover:bg-slate-950 group-hover:text-white transition-colors">
+                    View Project
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+        
+        <div className="mt-8 text-center">
+          <Link to="/projects" className="btn btn-sm md:btn-md border-2 border-slate-950 rounded-xl px-6 md:px-8 hover:bg-slate-950 hover:text-white transition-all">
+            View All Projects →
           </Link>
         </div>
-
-        {/* <div className="carousel rounded-box">
-          <div className="carousel-item">
-            <div className="card card-compact bg-base-100 w-60 shadow-xl m-2">
-              <figure>
-                <img
-                  src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                  alt="Shoes"
-                />
-              </figure>
-              <div className="card-body">
-                <h2 className="card-title">Shoes!</h2>
-                <p>If a dog chews shoes whose shoes does he choose?</p>
-                <div className="card-actions justify-end">
-                  <button className="btn btn-primary">Buy Now</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="carousel-item">
-            <div className="card card-compact bg-base-100 w-60 shadow-xl m-2">
-              <figure>
-                <img
-                  src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                  alt="Shoes"
-                />
-              </figure>
-              <div className="card-body">
-                <h2 className="card-title">Shoes!</h2>
-                <p>If a dog chews shoes whose shoes does he choose?</p>
-                <div className="card-actions justify-end">
-                  <button className="btn btn-primary">Buy Now</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="carousel-item">
-            <div className="card card-compact bg-base-100 w-60 shadow-xl m-2">
-              <figure>
-                <img
-                  src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                  alt="Shoes"
-                />
-              </figure>
-              <div className="card-body">
-                <h2 className="card-title">Shoes!</h2>
-                <p>If a dog chews shoes whose shoes does he choose?</p>
-                <div className="card-actions justify-end">
-                  <button className="btn btn-primary">Buy Now</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> */}
       </div>
-      <div className="mx-10 md:mx-36 lg:mx-96 justify-around mt-10 items-center">
-        <h2 className="text-xl font-bold font-unbounded">&lt;Skills /&gt;</h2>
-        <div className="mt-5 ml-3 text-sm">
-          <p className="">
-            ✔ Frontend: HTML, CSS, JavaScript, React, EJS, Tailwind
-          </p>
-          <p>✔ Backend: Python, Node JS, Express JS</p>
-          <p>✔ Databases: MongoDB, MySQL</p>
-          <p>✔ Version Control: Git, GitHub</p>
+
+      {/* ── Section 3: Skills ── */}
+      <div className="mb-20 md:mb-24">
+        <div className="flex items-center gap-3 md:gap-4 mb-8 md:mb-10">
+          <h2 className="font-unbounded text-lg md:text-2xl font-bold">&lt;Skills /&gt;</h2>
+          <div className="flex-1 h-px bg-base-300" />
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+          <div className="border-2 border-slate-950 rounded-2xl p-4 md:p-5 bg-base-100 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] transition-transform hover:-translate-y-1">
+            <h3 className="font-unbounded font-semibold mb-3 md:mb-4 text-sm md:text-base">Frontend</h3>
+            <div className="flex flex-wrap gap-2">
+              <span className="badge border-2 border-slate-950 gap-1.5 py-2 md:py-3 px-2 md:px-3 font-semibold text-[10px] md:text-xs"><FaReact className="text-blue-500" /> React</span>
+              <span className="badge border-2 border-slate-950 gap-1.5 py-2 md:py-3 px-2 md:px-3 font-semibold text-[10px] md:text-xs"><SiJavascript className="text-yellow-400" /> JavaScript</span>
+              <span className="badge border-2 border-slate-950 gap-1.5 py-2 md:py-3 px-2 md:px-3 font-semibold text-[10px] md:text-xs"><SiHtml5 className="text-orange-500" /> HTML5</span>
+              <span className="badge border-2 border-slate-950 gap-1.5 py-2 md:py-3 px-2 md:px-3 font-semibold text-[10px] md:text-xs"><SiCss3 className="text-blue-600" /> CSS3</span>
+              <span className="badge border-2 border-slate-950 gap-1.5 py-2 md:py-3 px-2 md:px-3 font-semibold text-[10px] md:text-xs"><SiTailwindcss className="text-cyan-400" /> Tailwind</span>
+              <span className="badge border-2 border-slate-950 gap-1.5 py-2 md:py-3 px-2 md:px-3 font-semibold text-[10px] md:text-xs">EJS</span>
+            </div>
+          </div>
+          
+          <div className="border-2 border-slate-950 rounded-2xl p-4 md:p-5 bg-base-100 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] transition-transform hover:-translate-y-1">
+            <h3 className="font-unbounded font-semibold mb-3 md:mb-4 text-sm md:text-base">Backend & Database</h3>
+            <div className="flex flex-wrap gap-2">
+              <span className="badge border-2 border-slate-950 gap-1.5 py-2 md:py-3 px-2 md:px-3 font-semibold text-[10px] md:text-xs"><FaNodeJs className="text-green-500" /> Node.js</span>
+              <span className="badge border-2 border-slate-950 gap-1.5 py-2 md:py-3 px-2 md:px-3 font-semibold text-[10px] md:text-xs"><SiExpress className="text-gray-500" /> Express.js</span>
+              <span className="badge border-2 border-slate-950 gap-1.5 py-2 md:py-3 px-2 md:px-3 font-semibold text-[10px] md:text-xs"><SiMongodb className="text-green-600" /> MongoDB</span>
+              <span className="badge border-2 border-slate-950 gap-1.5 py-2 md:py-3 px-2 md:px-3 font-semibold text-[10px] md:text-xs"><SiMysql className="text-blue-500" /> MySQL</span>
+              <span className="badge border-2 border-slate-950 gap-1.5 py-2 md:py-3 px-2 md:px-3 font-semibold text-[10px] md:text-xs"><FaPython className="text-blue-400" /> Python</span>
+            </div>
+          </div>
+          
+          <div className="border-2 border-slate-950 rounded-2xl p-4 md:p-5 bg-base-100 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] md:col-span-2 transition-transform hover:-translate-y-1">
+            <h3 className="font-unbounded font-semibold mb-3 md:mb-4 text-sm md:text-base">Tools & Version Control</h3>
+            <div className="flex flex-wrap gap-2">
+              <span className="badge border-2 border-slate-950 gap-1.5 py-2 md:py-3 px-2 md:px-3 font-semibold text-[10px] md:text-xs"><SiGit className="text-orange-600" /> Git</span>
+              <span className="badge border-2 border-slate-950 gap-1.5 py-2 md:py-3 px-2 md:px-3 font-semibold text-[10px] md:text-xs"><FaGithub /> GitHub</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="mx-10 md:mx-36 lg:mx-96 justify-around mt-10 items-center">
-        <h2 className="text-xl font-bold font-unbounded">
-          &lt;Certifications /&gt;
-        </h2>
-        <div className="mt-5 ml-3">
-          <ul className="list-decimal ml-3 text-sm">
-            <li>Responsive Web Design, FreeCodeCamp.</li>
-            <li>Backend Development and APIs, FreeCodeCamp.</li>
-            <li>Python (Basic), HackerRank.</li>
-            <li>CSS (Basic), HackerRank.</li>
-            <li>Mastering Figma: Beginner to Expert UI/UX Design, Guvi.</li>
-            <li>Introduction to Internet of Things, NPTEL.</li>
-            <li>The Joy of Computing using Python, NPTEL.</li>
-          </ul>
+      {/* ── Section 4: Certifications ── */}
+      <div className="mb-20 md:mb-24">
+        <div className="flex items-center gap-3 md:gap-4 mb-8 md:mb-10">
+          <h2 className="font-unbounded text-lg md:text-2xl font-bold">&lt;Certifications /&gt;</h2>
+          <div className="flex-1 h-px bg-base-300" />
+        </div>
+        
+        <div className="border-l-2 border-slate-950 ml-2 md:ml-3 pl-4 md:pl-5 py-1 space-y-5 md:space-y-6">
+          {[
+            { title: "Responsive Web Design", issuer: "FreeCodeCamp" },
+            { title: "Backend Development and APIs", issuer: "FreeCodeCamp" },
+            { title: "Python (Basic)", issuer: "HackerRank" },
+            { title: "CSS (Basic)", issuer: "HackerRank" },
+            { title: "Mastering Figma: Beginner to Expert UI/UX Design", issuer: "Guvi" },
+            { title: "Introduction to Internet of Things", issuer: "NPTEL" },
+            { title: "The Joy of Computing using Python", issuer: "NPTEL" }
+          ].map((cert, idx) => (
+            <div key={idx} className="relative group">
+              <div className="absolute -left-[23px] md:-left-[27px] top-1.5 w-2.5 h-2.5 md:w-3 md:h-3 bg-slate-950 rounded-full outline outline-4 outline-base-100 transition-transform group-hover:scale-125"></div>
+              <h3 className="font-bold text-sm md:text-base font-unbounded text-slate-900 dark:text-slate-100 group-hover:text-blue-600 transition-colors">{cert.title}</h3>
+              <p className="text-[10px] md:text-xs opacity-60 font-medium mt-1">{cert.issuer}</p>
+            </div>
+          ))}
         </div>
       </div>
 
-      <div className="mx-10 md:mx-36 lg:mx-96 justify-around mt-10 items-center">
-        <h2 className="text-xl font-bold font-unbounded">
-          &lt;Get in Touch /&gt;
-        </h2>
-        <div className="mt-5 ml-3 flex flex-row">
-          <a
-            target="_blank"
-            href="https://www.linkedin.com/in/prashanth-santhanaraman/"
-          >
-            <button className="btn btn-outline mr-2">
-              <FaLinkedin /> Linkedin
-            </button>
+      {/* ── Section 5: Get in Touch ── */}
+      <div className="bg-slate-100 dark:bg-slate-800 rounded-2xl md:rounded-3xl p-6 md:p-12 border-2 border-slate-950 text-center shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] md:shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] mb-10">
+        <h2 className="font-unbounded text-xl md:text-3xl font-bold mb-3">Let's Connect!</h2>
+        <p className="text-xs md:text-base opacity-70 max-w-2xl mx-auto mb-5 md:mb-6">
+          I'm currently looking for new opportunities and collaborations. Let's build something amazing together!
+        </p>
+        <div className="flex flex-wrap justify-center gap-3">
+          <a href="https://www.linkedin.com/in/prashanth-santhanaraman/" target="_blank" rel="noreferrer" className="btn btn-xs md:btn-md bg-blue-600 hover:bg-blue-700 text-white border-2 border-slate-950">
+            <FaLinkedin className="text-base md:text-xl" /> Connect on LinkedIn
           </a>
-          <a target="_blank" href="https://github.com/prashanth-santhanaraman">
-            <button className="btn btn-outline">
-              <FaGithub /> Github
-            </button>
+          <a href="https://github.com/prashanth-santhanaraman" target="_blank" rel="noreferrer" className="btn btn-xs md:btn-md btn-outline border-2 border-slate-950 bg-white dark:bg-transparent hover:bg-slate-950 hover:text-white">
+            <FaGithub className="text-base md:text-xl" /> Check my GitHub
           </a>
         </div>
       </div>
 
-      {/* <div className="bg-slate-50 mt-6 border-t border-slate-400">
-        <h1 className="text-2xl text-center p-4 font-unbounded">Prashanth.</h1>
-        <div className="flex justify-center">
-          <a href="/home"><button className="btn btn-outline btn-sm mr-2">Home</button></a>
-          <a href="/blogs"><button className="btn btn-outline btn-sm mr-2">Blogs</button></a>
-          <a href="/projects"><button className="btn btn-outline btn-sm">Projects</button></a>
-        </div>
-        <h1 className="text-xs text-center mt-4 pb-2 font-light">Built with ❤️ using MERN</h1>
-      </div> */}
-    </>
+    </div>
   );
 }

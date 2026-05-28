@@ -272,6 +272,85 @@ app.delete("/deleteBlog/:id", async (req, res) => {
   }
 });
 
+app.put("/editProject/:id", async (req, res) => {
+  const { id } = req.params;
+  let { title, shortdescription, description, websitelink, imglink, password } = req.body;
+
+  if (!password) {
+    return res.status(400).json({ message: "Password is required !" });
+  }
+  if (!title || !description || !websitelink || !imglink) {
+    return res.status(400).json({ message: "Please fill all required fields !" });
+  }
+
+  if (description) description = sanitizeHtml(description, sanitizeOptions);
+
+  try {
+    const userDetail = await userModel
+      .findOne({ _id: `${process.env.MONGODBPROFILEID}` })
+      .select("+password");
+
+    const passwordCheck = await bcrypt.compare(password, userDetail._doc.password);
+    if (!passwordCheck) {
+      return res.status(401).json({ message: "Password is wrong !" });
+    }
+
+    const updated = await userModel.findOneAndUpdate(
+      { _id: `${process.env.MONGODBPROFILEID}`, "projects._id": id },
+      {
+        $set: {
+          "projects.$.title": title,
+          "projects.$.shortdescription": shortdescription,
+          "projects.$.description": description,
+          "projects.$.websitelink": websitelink,
+          "projects.$.imglink": imglink,
+        },
+      },
+      { new: true }
+    );
+
+    if (!updated) {
+      return res.status(404).json({ message: "Project not found !" });
+    }
+
+    return res.status(200).json({ message: "Project updated successfully !", updatedProjects: updated.projects });
+  } catch (error) {
+    res.status(500).json({ message: "Error updating project. Check the console." });
+    console.log(error);
+  }
+});
+
+app.delete("/deleteProject/:id", async (req, res) => {
+  const { id } = req.params;
+  const { password } = req.body;
+
+  if (!password) {
+    return res.status(400).json({ message: "Password is required !" });
+  }
+
+  try {
+    const userDetail = await userModel
+      .findOne({ _id: `${process.env.MONGODBPROFILEID}` })
+      .select("+password");
+
+    const passwordCheck = await bcrypt.compare(password, userDetail._doc.password);
+    if (!passwordCheck) {
+      return res.status(401).json({ message: "Password is wrong !" });
+    }
+
+    const updated = await userModel.findByIdAndUpdate(
+      `${process.env.MONGODBPROFILEID}`,
+      { $pull: { projects: { _id: id } } },
+      { new: true }
+    );
+
+    return res.status(200).json({ message: "Project deleted successfully !", updatedProjects: updated.projects });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting project. Check the console." });
+    console.log(error);
+  }
+});
+
 app.get("/blog/post/:id", async (req, res) => {
   const { id } = req.params;
 

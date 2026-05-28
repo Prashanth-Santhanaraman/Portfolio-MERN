@@ -12,7 +12,9 @@ export default function Admin() {
           <button className="btn" onClick={() => navigate("/admin/addblog")}>Add Blog</button>
           <button className="btn" onClick={() => navigate("/admin/addproject")}>Add Project</button>
           <button className="btn btn-warning" onClick={() => navigate("/admin/editblog")}>Edit Blog</button>
+          <button className="btn btn-warning" onClick={() => navigate("/admin/editproject")}>Edit Project</button>
           <button className="btn btn-error" onClick={() => navigate("/admin/deleteblog")}>Delete Blog</button>
+          <button className="btn btn-error" onClick={() => navigate("/admin/deleteproject")}>Delete Project</button>
         </div>
       </div>
     </>

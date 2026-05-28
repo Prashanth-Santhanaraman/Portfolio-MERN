@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 import { Toaster, toast } from "react-hot-toast";
+import RichTextEditor from "./components/RichTextEditor";
+
 export default function AddProject() {
   const [showPassword, setShowPassword] = useState(false);
   const [title, setTitle] = useState("");
@@ -68,12 +70,11 @@ export default function AddProject() {
 
               <fieldset className="fieldset">
                 <legend className="fieldset-legend">Description</legend>
-                <textarea
-                  className="textarea h-24"
+                <RichTextEditor
+                  value={description}
+                  onChange={setDescription}
                   placeholder="Enter the description"
-                  onChange={(e) => setDescription(e.target.value)}
-                  required
-                ></textarea>
+                />
               </fieldset>
 
               <fieldset className="fieldset mt-2">
