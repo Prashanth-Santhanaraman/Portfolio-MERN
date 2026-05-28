@@ -3,9 +3,17 @@ const app = express();
 const userModel = require("./models/userDetail");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const sanitizeHtml = require("sanitize-html");
 require("dotenv").config();
 const cors = require("cors");
 const port = process.env.PORT || 3000;
+
+const sanitizeOptions = {
+  allowedTags: [ 'h1', 'h2', 'h3', 'p', 'strong', 'em', 'u', 'ol', 'ul', 'li', 'blockquote', 'pre', 'code', 'a', 'br' ],
+  allowedAttributes: {
+    'a': [ 'href', 'target', 'rel' ]
+  }
+};
 
 app.use(express.json());
 app.use(cors());
@@ -25,7 +33,8 @@ app.get("/blogs", async (req, res) => {
 });
 
 app.post("/newBlog", async (req, res) => {
-  const { title, shortdescription, description, imglink, password } = req.body;
+  let { title, shortdescription, description, imglink, password } = req.body;
+  if (description) description = sanitizeHtml(description, sanitizeOptions);
   if (!title || !shortdescription || !description || !imglink || !password) {
     return res.status(404).json({ message: "Please fill all details !" });
   }
@@ -68,7 +77,7 @@ app.post("/newBlog", async (req, res) => {
 });
 
 app.post("/newProject", async (req, res) => {
-  const {
+  let {
     title,
     shortdescription,
     description,
@@ -76,6 +85,8 @@ app.post("/newProject", async (req, res) => {
     imglink,
     password,
   } = req.body;
+  
+  if (description) description = sanitizeHtml(description, sanitizeOptions);
 
   if (!password) {
     return res.status(404).json({ message: "Password is missing !" });
@@ -125,7 +136,7 @@ app.post("/newProject", async (req, res) => {
 });
 
 app.post("/newTop3Projects", async (req, res) => {
-  const {
+  let {
     title,
     shortdescription,
     description,
@@ -133,6 +144,8 @@ app.post("/newTop3Projects", async (req, res) => {
     imglink,
     password,
   } = req.body;
+
+  if (description) description = sanitizeHtml(description, sanitizeOptions);
 
   if (!password) {
     return res.status(404).json({ message: "Password is missing !" });
@@ -172,6 +185,37 @@ app.post("/newTop3Projects", async (req, res) => {
     res
       .status(400)
       .json({ message: "error in adding the project! check the console" });
+    console.log(error);
+  }
+});
+
+app.delete("/deleteBlog/:id", async (req, res) => {
+  const { id } = req.params;
+  const { password } = req.body;
+
+  if (!password) {
+    return res.status(400).json({ message: "Password is required !" });
+  }
+
+  try {
+    const userDetail = await userModel
+      .findOne({ _id: `${process.env.MONGODBPROFILEID}` })
+      .select("+password");
+
+    const passwordCheck = await bcrypt.compare(password, userDetail._doc.password);
+    if (!passwordCheck) {
+      return res.status(401).json({ message: "Password is wrong !" });
+    }
+
+    const updated = await userModel.findByIdAndUpdate(
+      `${process.env.MONGODBPROFILEID}`,
+      { $pull: { blogs: { _id: id } } },
+      { new: true }
+    );
+
+    return res.status(200).json({ message: "Blog deleted successfully !", updatedBlogs: updated.blogs });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting blog. Check the console." });
     console.log(error);
   }
 });
