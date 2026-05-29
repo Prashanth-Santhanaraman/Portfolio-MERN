@@ -76,11 +76,11 @@ export default function Projects() {
       <Link to={`/projects/post/${featured._id}`} className="group block mb-14">
         <div className="relative overflow-hidden rounded-2xl border-2 border-slate-950 transition-shadow duration-300 hover:shadow-xl">
 
-          {/* image */}
           <div className="overflow-hidden h-64 md:h-80">
             <CoverImage
               src={featured.imglink}
               alt={featured.title}
+              index={projects.length}
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
           </div>
@@ -119,7 +119,7 @@ export default function Projects() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {projects.map((project) => (
+            {projects.map((project, idx) => (
               <Link
                 key={project._id}
                 to={`/projects/post/${project._id}`}
@@ -132,6 +132,7 @@ export default function Projects() {
                     <CoverImage
                       src={project.imglink}
                       alt={project.title}
+                      index={idx + 1}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   </div>

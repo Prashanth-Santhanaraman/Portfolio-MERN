@@ -78,11 +78,11 @@ export default function Blogs() {
       <Link to={`/blogs/post/${featured._id}`} className="group block mb-14">
         <div className="relative overflow-hidden rounded-2xl border-2 border-slate-950 transition-shadow duration-300 hover:shadow-xl">
 
-          {/* image */}
           <div className="overflow-hidden h-64 md:h-80">
             <CoverImage
               src={featured.imglink}
               alt={featured.title}
+              index={blogs.length}
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
           </div>
@@ -121,7 +121,7 @@ export default function Blogs() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {blogs.map((blog) => (
+            {blogs.map((blog, idx) => (
               <Link
                 key={blog._id}
                 to={`/blogs/post/${blog._id}`}
@@ -134,6 +134,7 @@ export default function Blogs() {
                     <CoverImage
                       src={blog.imglink}
                       alt={blog.title}
+                      index={idx + 1}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   </div>
