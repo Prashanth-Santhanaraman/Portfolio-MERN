@@ -93,7 +93,6 @@ export default function AddBlog() {
                 className="input"
                 placeholder="Enter the image link"
                 onChange={(e) => setImageLink(e.target.value)}
-                required
               />
             </fieldset>
 

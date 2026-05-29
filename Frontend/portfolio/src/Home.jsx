@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import profileImg from "./images/prashanth_1.jpg";
+import CoverImage from "./components/CoverImage";
 import { FaLinkedin, FaGithub, FaNodeJs, FaPython, FaReact } from "react-icons/fa";
 import { SiGeeksforgeeks, SiMongodb, SiExpress, SiTailwindcss, SiJavascript, SiHtml5, SiCss3, SiMysql, SiGit } from "react-icons/si";
 
@@ -84,7 +85,7 @@ export default function Home() {
             {topProjects.map((project) => (
               <div key={project._id} className="group border-2 border-slate-950 rounded-2xl overflow-hidden flex flex-col bg-base-100 transition-all hover:shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] md:hover:shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] hover:-translate-y-1">
                 <div className="h-32 md:h-44 overflow-hidden border-b-2 border-slate-950 bg-base-200">
-                  <img src={project.imglink} alt={project.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onError={(e) => { e.target.src = "https://placehold.co/600x400/png?text=Project" }} />
+                  <CoverImage src={project.imglink} alt={project.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                 </div>
                 <div className="p-3 md:p-4 flex flex-col flex-1">
                   <h3 className="font-unbounded font-bold text-sm md:text-base mb-1 md:mb-2 line-clamp-1">{project.title}</h3>

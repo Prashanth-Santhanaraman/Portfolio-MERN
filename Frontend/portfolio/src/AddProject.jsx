@@ -95,7 +95,6 @@ export default function AddProject() {
                   className="input"
                   placeholder="Enter the image link"
                   onChange={(e) => setImageLink(e.target.value)}
-                  required
                 />
               </fieldset>
 

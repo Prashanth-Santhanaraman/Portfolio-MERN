@@ -188,7 +188,6 @@ export default function EditBlog() {
                     placeholder="Enter the image link"
                     value={imageLink}
                     onChange={(e) => setImageLink(e.target.value)}
-                    required
                   />
                 </fieldset>
 

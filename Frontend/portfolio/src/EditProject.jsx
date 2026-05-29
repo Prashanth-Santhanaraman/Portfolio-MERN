@@ -203,7 +203,6 @@ export default function EditProject() {
                     placeholder="Enter the image link"
                     value={imageLink}
                     onChange={(e) => setImageLink(e.target.value)}
-                    required
                   />
                 </fieldset>
 

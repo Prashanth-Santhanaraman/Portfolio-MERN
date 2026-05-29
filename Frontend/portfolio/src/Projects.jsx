@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import CoverImage from "./components/CoverImage";
 
 export default function Projects() {
   const [projects, setProjects] = useState([]);
@@ -77,7 +78,7 @@ export default function Projects() {
 
           {/* image */}
           <div className="overflow-hidden h-64 md:h-80">
-            <img
+            <CoverImage
               src={featured.imglink}
               alt={featured.title}
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
@@ -128,7 +129,7 @@ export default function Projects() {
 
                   {/* image */}
                   <div className="overflow-hidden h-44 flex-shrink-0">
-                    <img
+                    <CoverImage
                       src={project.imglink}
                       alt={project.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"

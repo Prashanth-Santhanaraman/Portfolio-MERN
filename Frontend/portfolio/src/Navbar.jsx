@@ -44,8 +44,15 @@ export default function Navbar() {
               </li>
             </ul>
           </div>
-          <Link to="/" className="text-base md:text-2xl font-unbounded font-bold hover:text-blue-600 transition-colors tracking-tight whitespace-nowrap">
-            &lt;Prashanth. /&gt;
+          <Link to="/" className="flex items-center gap-2 md:gap-3 group px-2 py-1 -ml-2 rounded-xl transition-all hover:bg-base-200">
+            <div className="flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-xl bg-slate-950 text-white shadow-[2px_2px_0px_0px_rgba(37,99,235,1)] transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:-translate-x-0.5 group-hover:shadow-[4px_4px_0px_0px_rgba(37,99,235,1)]">
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 md:w-5 md:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+              </svg>
+            </div>
+            <span className="text-lg md:text-2xl font-unbounded font-bold tracking-tight text-slate-900 transition-colors group-hover:text-slate-700">
+              Prashanth<span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">.</span>
+            </span>
           </Link>
         </div>
 
