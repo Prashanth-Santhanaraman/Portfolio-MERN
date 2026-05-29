@@ -9,9 +9,18 @@ const cors = require("cors");
 const port = process.env.PORT || 3000;
 
 const sanitizeOptions = {
-  allowedTags: [ 'h1', 'h2', 'h3', 'p', 'strong', 'em', 'u', 'ol', 'ul', 'li', 'blockquote', 'pre', 'code', 'a', 'br' ],
+  allowedTags: [ 
+    'h1', 'h2', 'h3', 'p', 'strong', 'em', 'u', 'ol', 'ul', 'li', 
+    'blockquote', 'pre', 'code', 'a', 'br',
+    'table', 'thead', 'tbody', 'tfoot', 'tr', 'th', 'td', 'img', 's', 'del', 'sup', 'sub', 'hr'
+  ],
   allowedAttributes: {
-    'a': [ 'href', 'target', 'rel' ]
+    'a': [ 'href', 'target', 'rel' ],
+    'img': [ 'src', 'alt', 'width', 'height' ],
+    'table': [ 'width', 'border', 'cellpadding', 'cellspacing' ],
+    'td': [ 'colspan', 'rowspan', 'style' ],
+    'th': [ 'colspan', 'rowspan', 'style' ],
+    '*': [ 'style', 'class' ]
   }
 };
 
