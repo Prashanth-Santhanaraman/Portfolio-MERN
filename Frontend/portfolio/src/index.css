@@ -16,14 +16,30 @@
 }
 
 @keyframes wave-animation {
-  0% { transform: rotate(0.0deg) }
-  10% { transform: rotate(14.0deg) }
-  20% { transform: rotate(-8.0deg) }
-  30% { transform: rotate(14.0deg) }
-  40% { transform: rotate(-4.0deg) }
-  50% { transform: rotate(10.0deg) }
-  60% { transform: rotate(0.0deg) }
-  100% { transform: rotate(0.0deg) }
+  0% {
+    transform: rotate(0deg);
+  }
+  10% {
+    transform: rotate(14deg);
+  }
+  20% {
+    transform: rotate(-8deg);
+  }
+  30% {
+    transform: rotate(14deg);
+  }
+  40% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+  60% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
 }
 
 @keyframes fade-in-up {
@@ -153,3 +169,65 @@ button:focus-visible {
 .prose u {
   @apply underline;
 }
+
+/* ── Table styles (Jodit-generated HTML) ── */
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+  overflow-x: auto;
+  display: block;
+  border: 2px solid #0f172a;
+  border-radius: 0.5rem;
+}
+.prose thead {
+  background-color: #0f172a;
+  color: #ffffff;
+}
+.prose th {
+  padding: 0.75rem 1rem;
+  border: 1px solid #0f172a;
+  font-weight: 700;
+  text-align: left;
+  font-family: "Inter Tight", serif;
+  letter-spacing: 0.03em;
+}
+.prose td {
+  padding: 0.6rem 1rem;
+  border: 1px solid #cbd5e1;
+  text-align: left;
+  vertical-align: top;
+}
+.prose tr:nth-child(even) td {
+  background-color: #f8fafc;
+}
+.prose tr:hover td {
+  background-color: #eff6ff;
+}
+
+/* ── Jodit-specific overrides ── */
+.prose .jodit-wysiwyg table,
+.prose [contenteditable] table {
+  width: 100%;
+}
+
+/* ── Image in prose ── */
+.prose img {
+  @apply rounded-lg max-w-full my-4;
+}
+
+/* ── HR divider ── */
+.prose hr {
+  @apply border-0 border-t-2 border-slate-200 my-8;
+}
+
+/* ── Strikethrough ── */
+.prose s,
+.prose del {
+  @apply line-through opacity-60;
+}
+
+/* ── Superscript / Subscript ── */
+.prose sup { @apply text-xs align-super; }
+.prose sub { @apply text-xs align-sub; }
