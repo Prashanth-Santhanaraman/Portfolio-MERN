@@ -194,6 +194,54 @@ app.post("/newTop3Projects", async (req, res) => {
   }
 });
 
+app.put("/editTop3Project/:id", async (req, res) => {
+  const { id } = req.params;
+  let { title, shortdescription, description, websitelink, imglink, password } = req.body;
+
+  if (!password) {
+    return res.status(400).json({ message: "Password is required !" });
+  }
+  if (!title || !description || !websitelink || !imglink) {
+    return res.status(400).json({ message: "Please fill all required fields !" });
+  }
+
+  if (description) description = sanitizeHtml(description, sanitizeOptions);
+
+  try {
+    const userDetail = await userModel
+      .findOne({ _id: `${process.env.MONGODBPROFILEID}` })
+      .select("+password");
+
+    const passwordCheck = await bcrypt.compare(password, userDetail._doc.password);
+    if (!passwordCheck) {
+      return res.status(401).json({ message: "Password is wrong !" });
+    }
+
+    const updated = await userModel.findOneAndUpdate(
+      { _id: `${process.env.MONGODBPROFILEID}`, "top3projects._id": id },
+      {
+        $set: {
+          "top3projects.$.title": title,
+          "top3projects.$.shortdescription": shortdescription,
+          "top3projects.$.description": description,
+          "top3projects.$.websitelink": websitelink,
+          "top3projects.$.imglink": imglink,
+        },
+      },
+      { new: true }
+    );
+
+    if (!updated) {
+      return res.status(404).json({ message: "Top 3 Project not found !" });
+    }
+
+    return res.status(200).json({ message: "Top 3 Project updated successfully !", updatedProjects: updated.top3projects });
+  } catch (error) {
+    res.status(500).json({ message: "Error updating Top 3 Project. Check the console." });
+    console.log(error);
+  }
+});
+
 app.put("/editBlog/:id", async (req, res) => {
   const { id } = req.params;
   let { title, shortdescription, description, imglink, password } = req.body;

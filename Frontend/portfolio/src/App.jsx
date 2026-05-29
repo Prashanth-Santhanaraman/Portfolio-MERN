@@ -15,6 +15,8 @@ import DeleteBlog from "./DeleteBlog";
 import EditBlog from "./EditBlog";
 import DeleteProject from "./DeleteProject";
 import EditProject from "./EditProject";
+import EditTop3Projects from "./EditTop3Projects";
+import PageNotFound from "./PageNotFound";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -36,7 +38,8 @@ function App() {
           <Route path="/admin/editblog" element={<EditBlog />} />
           <Route path="/admin/deleteproject" element={<DeleteProject />} />
           <Route path="/admin/editproject" element={<EditProject />} />
-          {/* <Route path="*" element={<PageNotFound />} /> */}
+          <Route path="/admin/edittop3projects" element={<EditTop3Projects />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
         <Footer />
       </Router>
