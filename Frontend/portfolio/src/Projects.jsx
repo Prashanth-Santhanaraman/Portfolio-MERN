@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import CoverImage from "./components/CoverImage";
-import { FaArrowRight, FaFolderOpen, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import {
+  FaArrowRight,
+  FaFolderOpen,
+  FaChevronLeft,
+  FaChevronRight,
+} from "react-icons/fa";
 
 export default function Projects() {
   const [projects, setProjects] = useState([]);
@@ -15,7 +20,9 @@ export default function Projects() {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`${import.meta.env.VITE_BACKENDLINK}/projects?page=${currentPage}&limit=${LIMIT}`)
+      .get(
+        `${import.meta.env.VITE_BACKENDLINK}/projects?page=${currentPage}&limit=${LIMIT}`,
+      )
       .then((res) => {
         setProjects(res.data.projects || []);
         setCurrentPage(res.data.currentPage || 1);
@@ -105,9 +112,8 @@ export default function Projects() {
   // Global offset so badge numbers continue across pages
   // Page 1: featured takes slot 0, so grid badges start at #1
   // Page 2+: all slots are grid, offset by (LIMIT-1) for page 1 + LIMIT*(page-2)
-  const gridOffset = currentPage === 1
-    ? 1
-    : (LIMIT - 1) + (currentPage - 2) * LIMIT + 1;
+  const gridOffset =
+    currentPage === 1 ? 1 : LIMIT - 1 + (currentPage - 2) * LIMIT + 1;
 
   return (
     <div className="max-w-5xl mx-auto px-4 md:px-6 mt-8 md:mt-12 mb-24 animate-fade-in-up font-inter">

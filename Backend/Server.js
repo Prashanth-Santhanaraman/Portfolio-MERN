@@ -47,7 +47,7 @@ app.get("/blogs", async (req, res) => {
       return res.status(400).json({ message: "Error" });
     }
 
-    const allBlogs   = [...(userData.blogs || [])].reverse(); // newest first
+    const allBlogs   = userData.blogs || [];
     const total      = allBlogs.length;
     const totalPages = Math.ceil(total / limit) || 1;
     const safePage   = Math.min(page, totalPages);
@@ -77,7 +77,7 @@ app.get("/projects", async (req, res) => {
       return res.status(400).json({ message: "Error" });
     }
 
-    const allProjects = [...(userData.projects || [])].reverse(); // newest first
+    const allProjects = userData.projects || [];
     const total       = allProjects.length;
     const totalPages  = Math.ceil(total / limit) || 1;
     const safePage    = Math.min(page, totalPages);
@@ -196,6 +196,30 @@ app.post("/newProject", async (req, res) => {
       .status(400)
       .json({ message: "error in adding the project! check the console" });
     console.log(error);
+  }
+});
+
+app.get("/getTop3Projects", async (req, res) => {
+  try {
+    const userDetail = await userModel
+      .findOne({ _id: `${process.env.MONGODBPROFILEID}` })
+      .select("top3projects");
+
+    if (!userDetail) {
+      return res.status(404).json({
+        message: "User profile not found!",
+      });
+    }
+
+    return res.status(200).json({
+      projects: userDetail.top3projects || [],
+    });
+  } catch (error) {
+    console.error("Error fetching top 3 projects:", error);
+
+    return res.status(500).json({
+      message: "Error in fetching projects! Check the console.",
+    });
   }
 });
 

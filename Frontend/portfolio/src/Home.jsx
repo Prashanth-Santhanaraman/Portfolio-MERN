@@ -101,18 +101,18 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [popupCert, setPopupCert] = useState(null);
 
-  useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_BACKENDLINK}/blogs`)
-      .then((res) => {
-        setTopProjects(res.data.top3projects || []);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
-        setIsLoading(false);
-      });
-  }, []);
+useEffect(() => {
+  axios
+    .get(`${import.meta.env.VITE_BACKENDLINK}/getTop3Projects`)
+    .then((res) => {
+      setTopProjects(res.data.projects || []);
+      setIsLoading(false);
+    })
+    .catch((err) => {
+      console.error(err);
+      setIsLoading(false);
+    });
+}, []);
 
   return (
     <div className="max-w-5xl mx-auto px-4 md:px-6 mt-8 md:mt-12 mb-24 animate-fade-in-up font-inter w-full overflow-x-hidden">
