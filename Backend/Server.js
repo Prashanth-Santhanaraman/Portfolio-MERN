@@ -69,30 +69,51 @@ app.get("/blogs", async (req, res) => {
 // ── GET /projects  (paginated) ──────────────────────────────────────────────
 app.get("/projects", async (req, res) => {
   try {
-    const page  = Math.max(1, parseInt(req.query.page)  || 1);
+    const page = Math.max(1, parseInt(req.query.page) || 1);
     const limit = Math.max(1, parseInt(req.query.limit) || 6);
 
-    const userData = await userModel.findOne({ _id: `${process.env.MONGODBPROFILEID}` });
+    const userData = await userModel.findOne({
+      _id: `${process.env.MONGODBPROFILEID}`,
+    });
+
     if (!userData) {
       return res.status(400).json({ message: "Error" });
     }
 
     const allProjects = userData.projects || [];
-    const total       = allProjects.length;
-    const totalPages  = Math.ceil(total / limit) || 1;
-    const safePage    = Math.min(page, totalPages);
-    const start       = (safePage - 1) * limit;
-    const paginated   = allProjects.slice(start, start + limit);
+
+    const total = allProjects.length;
+
+    const totalPages = Math.ceil(total / limit) || 1;
+
+    const safePage = Math.min(page, totalPages);
+
+    const start = (safePage - 1) * limit;
+
+    const paginated = allProjects.slice(
+      start,
+      start + limit
+    );
+
+    // Get the LAST project from the COMPLETE projects array
+    const featuredProject =
+      allProjects.length > 0
+        ? allProjects[allProjects.length - 1]
+        : null;
 
     return res.status(200).json({
       projects: paginated,
+      featuredProject,
       currentPage: safePage,
       totalPages,
       total,
     });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: "Server error" });
+
+    return res.status(500).json({
+      message: "Server error",
+    });
   }
 });
 
