@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import CoverImage from "./components/CoverImage";
+import { FaSearch, FaArrowRight, FaBookOpen } from "react-icons/fa";
 
 export default function Blogs() {
   const [blogs, setBlogs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     axios
@@ -20,28 +22,41 @@ export default function Blogs() {
       });
   }, []);
 
+  const filteredBlogs = blogs.filter(
+    (b) =>
+      b.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      b.shortdescription?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   // ---------- Skeleton ----------
   if (isLoading) {
     return (
-      <div className="max-w-5xl mx-auto px-6 mt-12 mb-24">
-        <div className="h-10 w-40 bg-base-300 rounded mb-10 animate-pulse" />
-        {/* featured skeleton */}
-        <div className="animate-pulse rounded-2xl border-2 border-base-300 overflow-hidden mb-12">
-          <div className="h-72 bg-base-300 w-full" />
-          <div className="p-6 space-y-3">
-            <div className="h-7 bg-base-300 rounded w-2/3" />
-            <div className="h-4 bg-base-300 rounded w-full" />
-            <div className="h-4 bg-base-300 rounded w-4/5" />
+      <div className="max-w-5xl mx-auto px-4 md:px-6 mt-8 md:mt-12 mb-24 animate-fade-in-up font-inter">
+        <div className="h-10 w-48 bg-slate-200 dark:bg-slate-800 rounded-xl mb-3 animate-pulse" />
+        <div className="h-4 w-32 bg-slate-200 dark:bg-slate-800 rounded mb-8 animate-pulse" />
+        
+        {/* Featured Skeleton */}
+        <div className="animate-pulse rounded-2xl border-2 border-slate-950 overflow-hidden mb-12 bg-white dark:bg-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)]">
+          <div className="h-64 md:h-80 bg-slate-200 dark:bg-slate-800 w-full" />
+          <div className="p-6 space-y-4">
+            <div className="h-6 bg-slate-200 dark:bg-slate-800 rounded w-1/4" />
+            <div className="h-8 bg-slate-200 dark:bg-slate-800 rounded w-3/4" />
+            <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-full" />
           </div>
         </div>
-        {/* grid skeleton */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {[...Array(3)].map((_, i) => (
-            <div key={i} className="animate-pulse rounded-2xl border-2 border-base-300 overflow-hidden">
-              <div className="h-44 bg-base-300" />
-              <div className="p-4 space-y-2">
-                <div className="h-5 bg-base-300 rounded w-3/4" />
-                <div className="h-4 bg-base-300 rounded w-full" />
+
+        {/* Grid Skeleton */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[1, 2, 3].map((i) => (
+            <div
+              key={i}
+              className="animate-pulse rounded-2xl border-2 border-slate-950 overflow-hidden bg-white dark:bg-slate-900 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)]"
+            >
+              <div className="h-44 bg-slate-200 dark:bg-slate-800" />
+              <div className="p-4 space-y-3">
+                <div className="h-5 bg-slate-200 dark:bg-slate-800 rounded w-3/4" />
+                <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-full" />
+                <div className="h-8 bg-slate-200 dark:bg-slate-800 rounded w-full mt-4" />
               </div>
             </div>
           ))}
@@ -50,116 +65,148 @@ export default function Blogs() {
     );
   }
 
-  // ---------- Empty ----------
+  // ---------- Empty State ----------
   if (blogs.length === 0) {
     return (
-      <div className="max-w-5xl mx-auto px-6 mt-12 mb-24">
-        <h1 className="font-unbounded text-4xl font-bold mb-12">&lt;Blogs /&gt;</h1>
-        <div className="flex flex-col items-center justify-center h-60 gap-3 border-2 border-dashed border-base-300 rounded-2xl">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 opacity-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-          </svg>
-          <p className="text-lg opacity-40 font-semibold">No blogs yet</p>
+      <div className="max-w-5xl mx-auto px-4 md:px-6 mt-8 md:mt-12 mb-24 font-inter">
+        <h1 className="font-unbounded text-3xl md:text-5xl font-bold mb-2">&lt;Blogs /&gt;</h1>
+        <p className="text-sm text-slate-500 dark:text-slate-400 mb-10">0 published articles</p>
+        <div className="flex flex-col items-center justify-center p-12 text-center border-2 border-dashed border-slate-950 rounded-2xl bg-white dark:bg-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)]">
+          <div className="w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-950/60 text-blue-600 flex items-center justify-center mb-4 border-2 border-slate-950">
+            <FaBookOpen className="text-2xl" />
+          </div>
+          <h3 className="font-unbounded font-bold text-lg text-slate-900 dark:text-slate-100 mb-1">
+            No Articles Published Yet
+          </h3>
+          <p className="text-xs text-slate-500 max-w-sm">
+            Check back soon for new tutorials, thoughts, and technical deep-dives!
+          </p>
         </div>
       </div>
     );
   }
 
   const featured = blogs[blogs.length - 1];
+  const gridBlogs = filteredBlogs.filter((b) => b._id !== featured._id);
 
   return (
-    <div className="max-w-5xl mx-auto px-6 mt-12 mb-24">
+    <div className="max-w-5xl mx-auto px-4 md:px-6 mt-8 md:mt-12 mb-24 animate-fade-in-up font-inter">
+      {/* Header section */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+        <div>
+          <h1 className="font-unbounded text-3xl md:text-5xl font-bold mb-2 text-slate-900 dark:text-slate-100">
+            &lt;Blogs /&gt;
+          </h1>
+          <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 font-medium">
+            Explore articles, insights, and technical tutorials ({blogs.length} total)
+          </p>
+        </div>
 
-      {/* Page heading */}
-      <h1 className="font-unbounded text-4xl font-bold mb-2">&lt;Blogs /&gt;</h1>
-      <p className="text-sm opacity-40 mb-10">{blogs.length} article{blogs.length !== 1 ? "s" : ""}</p>
+        {/* Search Bar */}
+        <div className="relative w-full md:w-72">
+          <FaSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm" />
+          <input
+            type="text"
+            placeholder="Search articles..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-10 pr-4 py-2 rounded-xl border-2 border-slate-950 bg-white dark:bg-slate-900 text-xs md:text-sm font-semibold text-slate-900 dark:text-slate-100 shadow-[3px_3px_0px_0px_rgba(15,23,42,1)] focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+          />
+        </div>
+      </div>
 
-      {/* ── Featured blog ── */}
-      <Link to={`/blogs/post/${featured._id}`} className="group block mb-14">
-        <div className="relative overflow-hidden rounded-2xl border-2 border-slate-950 transition-shadow duration-300 hover:shadow-xl">
+      {/* ── Featured Blog ── */}
+      {!searchQuery && featured && (
+        <Link to={`/blogs/post/${featured._id}`} className="group block mb-12">
+          <div className="relative overflow-hidden rounded-2xl border-2 border-slate-950 bg-white dark:bg-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] hover:shadow-[10px_10px_0px_0px_rgba(37,99,235,1)] hover:-translate-y-1 transition-all duration-300">
+            <div className="overflow-hidden h-64 md:h-96 relative">
+              <CoverImage
+                src={featured.imglink}
+                alt={featured.title}
+                index={blogs.length}
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              {/* Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
 
-          <div className="overflow-hidden h-64 md:h-80">
-            <CoverImage
-              src={featured.imglink}
-              alt={featured.title}
-              index={blogs.length}
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-            />
-          </div>
-
-          {/* gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-
-          {/* text overlay */}
-          <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-            <span className="inline-block border border-white/40 rounded-full text-[10px] font-unbounded tracking-widest uppercase px-3 py-1 mb-3 backdrop-blur-sm bg-white/10">
-              Featured
-            </span>
-            <h2 className="font-unbounded text-2xl md:text-3xl font-bold leading-snug mb-2 drop-shadow">
-              {featured.title}
-            </h2>
-            <p className="text-sm text-white/70 line-clamp-2 leading-relaxed max-w-2xl">
-              {featured.shortdescription}
-            </p>
-            <div className="mt-4 flex items-center gap-2 text-xs text-white/60 font-semibold group-hover:text-white transition-colors">
-              Read article
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
-              </svg>
+              {/* Text Overlay */}
+              <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-unbounded uppercase font-bold tracking-wider bg-blue-600 text-white border border-blue-400 mb-3 shadow-sm">
+                  ✨ Featured Article
+                </span>
+                <h2 className="font-unbounded text-xl md:text-3xl font-bold leading-tight mb-2 text-white drop-shadow-sm group-hover:text-blue-300 transition-colors">
+                  {featured.title}
+                </h2>
+                <p className="text-xs md:text-sm text-slate-200 line-clamp-2 leading-relaxed max-w-3xl mb-4 font-medium">
+                  {featured.shortdescription}
+                </p>
+                <div className="inline-flex items-center gap-2 text-xs md:text-sm font-bold text-blue-400 group-hover:text-white transition-colors">
+                  <span>Read Full Article</span>
+                  <FaArrowRight className="text-xs transition-transform group-hover:translate-x-1" />
+                </div>
+              </div>
             </div>
           </div>
+        </Link>
+      )}
+
+      {/* ── Articles Grid ── */}
+      <div className="mb-6">
+        <div className="flex items-center gap-4 mb-6">
+          <h2 className="font-unbounded text-base md:text-xl font-bold text-slate-900 dark:text-slate-100">
+            {searchQuery ? `Search Results (${filteredBlogs.length})` : "All Articles"}
+          </h2>
+          <div className="flex-1 h-px bg-slate-200 dark:bg-slate-800" />
         </div>
-      </Link>
 
-      {/* ── Rest of blogs grid ── */}
-      {blogs.length > 0 && (
-        <>
-          <div className="flex items-center gap-4 mb-8">
-            <div className="flex-1 h-px bg-base-300" />
-            <span className="text-xs font-unbounded opacity-30 tracking-widest uppercase">All Articles</span>
-            <div className="flex-1 h-px bg-base-300" />
+        {gridBlogs.length === 0 && (searchQuery || !featured) ? (
+          <div className="text-center py-12 border-2 border-dashed border-slate-950 rounded-2xl bg-white dark:bg-slate-900 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)]">
+            <p className="text-sm font-semibold text-slate-500">No articles matched your search query.</p>
           </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {blogs.map((blog, idx) => (
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {(searchQuery ? filteredBlogs : gridBlogs).map((blog, idx) => (
               <Link
                 key={blog._id}
                 to={`/blogs/post/${blog._id}`}
                 className="group block"
               >
-                <div className="border-2 border-slate-950 rounded-2xl overflow-hidden transition-shadow duration-300 hover:shadow-lg h-full flex flex-col">
-
-                  {/* image */}
-                  <div className="overflow-hidden h-44 flex-shrink-0">
+                <div className="border-2 border-slate-950 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] hover:shadow-[7px_7px_0px_0px_rgba(37,99,235,1)] hover:-translate-y-1.5 transition-all duration-300 h-full flex flex-col justify-between">
+                  {/* Image Container */}
+                  <div className="relative overflow-hidden h-44 border-b-2 border-slate-950 bg-slate-100 dark:bg-slate-800">
                     <CoverImage
                       src={blog.imglink}
                       alt={blog.title}
                       index={idx + 1}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
+                    <span className="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-lg bg-slate-950/90 text-white font-unbounded text-[10px] font-bold border border-white/20 backdrop-blur-xs">
+                      #{idx + 1}
+                    </span>
                   </div>
 
-                  {/* body */}
-                  <div className="p-4 flex flex-col flex-1">
-                    <h3 className="font-unbounded text-sm font-bold leading-snug mb-2 line-clamp-2">
-                      {blog.title}
-                    </h3>
-                    <p className="text-xs opacity-55 leading-relaxed line-clamp-3 flex-1">
-                      {blog.shortdescription}
-                    </p>
-                    <div className="mt-4 flex items-center gap-1 text-xs font-semibold opacity-40 group-hover:opacity-100 transition-opacity">
-                      Read
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
-                      </svg>
+                  {/* Body Content */}
+                  <div className="p-4 md:p-5 flex flex-col flex-1 justify-between">
+                    <div>
+                      <h3 className="font-unbounded font-bold text-sm md:text-base text-slate-900 dark:text-slate-100 mb-2 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug">
+                        {blog.title}
+                      </h3>
+                      <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed line-clamp-3 mb-4">
+                        {blog.shortdescription}
+                      </p>
+                    </div>
+
+                    <div className="pt-2 flex items-center justify-between border-t border-slate-100 dark:border-slate-800 text-xs font-bold text-slate-900 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                      <span>Read Article</span>
+                      <FaArrowRight className="text-xs transition-transform group-hover:translate-x-1" />
                     </div>
                   </div>
                 </div>
               </Link>
             ))}
           </div>
-        </>
-      )}
+        )}
+      </div>
     </div>
   );
 }
