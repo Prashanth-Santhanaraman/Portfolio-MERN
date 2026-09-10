@@ -15,6 +15,43 @@
   }
 }
 
+/* ── Always-Visible Custom Scrollbar (Mobile & Desktop) ── */
+.custom-scrollbar::-webkit-scrollbar {
+  -webkit-appearance: none !important;
+  width: 6px !important;
+  height: 6px !important;
+  background-color: rgba(15, 23, 42, 0.08);
+}
+:is(.dark .custom-scrollbar)::-webkit-scrollbar {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: rgba(15, 23, 42, 0.08);
+  border-radius: 9999px;
+}
+:is(.dark .custom-scrollbar)::-webkit-scrollbar-track {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #64748b !important;
+  border-radius: 9999px;
+  min-height: 35px;
+}
+:is(.dark .custom-scrollbar)::-webkit-scrollbar-thumb {
+  background-color: #94a3b8 !important;
+}
+
+/* Firefox support */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #64748b rgba(15, 23, 42, 0.08);
+}
+:is(.dark .custom-scrollbar) {
+  scrollbar-color: #94a3b8 rgba(255, 255, 255, 0.1);
+}
+
 @keyframes wave-animation {
   0% {
     transform: rotate(0deg);
