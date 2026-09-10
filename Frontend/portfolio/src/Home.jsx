@@ -33,7 +33,6 @@ export default function Home() {
             I am <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">Prashanth</span>
           </h1>
           <p className="text-sm md:text-base opacity-70 mb-5 md:mb-6 max-w-xl md:mx-0 leading-relaxed">
-            Final year student at <a href="https://www.rajalakshmi.org/" target="_blank" rel="noreferrer" className="text-blue-600 font-semibold hover:underline">Rajalakshmi Engineering College</a>.<br className="hidden md:block"/>
             I'm a passionate web developer focused on building scalable, user-friendly applications using the MERN stack.
           </p>
           <div className="flex flex-wrap justify-start gap-2 md:gap-3">
