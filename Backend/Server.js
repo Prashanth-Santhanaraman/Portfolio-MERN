@@ -116,6 +116,26 @@ app.get("/projects", async (req, res) => {
     });
   }
 });
+app.get("/getAllProjects" , async (req, res) => {
+  try {
+    const userData = await userModel.findOne({
+      _id: `${process.env.MONGODBPROFILEID}`,
+    });
+
+    if (!userData) {
+      return res.status(400).json({ message: "Error" });
+    }
+
+    const allProjects = userData.projects || [];
+
+    return res.status(200).json({
+      projects: allProjects,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Server error" });
+  }
+})
 
 app.post("/newBlog", async (req, res) => {
   let { title, shortdescription, description, imglink, password } = req.body;

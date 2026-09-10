@@ -25,9 +25,9 @@ export default function EditTop3Projects() {
   const fetchProjects = () => {
     setIsLoading(true);
     axios
-      .get(`${import.meta.env.VITE_BACKENDLINK}/blogs`)
+      .get(`${import.meta.env.VITE_BACKENDLINK}/getTop3Projects`)
       .then((res) => {
-        setProjects(res.data.top3projects || []);
+        setProjects(res.data.projects || []);
         setIsLoading(false);
       })
       .catch((err) => {

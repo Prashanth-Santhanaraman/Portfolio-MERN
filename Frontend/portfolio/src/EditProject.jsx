@@ -25,7 +25,7 @@ export default function EditProject() {
   const fetchProjects = () => {
     setIsLoading(true);
     axios
-      .get(`${import.meta.env.VITE_BACKENDLINK}/blogs`)
+      .get(`${import.meta.env.VITE_BACKENDLINK}/getAllProjects`)
       .then((res) => {
         setProjects(res.data.projects || []);
         setIsLoading(false);
