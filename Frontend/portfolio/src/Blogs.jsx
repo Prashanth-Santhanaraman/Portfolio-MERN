@@ -2,25 +2,33 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import CoverImage from "./components/CoverImage";
-import { FaSearch, FaArrowRight, FaBookOpen } from "react-icons/fa";
+import { FaSearch, FaArrowRight, FaBookOpen, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 export default function Blogs() {
   const [blogs, setBlogs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [total, setTotal] = useState(0);
+  const LIMIT = 7; // 1 featured + 6 grid
 
   useEffect(() => {
+    setIsLoading(true);
     axios
-      .get(`${import.meta.env.VITE_BACKENDLINK}/blogs`)
+      .get(`${import.meta.env.VITE_BACKENDLINK}/blogs?page=${currentPage}&limit=${LIMIT}`)
       .then((res) => {
         setBlogs(res.data.blogs || []);
+        setCurrentPage(res.data.currentPage || 1);
+        setTotalPages(res.data.totalPages || 1);
+        setTotal(res.data.total || 0);
         setIsLoading(false);
       })
       .catch((err) => {
         console.error(err);
         setIsLoading(false);
       });
-  }, []);
+  }, [currentPage]);
 
   const filteredBlogs = blogs.filter(
     (b) =>
@@ -98,7 +106,7 @@ export default function Blogs() {
             &lt;Blogs /&gt;
           </h1>
           <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 font-medium">
-            Explore articles, insights, and technical tutorials ({blogs.length} total)
+            Explore articles, insights, and technical tutorials ({total} total)
           </p>
         </div>
 
@@ -116,7 +124,7 @@ export default function Blogs() {
       </div>
 
       {/* ── Featured Blog ── */}
-      {!searchQuery && featured && (
+      {!searchQuery && featured && currentPage === 1 && (
         <Link to={`/blogs/post/${featured._id}`} className="group block mb-12">
           <div className="relative overflow-hidden rounded-2xl border-2 border-slate-950 bg-white dark:bg-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] hover:shadow-[10px_10px_0px_0px_rgba(37,99,235,1)] hover:-translate-y-1 transition-all duration-300">
             <div className="overflow-hidden h-64 md:h-96 relative">
@@ -207,6 +215,45 @@ export default function Blogs() {
           </div>
         )}
       </div>
+
+      {/* ── Pagination Controls ── */}
+      {totalPages > 1 && !searchQuery && (
+        <div className="flex items-center justify-center gap-3 mt-10">
+          <button
+            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+            disabled={currentPage === 1}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl border-2 border-slate-950 bg-white dark:bg-slate-900 text-sm font-bold shadow-[3px_3px_0px_0px_rgba(15,23,42,1)] hover:shadow-[5px_5px_0px_0px_rgba(37,99,235,1)] hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:shadow-[3px_3px_0px_0px_rgba(15,23,42,1)] disabled:hover:translate-y-0"
+          >
+            <FaChevronLeft className="text-xs" />
+            <span>Prev</span>
+          </button>
+
+          <div className="flex items-center gap-2">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((pg) => (
+              <button
+                key={pg}
+                onClick={() => setCurrentPage(pg)}
+                className={`w-9 h-9 rounded-xl border-2 border-slate-950 font-unbounded text-xs font-bold transition-all duration-200 ${
+                  pg === currentPage
+                    ? "bg-slate-950 text-white shadow-[3px_3px_0px_0px_rgba(37,99,235,1)]"
+                    : "bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-[3px_3px_0px_0px_rgba(15,23,42,1)] hover:shadow-[4px_4px_0px_0px_rgba(37,99,235,1)] hover:-translate-y-0.5"
+                }`}
+              >
+                {pg}
+              </button>
+            ))}
+          </div>
+
+          <button
+            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+            disabled={currentPage === totalPages}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl border-2 border-slate-950 bg-white dark:bg-slate-900 text-sm font-bold shadow-[3px_3px_0px_0px_rgba(15,23,42,1)] hover:shadow-[5px_5px_0px_0px_rgba(37,99,235,1)] hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:shadow-[3px_3px_0px_0px_rgba(15,23,42,1)] disabled:hover:translate-y-0"
+          >
+            <span>Next</span>
+            <FaChevronRight className="text-xs" />
+          </button>
+        </div>
+      )}
     </div>
   );
 }

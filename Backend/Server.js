@@ -36,13 +36,63 @@ app.get("/", (req, res) => {
   res.send("Welcome to PRASHANTH portfolio backend");
 });
 
+// ── GET /blogs  (paginated) ─────────────────────────────────────────────────
 app.get("/blogs", async (req, res) => {
-  const userBlogs = await userModel.findOne({_id:`${process.env.MONGODBPROFILEID}`});
-  console.log(userBlogs)
-  if (userBlogs) {
-    return res.status(200).json(userBlogs);
-  } else {
-    return res.status(400).json({ message: "Error" });
+  try {
+    const page  = Math.max(1, parseInt(req.query.page)  || 1);
+    const limit = Math.max(1, parseInt(req.query.limit) || 6);
+
+    const userData = await userModel.findOne({ _id: `${process.env.MONGODBPROFILEID}` });
+    if (!userData) {
+      return res.status(400).json({ message: "Error" });
+    }
+
+    const allBlogs   = userData.blogs || [];
+    const total      = allBlogs.length;
+    const totalPages = Math.ceil(total / limit) || 1;
+    const safePage   = Math.min(page, totalPages);
+    const start      = (safePage - 1) * limit;
+    const paginated  = allBlogs.slice(start, start + limit);
+
+    return res.status(200).json({
+      blogs: paginated,
+      currentPage: safePage,
+      totalPages,
+      total,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Server error" });
+  }
+});
+
+// ── GET /projects  (paginated) ──────────────────────────────────────────────
+app.get("/projects", async (req, res) => {
+  try {
+    const page  = Math.max(1, parseInt(req.query.page)  || 1);
+    const limit = Math.max(1, parseInt(req.query.limit) || 6);
+
+    const userData = await userModel.findOne({ _id: `${process.env.MONGODBPROFILEID}` });
+    if (!userData) {
+      return res.status(400).json({ message: "Error" });
+    }
+
+    const allProjects = userData.projects || [];
+    const total       = allProjects.length;
+    const totalPages  = Math.ceil(total / limit) || 1;
+    const safePage    = Math.min(page, totalPages);
+    const start       = (safePage - 1) * limit;
+    const paginated   = allProjects.slice(start, start + limit);
+
+    return res.status(200).json({
+      projects: paginated,
+      currentPage: safePage,
+      totalPages,
+      total,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Server error" });
   }
 });
 
