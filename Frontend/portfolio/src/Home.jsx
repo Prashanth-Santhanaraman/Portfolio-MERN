@@ -54,7 +54,11 @@ export default function Home() {
           </h1>
           <p className="text-sm md:text-base opacity-70 mb-5 md:mb-6 max-w-xl md:mx-0 leading-relaxed">
             I'm a passionate web developer focused on building scalable,
-            user-friendly applications using the MERN stack.
+            user-friendly applications using the MERN stack. I'm also exploring{" "}
+            <span className="font-semibold text-slate-900 dark:text-slate-100">
+              LLMs, AI Agents, RAG, and MCP
+            </span>{" "}
+            to build intelligent, AI-powered applications.
           </p>
           <div className="flex flex-wrap justify-start gap-2 md:gap-3">
             <a
@@ -281,6 +285,8 @@ export default function Home() {
             },
             { title: "Introduction to Internet of Things", issuer: "NPTEL" },
             { title: "The Joy of Computing using Python", issuer: "NPTEL" },
+            { title: "Javascript (Basic)", issuer: "HackerRank" },
+            { title: "What is Generative AI ?", issuer: "LinkedIn" },
           ].map((cert, idx) => (
             <div key={idx} className="relative group">
               <div className="absolute -left-[23px] md:-left-[27px] top-1.5 w-2.5 h-2.5 md:w-3 md:h-3 bg-slate-950 rounded-full outline outline-4 outline-base-100 transition-transform group-hover:scale-125"></div>
