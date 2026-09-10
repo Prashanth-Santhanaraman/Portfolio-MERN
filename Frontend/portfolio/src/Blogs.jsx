@@ -94,8 +94,16 @@ export default function Blogs() {
     );
   }
 
-  const featured = blogs[blogs.length - 1];
-  const gridBlogs = filteredBlogs.filter((b) => b._id !== featured._id);
+  // Featured = newest blog (first item, page 1 only)
+  const featured = currentPage === 1 ? blogs[0] : null;
+  // Grid = everything except featured; when searching, show all filtered results
+  const gridBlogs = searchQuery
+    ? filteredBlogs
+    : (currentPage === 1 ? blogs.slice(1) : blogs);
+  // Global offset so badge numbers continue across pages
+  const gridOffset = currentPage === 1
+    ? 1
+    : (LIMIT - 1) + (currentPage - 2) * LIMIT + 1;
 
   return (
     <div className="max-w-5xl mx-auto px-4 md:px-6 mt-8 md:mt-12 mb-24 animate-fade-in-up font-inter">
@@ -189,7 +197,7 @@ export default function Blogs() {
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                     <span className="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-lg bg-slate-950/90 text-white font-unbounded text-[10px] font-bold border border-white/20 backdrop-blur-xs">
-                      #{idx + 1}
+                      #{gridOffset + idx}
                     </span>
                   </div>
 

@@ -98,10 +98,16 @@ export default function Projects() {
     );
   }
 
-  const featured = projects[projects.length - 1];
-  const gridProjects = projects.filter(
-    (project) => project._id !== featured._id
-  );
+  // Featured = newest project (first item, page 1 only)
+  const featured = currentPage === 1 ? projects[0] : null;
+  // Grid = everything except featured
+  const gridProjects = currentPage === 1 ? projects.slice(1) : projects;
+  // Global offset so badge numbers continue across pages
+  // Page 1: featured takes slot 0, so grid badges start at #1
+  // Page 2+: all slots are grid, offset by (LIMIT-1) for page 1 + LIMIT*(page-2)
+  const gridOffset = currentPage === 1
+    ? 1
+    : (LIMIT - 1) + (currentPage - 2) * LIMIT + 1;
 
   return (
     <div className="max-w-5xl mx-auto px-4 md:px-6 mt-8 md:mt-12 mb-24 animate-fade-in-up font-inter">
@@ -195,7 +201,7 @@ export default function Projects() {
                     />
 
                     <span className="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-lg bg-slate-950/90 text-white font-unbounded text-[10px] font-bold border border-white/20 backdrop-blur-xs">
-                      #{idx + 1}
+                      #{gridOffset + idx}
                     </span>
                   </div>
 

@@ -47,7 +47,7 @@ app.get("/blogs", async (req, res) => {
       return res.status(400).json({ message: "Error" });
     }
 
-    const allBlogs   = userData.blogs || [];
+    const allBlogs   = [...(userData.blogs || [])].reverse(); // newest first
     const total      = allBlogs.length;
     const totalPages = Math.ceil(total / limit) || 1;
     const safePage   = Math.min(page, totalPages);
@@ -77,7 +77,7 @@ app.get("/projects", async (req, res) => {
       return res.status(400).json({ message: "Error" });
     }
 
-    const allProjects = userData.projects || [];
+    const allProjects = [...(userData.projects || [])].reverse(); // newest first
     const total       = allProjects.length;
     const totalPages  = Math.ceil(total / limit) || 1;
     const safePage    = Math.min(page, totalPages);
