@@ -178,15 +178,15 @@ export default function Home() {
     </div>
 
     {/* Right: Preserved Image (Left-aligned on mobile via self-start) */}
-    <div className="order-1 md:order-2 flex-shrink-0 self-start md:self-auto">
-      <div className="w-24 h-24 sm:w-32 sm:h-32 md:w-64 md:h-64 rounded-2xl md:rounded-3xl overflow-hidden border-2 md:border-4 border-slate-950 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] md:shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] md:hover:shadow-[12px_12px_0px_0px_rgba(15,23,42,1)]">
-        <img
-          src={profileImg}
-          alt="Prashanth"
-          className="w-full h-full object-cover"
-        />
-      </div>
-    </div>
+<div className="order-1 md:order-2 flex-shrink-0 self-start md:self-auto pt-2">
+  <div className="w-24 h-24 sm:w-32 sm:h-32 md:w-64 md:h-64 rounded-2xl md:rounded-3xl overflow-hidden border-2 md:border-4 border-slate-950 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] md:shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] transition-all duration-300 hover:scale-[1.02] hover:translate-y-0 md:hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] md:hover:shadow-[12px_12px_0px_0px_rgba(15,23,42,1)] origin-bottom">
+    <img
+      src={profileImg}
+      alt="Prashanth"
+      className="w-full h-full object-cover object-[center_20%]"
+    />
+  </div>
+</div>
 
   </div>
 </div>
