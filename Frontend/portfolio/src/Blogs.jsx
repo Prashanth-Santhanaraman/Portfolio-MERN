@@ -45,6 +45,13 @@ export default function Blogs() {
       });
   }, [currentPage]);
 
+   useEffect(() => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+}, [currentPage]);
+
   const filteredBlogs = blogs.filter(
     (b) =>
       b.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -141,6 +148,8 @@ export default function Blogs() {
   console.log("FEATURED BLOG:", featured);
   console.log("GRID BLOGS:", gridBlogs);
   console.log("GRID BLOG COUNT:", gridBlogs.length);
+
+  
 
   return (
     <div className="max-w-5xl mx-auto px-4 md:px-6 mt-8 md:mt-12 mb-24 animate-fade-in-up font-inter">

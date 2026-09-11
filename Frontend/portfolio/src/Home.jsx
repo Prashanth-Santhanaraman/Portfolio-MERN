@@ -123,7 +123,7 @@ useEffect(() => {
             Hello! <span className="waving-hand">👋</span>
             <br />I am{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">
-              Prashanth
+              Prashanth.
             </span>
           </h1>
           <p className="text-sm md:text-base opacity-70 mb-5 md:mb-6 max-w-xl md:mx-0 leading-relaxed">
