@@ -444,30 +444,45 @@ app.delete("/deleteBlog/:id", async (req, res) => {
 });
 
 app.put("/editProject/:id", async (req, res) => {
-  const { id } = req.params;
-  let { title, shortdescription, description, websitelink, imglink, password } = req.body;
-
-  if (!password) {
-    return res.status(400).json({ message: "Password is required !" });
-  }
-  if (!title || !description || !websitelink || !imglink) {
-    return res.status(400).json({ message: "Please fill all required fields !" });
-  }
-
-  if (description) description = sanitizeHtml(description, sanitizeOptions);
-
   try {
-    const userDetail = await userModel
-      .findOne({ _id: `${process.env.MONGODBPROFILEID}` })
-      .select("+password");
+    const { id } = req.params;
+    let { title, shortdescription, description, websitelink, imglink, password } = req.body;
 
-    const passwordCheck = await bcrypt.compare(password, userDetail._doc.password);
+    // 1. Input Validations
+    if (!password) {
+      return res.status(400).json({ message: "Password is required !" });
+    }
+    if (!title || !description || !websitelink || !imglink) {
+      return res.status(400).json({ message: "Please fill all required fields !" });
+    }
+
+    // 2. Sanitize Description
+    if (description && typeof sanitizeHtml === "function") {
+      description = sanitizeHtml(description, sanitizeOptions);
+    }
+
+    // 3. Verify MONGODBPROFILEID exists in environment variables
+    const profileId = process.env.MONGODBPROFILEID;
+    if (!profileId) {
+      console.error("MONGODBPROFILEID is not defined in environment variables!");
+      return res.status(500).json({ message: "Server environment variable configuration error." });
+    }
+
+    // 4. Fetch User Profile
+    const userDetail = await userModel.findById(profileId).select("+password");
+    if (!userDetail) {
+      return res.status(440).json({ message: "User profile not found in database." });
+    }
+
+    // 5. Compare Password (access property directly, NOT via ._doc)
+    const passwordCheck = await bcrypt.compare(password, userDetail.password);
     if (!passwordCheck) {
       return res.status(401).json({ message: "Password is wrong !" });
     }
 
+    // 6. Update Project Subdocument
     const updated = await userModel.findOneAndUpdate(
-      { _id: `${process.env.MONGODBPROFILEID}`, "projects._id": id },
+      { _id: profileId, "projects._id": id },
       {
         $set: {
           "projects.$.title": title,
@@ -484,10 +499,17 @@ app.put("/editProject/:id", async (req, res) => {
       return res.status(404).json({ message: "Project not found !" });
     }
 
-    return res.status(200).json({ message: "Project updated successfully !", updatedProjects: updated.projects });
+    return res.status(200).json({
+      message: "Project updated successfully !",
+      updatedProjects: updated.projects,
+    });
+
   } catch (error) {
-    res.status(500).json({ message: "Error updating project. Check the console." });
-    console.log(error);
+    console.error("Error in /editProject/:id route:", error);
+    return res.status(500).json({
+      message: "Error updating project. Check the server logs.",
+      error: error.message,
+    });
   }
 });
 
