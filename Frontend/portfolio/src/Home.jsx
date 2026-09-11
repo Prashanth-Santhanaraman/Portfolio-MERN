@@ -94,87 +94,102 @@ const rawCerts = [
 
 // Sort certifications by date descending (latest first)
 const certs = [...rawCerts].sort(
-  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
 );
 export default function Home() {
   const [topProjects, setTopProjects] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [popupCert, setPopupCert] = useState(null);
 
-useEffect(() => {
-  axios
-    .get(`${import.meta.env.VITE_BACKENDLINK}/getTop3Projects`)
-    .then((res) => {
-      setTopProjects(res.data.projects || []);
-      setIsLoading(false);
-    })
-    .catch((err) => {
-      console.error(err);
-      setIsLoading(false);
-    });
-}, []);
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_BACKENDLINK}/getTop3Projects`)
+      .then((res) => {
+        setTopProjects(res.data.projects || []);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setIsLoading(false);
+      });
+  }, []);
 
   return (
     <div className="max-w-5xl mx-auto px-4 md:px-6 mt-8 md:mt-12 mb-24 animate-fade-in-up font-inter w-full overflow-x-hidden">
       {/* ── Section 1: Hero ── */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-10 mb-20 md:mb-24">
-        <div className="flex-1 text-left order-2 md:order-1">
-          <h1 className="font-unbounded text-2xl md:text-4xl lg:text-5xl font-bold leading-tight mb-3 md:mb-4 mt-2 md:mt-0">
-            Hello! <span className="waving-hand">👋</span>
-            <br />I am{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">
-              Prashanth.
-            </span>
-          </h1>
-          <p className="text-sm md:text-base opacity-70 mb-5 md:mb-6 max-w-xl md:mx-0 leading-relaxed">
-            I'm a passionate web developer focused on building scalable,
-            user-friendly applications using the MERN stack. I'm also exploring{" "}
-            <span className="font-semibold text-slate-900 dark:text-slate-100">
-              LLMs, AI Agents, RAG, and MCP
-            </span>{" "}
-            to build intelligent, AI-powered applications.
-          </p>
-          <div className="flex flex-wrap justify-start gap-2.5 md:gap-3.5">
-            <a
-              href="https://www.linkedin.com/in/prashanth-santhanaraman/"
-              target="_blank"
-              rel="noreferrer"
-              className="btn btn-sm md:btn-md border-2 border-slate-950 rounded-xl bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-bold shadow-[3px_3px_0px_0px_rgba(15,23,42,1)] hover:shadow-[5px_5px_0px_0px_rgba(37,99,235,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0px_0px_rgba(15,23,42,1)] transition-all duration-200 gap-2 group"
-            >
-              <FaLinkedin className="text-lg md:text-xl text-blue-600 group-hover:scale-115 transition-transform" />
-              <span>LinkedIn</span>
-            </a>
-            <a
-              href="https://github.com/prashanth-santhanaraman"
-              target="_blank"
-              rel="noreferrer"
-              className="btn btn-sm md:btn-md border-2 border-slate-950 rounded-xl bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-bold shadow-[3px_3px_0px_0px_rgba(15,23,42,1)] hover:shadow-[5px_5px_0px_0px_rgba(15,23,42,1)] dark:hover:shadow-[5px_5px_0px_0px_rgba(255,255,255,0.8)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0px_0px_rgba(15,23,42,1)] transition-all duration-200 gap-2 group"
-            >
-              <FaGithub className="text-lg md:text-xl text-slate-900 dark:text-slate-100 group-hover:scale-115 transition-transform" />
-              <span>GitHub</span>
-            </a>
-            <a
-              href="https://www.geeksforgeeks.org/user/prashanth_santhanaraman/"
-              target="_blank"
-              rel="noreferrer"
-              className="btn btn-sm md:btn-md border-2 border-slate-950 rounded-xl bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-bold shadow-[3px_3px_0px_0px_rgba(15,23,42,1)] hover:shadow-[5px_5px_0px_0px_rgba(34,197,94,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0px_0px_rgba(15,23,42,1)] transition-all duration-200 gap-2 group"
-            >
-              <SiGeeksforgeeks className="text-lg md:text-xl text-green-600 group-hover:scale-115 transition-transform" />
-              <span>GFG</span>
-            </a>
-          </div>
-        </div>
-        <div className="flex-shrink-0 order-1 md:order-2 self-start md:self-auto pt-3 md:pt-4 pb-2">
-          <div className="w-24 h-24 sm:w-32 sm:h-32 md:w-64 md:h-64 rounded-2xl md:rounded-3xl overflow-hidden border-2 md:border-4 border-slate-950 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] md:shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] md:hover:shadow-[12px_12px_0px_0px_rgba(15,23,42,1)]">
-            <img
-              src={profileImg}
-              alt="Prashanth"
-              className="w-full h-full object-cover"
-            />
-          </div>
-        </div>
+      <div className="mb-16 md:mb-20">
+  <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12">
+    
+    {/* Left: Text & Bio */}
+    <div className="flex-1 text-left order-2 md:order-1">
+      {/* Status Badge */}
+      <div className="inline-flex items-center gap-2 px-3 py-1 mb-4 text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 border-2 border-slate-950 dark:border-slate-300 rounded-full shadow-[2px_2px_0px_0px_rgba(15,23,42,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]">
+        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        Building & Exploring AI Agents
       </div>
 
+      <h1 className="font-unbounded text-2xl sm:text-4xl lg:text-5xl font-black text-slate-950 dark:text-white leading-tight mb-4">
+        Hello! <span className="waving-hand">👋</span>
+        <br />
+        I am{" "}
+        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">
+          Prashanth.
+        </span>
+      </h1>
+
+      <p className="text-xs sm:text-base text-slate-700 dark:text-slate-300 mb-6 max-w-xl leading-relaxed font-medium">
+        I'm a passionate web developer focused on building scalable, user-friendly applications using the MERN stack. I'm also actively exploring{" "}
+        <span className="bg-slate-100 dark:bg-slate-800 text-slate-950 dark:text-slate-100 px-1.5 py-0.5 rounded font-bold border border-slate-300 dark:border-slate-700">
+          LLMs, AI Agents, RAG, and MCP
+        </span>{" "}
+        to build intelligent, AI-powered applications.
+      </p>
+
+      {/* Buttons */}
+      <div className="flex flex-wrap justify-start gap-3">
+        <a
+          href="https://www.linkedin.com/in/prashanth-santhanaraman/"
+          target="_blank"
+          rel="noreferrer"
+          className="flex items-center gap-2 px-4 py-2.5 sm:px-5 sm:py-3 text-xs sm:text-sm font-bold bg-blue-600 text-white border-2 border-slate-950 rounded-xl shadow-[3px_3px_0px_0px_rgba(15,23,42,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] active:translate-x-0 active:translate-y-0 transition-all"
+        >
+          <FaLinkedin className="text-base sm:text-xl" />
+          <span>LinkedIn</span>
+        </a>
+        <a
+          href="https://github.com/prashanth-santhanaraman"
+          target="_blank"
+          rel="noreferrer"
+          className="flex items-center gap-2 px-4 py-2.5 sm:px-5 sm:py-3 text-xs sm:text-sm font-bold bg-white dark:bg-slate-800 text-slate-950 dark:text-white border-2 border-slate-950 dark:border-slate-200 rounded-xl shadow-[3px_3px_0px_0px_rgba(15,23,42,1)] dark:shadow-[3px_3px_0px_0px_rgba(255,255,255,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] active:translate-x-0 active:translate-y-0 transition-all"
+        >
+          <FaGithub className="text-base sm:text-xl" />
+          <span>GitHub</span>
+        </a>
+        <a
+          href="https://www.geeksforgeeks.org/user/prashanth_santhanaraman/"
+          target="_blank"
+          rel="noreferrer"
+          className="flex items-center gap-2 px-4 py-2.5 sm:px-5 sm:py-3 text-xs sm:text-sm font-bold bg-emerald-400 text-slate-950 border-2 border-slate-950 rounded-xl shadow-[3px_3px_0px_0px_rgba(15,23,42,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] active:translate-x-0 active:translate-y-0 transition-all"
+        >
+          <SiGeeksforgeeks className="text-base sm:text-xl" />
+          <span>GFG</span>
+        </a>
+      </div>
+    </div>
+
+    {/* Right: Preserved Image (Left-aligned on mobile via self-start) */}
+    <div className="order-1 md:order-2 flex-shrink-0 self-start md:self-auto">
+      <div className="w-24 h-24 sm:w-32 sm:h-32 md:w-64 md:h-64 rounded-2xl md:rounded-3xl overflow-hidden border-2 md:border-4 border-slate-950 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] md:shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] md:hover:shadow-[12px_12px_0px_0px_rgba(15,23,42,1)]">
+        <img
+          src={profileImg}
+          alt="Prashanth"
+          className="w-full h-full object-cover"
+        />
+      </div>
+    </div>
+
+  </div>
+</div>
       {/* ── Section 2: Top 3 Projects ── */}
       <div className="mb-20 md:mb-24">
         <div className="flex items-center gap-3 md:gap-4 mb-8 md:mb-10">
@@ -302,12 +317,34 @@ useEffect(() => {
 
               <div className="flex flex-wrap gap-2">
                 {[
-                  { name: "React", icon: <FaReact className="text-blue-500 text-sm" /> },
-                  { name: "JavaScript", icon: <SiJavascript className="text-yellow-400 text-sm" /> },
-                  { name: "HTML5", icon: <SiHtml5 className="text-orange-500 text-sm" /> },
-                  { name: "CSS3", icon: <SiCss3 className="text-blue-600 text-sm" /> },
-                  { name: "Tailwind", icon: <SiTailwindcss className="text-cyan-400 text-sm" /> },
-                  { name: "EJS", icon: <span className="font-mono text-[10px] font-bold text-slate-700 dark:text-slate-300">&lt;/&gt;</span> },
+                  {
+                    name: "React",
+                    icon: <FaReact className="text-blue-500 text-sm" />,
+                  },
+                  {
+                    name: "JavaScript",
+                    icon: <SiJavascript className="text-yellow-400 text-sm" />,
+                  },
+                  {
+                    name: "HTML5",
+                    icon: <SiHtml5 className="text-orange-500 text-sm" />,
+                  },
+                  {
+                    name: "CSS3",
+                    icon: <SiCss3 className="text-blue-600 text-sm" />,
+                  },
+                  {
+                    name: "Tailwind",
+                    icon: <SiTailwindcss className="text-cyan-400 text-sm" />,
+                  },
+                  {
+                    name: "EJS",
+                    icon: (
+                      <span className="font-mono text-[10px] font-bold text-slate-700 dark:text-slate-300">
+                        &lt;/&gt;
+                      </span>
+                    ),
+                  },
                 ].map((skill, idx) => (
                   <div
                     key={idx}
@@ -338,11 +375,28 @@ useEffect(() => {
 
               <div className="flex flex-wrap gap-2">
                 {[
-                  { name: "Node.js", icon: <FaNodeJs className="text-green-500 text-sm" /> },
-                  { name: "Express.js", icon: <SiExpress className="text-slate-600 dark:text-slate-300 text-sm" /> },
-                  { name: "MongoDB", icon: <SiMongodb className="text-green-600 text-sm" /> },
-                  { name: "MySQL", icon: <SiMysql className="text-blue-500 text-sm" /> },
-                  { name: "Python", icon: <FaPython className="text-amber-500 text-sm" /> },
+                  {
+                    name: "Node.js",
+                    icon: <FaNodeJs className="text-green-500 text-sm" />,
+                  },
+                  {
+                    name: "Express.js",
+                    icon: (
+                      <SiExpress className="text-slate-600 dark:text-slate-300 text-sm" />
+                    ),
+                  },
+                  {
+                    name: "MongoDB",
+                    icon: <SiMongodb className="text-green-600 text-sm" />,
+                  },
+                  {
+                    name: "MySQL",
+                    icon: <SiMysql className="text-blue-500 text-sm" />,
+                  },
+                  {
+                    name: "Python",
+                    icon: <FaPython className="text-amber-500 text-sm" />,
+                  },
                 ].map((skill, idx) => (
                   <div
                     key={idx}
@@ -373,11 +427,28 @@ useEffect(() => {
 
               <div className="flex flex-wrap gap-2">
                 {[
-                  { name: "Git", icon: <SiGit className="text-orange-600 text-sm" /> },
-                  { name: "GitHub", icon: <FaGithub className="text-slate-900 dark:text-slate-100 text-sm" /> },
-                  { name: "ChatGPT", icon: <SiOpenai className="text-emerald-500 text-sm" /> },
-                  { name: "Claude", icon: <SiClaude className="text-amber-600 text-sm" /> },
-                  { name: "Gemini", icon: <SiGooglegemini className="text-blue-500 text-sm" /> },
+                  {
+                    name: "Git",
+                    icon: <SiGit className="text-orange-600 text-sm" />,
+                  },
+                  {
+                    name: "GitHub",
+                    icon: (
+                      <FaGithub className="text-slate-900 dark:text-slate-100 text-sm" />
+                    ),
+                  },
+                  {
+                    name: "ChatGPT",
+                    icon: <SiOpenai className="text-emerald-500 text-sm" />,
+                  },
+                  {
+                    name: "Claude",
+                    icon: <SiClaude className="text-amber-600 text-sm" />,
+                  },
+                  {
+                    name: "Gemini",
+                    icon: <SiGooglegemini className="text-blue-500 text-sm" />,
+                  },
                 ].map((skill, idx) => (
                   <div
                     key={idx}
@@ -429,151 +500,165 @@ useEffect(() => {
           ))}
         </div> */}
 
-         {/* Scrollable cert list — max-h controls the viewport; adjust as needed */}
-      <div className="relative">
-        <div className="max-h-72 overflow-y-auto pr-3 custom-scrollbar">
-          <div className="border-l-2 border-slate-950 ml-2 md:ml-3 pl-4 md:pl-5 py-1 space-y-5 md:space-y-6">
-            {certs.map((cert, idx) => (
-              <div key={idx} className="relative group">
-                {/* Timeline dot */}
-                <div className="absolute -left-[23px] md:-left-[27px] top-1.5 w-2.5 h-2.5 md:w-3 md:h-3 bg-slate-950 rounded-full outline outline-4 outline-base-100 transition-transform group-hover:scale-125" />
- 
-                <div className="flex items-start justify-between gap-2">
-                  <div>
-                    <h3
-                      onClick={() => cert.link && setPopupCert(cert)}
-                      className={`font-bold text-sm md:text-base font-unbounded text-slate-900 dark:text-slate-100 transition-colors inline ${
-                        cert.link
-                          ? "cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 hover:underline underline-offset-4"
-                          : ""
-                      }`}
-                    >
-                      {cert.title}
-                    </h3>
-                    {cert.link && (
-                      <span className="hidden sm:inline-flex ml-2 opacity-0 group-hover:opacity-100 transition-all duration-200 text-[10px] font-semibold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60 px-2 py-0.5 rounded-full border border-blue-200 dark:border-blue-800 pointer-events-none align-middle">
-                        Click to see certificate ↗
-                      </span>
-                    )}
-                    <p className="text-[10px] md:text-xs opacity-70 font-medium mt-0.5 flex items-center gap-1.5">
-                      <span>{cert.issuer}</span>
-                      <span>•</span>
-                      <span className="font-semibold text-slate-700 dark:text-slate-300">{cert.displayDate}</span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
- 
-        <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-base-100 to-transparent" />
-      </div>
- 
-      {/* Certification Preview Modal Portal */}
-      {popupCert &&
-        createPortal(
-          <div
-            className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-md"
-            onClick={() => setPopupCert(null)}
-          >
-            <div
-              className="relative bg-white dark:bg-slate-900 border-2 border-slate-950 rounded-2xl shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] p-6 md:p-8 w-full max-w-md mx-auto overflow-hidden animate-fade-in-up"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Header */}
-              <div className="flex items-start justify-between gap-4 mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="p-3 bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 rounded-xl border-2 border-slate-950">
-                    <FaAward className="text-2xl" />
-                  </div>
-                  <div>
-                    <span className="text-[10px] uppercase tracking-wider font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/50 px-2 py-0.5 rounded border border-blue-200 dark:border-blue-800">
-                      {popupCert.issuer}
-                    </span>
-                    <h3 className="font-bold text-base md:text-lg text-slate-900 dark:text-slate-100 font-unbounded mt-1 leading-tight">
-                      {popupCert.title}
-                    </h3>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setPopupCert(null)}
-                  className="p-2 rounded-xl text-slate-500 hover:text-slate-950 dark:hover:text-white bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 border-2 border-slate-950 transition-all shrink-0"
-                  aria-label="Close modal"
-                >
-                  <FaTimes className="text-base" />
-                </button>
-              </div>
+        {/* Scrollable cert list — max-h controls the viewport; adjust as needed */}
+        <div className="relative">
+          <div className="max-h-72 overflow-y-auto pr-3 custom-scrollbar">
+            <div className="border-l-2 border-slate-950 ml-2 md:ml-3 pl-4 md:pl-5 py-1 space-y-5 md:space-y-6">
+              {certs.map((cert, idx) => (
+                <div key={idx} className="relative group">
+                  {/* Timeline dot */}
+                  <div className="absolute -left-[23px] md:-left-[27px] top-1.5 w-2.5 h-2.5 md:w-3 md:h-3 bg-slate-950 rounded-full outline outline-4 outline-base-100 transition-transform group-hover:scale-125" />
 
-              {/* Certificate Preview Card */}
-              <div className="my-5 p-5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border-2 border-slate-950 text-center">
-                <div className="w-full py-6 rounded-lg border-2 border-dashed border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 flex flex-col items-center justify-center p-4">
-                  <div className="w-12 h-12 rounded-full bg-amber-100 dark:bg-amber-900/40 text-amber-500 flex items-center justify-center mb-2 shadow-sm border border-amber-300 dark:border-amber-700">
-                    <FaAward className="text-2xl" />
-                  </div>
-                  <p className="font-unbounded font-semibold text-xs text-slate-800 dark:text-slate-200 max-w-[90%]">
-                    {popupCert.title}
-                  </p>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
-                  Issued by <span className="font-semibold text-slate-700 dark:text-slate-300">{popupCert.issuer}</span> • <span className="font-medium text-slate-600 dark:text-slate-400">{popupCert.displayDate}</span>
-                </p>
-                  <div className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 dark:text-blue-400">
-                    <span>Verified Credential</span>
-                    <FaExternalLinkAlt className="text-[10px]" />
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <h3
+                        onClick={() => cert.link && setPopupCert(cert)}
+                        className={`font-bold text-sm md:text-base font-unbounded text-slate-900 dark:text-slate-100 transition-colors inline ${
+                          cert.link
+                            ? "cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 hover:underline underline-offset-4"
+                            : ""
+                        }`}
+                      >
+                        {cert.title}
+                      </h3>
+                      {cert.link && (
+                        <span className="hidden sm:inline-flex ml-2 opacity-0 group-hover:opacity-100 transition-all duration-200 text-[10px] font-semibold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60 px-2 py-0.5 rounded-full border border-blue-200 dark:border-blue-800 pointer-events-none align-middle">
+                          Click to see certificate ↗
+                        </span>
+                      )}
+                      <p className="text-[10px] md:text-xs opacity-70 font-medium mt-0.5 flex items-center gap-1.5">
+                        <span>{cert.issuer}</span>
+                        <span>•</span>
+                        <span className="font-semibold text-slate-700 dark:text-slate-300">
+                          {cert.displayDate}
+                        </span>
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row gap-3 pt-1">
-                <a
-                  href={popupCert.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-slate-950 hover:bg-slate-800 text-white font-semibold text-sm border-2 border-slate-950 shadow-[3px_3px_0px_0px_rgba(59,130,246,1)] hover:shadow-none transition-all"
-                >
-                  <span>View Certificate</span>
-                  <FaExternalLinkAlt className="text-xs" />
-                </a>
-                <button
-                  onClick={() => setPopupCert(null)}
-                  className="py-2.5 px-5 rounded-xl border-2 border-slate-950 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 font-semibold text-sm transition-all"
-                >
-                  Close
-                </button>
-              </div>
+              ))}
             </div>
-          </div>,
-          document.body
-        )}
+          </div>
+
+          <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-base-100 to-transparent" />
+        </div>
+
+        {/* Certification Preview Modal Portal */}
+        {popupCert &&
+          createPortal(
+            <div
+              className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-md"
+              onClick={() => setPopupCert(null)}
+            >
+              <div
+                className="relative bg-white dark:bg-slate-900 border-2 border-slate-950 rounded-2xl shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] p-6 md:p-8 w-full max-w-md mx-auto overflow-hidden animate-fade-in-up"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {/* Header */}
+                <div className="flex items-start justify-between gap-4 mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="p-3 bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 rounded-xl border-2 border-slate-950">
+                      <FaAward className="text-2xl" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] uppercase tracking-wider font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/50 px-2 py-0.5 rounded border border-blue-200 dark:border-blue-800">
+                        {popupCert.issuer}
+                      </span>
+                      <h3 className="font-bold text-base md:text-lg text-slate-900 dark:text-slate-100 font-unbounded mt-1 leading-tight">
+                        {popupCert.title}
+                      </h3>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setPopupCert(null)}
+                    className="p-2 rounded-xl text-slate-500 hover:text-slate-950 dark:hover:text-white bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 border-2 border-slate-950 transition-all shrink-0"
+                    aria-label="Close modal"
+                  >
+                    <FaTimes className="text-base" />
+                  </button>
+                </div>
+
+                {/* Certificate Preview Card */}
+                <div className="my-5 p-5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border-2 border-slate-950 text-center">
+                  <div className="w-full py-6 rounded-lg border-2 border-dashed border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 flex flex-col items-center justify-center p-4">
+                    <div className="w-12 h-12 rounded-full bg-amber-100 dark:bg-amber-900/40 text-amber-500 flex items-center justify-center mb-2 shadow-sm border border-amber-300 dark:border-amber-700">
+                      <FaAward className="text-2xl" />
+                    </div>
+                    <p className="font-unbounded font-semibold text-xs text-slate-800 dark:text-slate-200 max-w-[90%]">
+                      {popupCert.title}
+                    </p>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
+                      Issued by{" "}
+                      <span className="font-semibold text-slate-700 dark:text-slate-300">
+                        {popupCert.issuer}
+                      </span>{" "}
+                      •{" "}
+                      <span className="font-medium text-slate-600 dark:text-slate-400">
+                        {popupCert.displayDate}
+                      </span>
+                    </p>
+                    <div className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 dark:text-blue-400">
+                      <span>Verified Credential</span>
+                      <FaExternalLinkAlt className="text-[10px]" />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex flex-col sm:flex-row gap-3 pt-1">
+                  <a
+                    href={popupCert.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-slate-950 hover:bg-slate-800 text-white font-semibold text-sm border-2 border-slate-950 shadow-[3px_3px_0px_0px_rgba(59,130,246,1)] hover:shadow-none transition-all"
+                  >
+                    <span>View Certificate</span>
+                    <FaExternalLinkAlt className="text-xs" />
+                  </a>
+                  <button
+                    onClick={() => setPopupCert(null)}
+                    className="py-2.5 px-5 rounded-xl border-2 border-slate-950 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 font-semibold text-sm transition-all"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>,
+            document.body,
+          )}
       </div>
 
       {/* ── Section 5: Get in Touch ── */}
-      <div className="bg-slate-100 dark:bg-slate-800 rounded-2xl md:rounded-3xl p-6 md:p-12 border-2 border-slate-950 text-center shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] md:shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] mb-10">
-        <h2 className="font-unbounded text-xl md:text-3xl font-bold mb-3">
-          Let's Connect!
-        </h2>
-        <p className="text-xs md:text-base opacity-70 max-w-2xl mx-auto mb-5 md:mb-6">
-          I'm currently looking for new opportunities and collaborations. Let's
-          build something amazing together!
-        </p>
-        <div className="flex flex-wrap justify-center gap-3">
-          <a
-            href="https://www.linkedin.com/in/prashanth-santhanaraman/"
-            target="_blank"
-            rel="noreferrer"
-            className="btn btn-xs md:btn-md bg-blue-600 hover:bg-blue-700 text-white border-2 border-slate-950"
-          >
-            <FaLinkedin className="text-base md:text-xl" /> Connect on LinkedIn
-          </a>
-          <a
-            href="https://github.com/prashanth-santhanaraman"
-            target="_blank"
-            rel="noreferrer"
-            className="btn btn-xs md:btn-md btn-outline border-2 border-slate-950 bg-white dark:bg-transparent hover:bg-slate-950 hover:text-white"
-          >
-            <FaGithub className="text-base md:text-xl" /> Check my GitHub
-          </a>
+      <div className="relative overflow-hidden bg-gradient-to-br from-amber-100 via-orange-50 to-pink-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 rounded-2xl md:rounded-3xl p-5 sm:p-8 md:p-14 border-3 sm:border-4 border-slate-950 shadow-[5px_5px_0px_0px_rgba(15,23,42,1)] sm:shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] hover:shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] md:hover:shadow-[12px_12px_0px_0px_rgba(15,23,42,1)] transition-all duration-300 mb-8 sm:mb-10">
+        <div className="relative z-10 text-center max-w-2xl mx-auto">
+          <span className="inline-block px-3 py-1 mb-3 text-[10px] sm:text-xs font-bold uppercase tracking-widest bg-amber-300 text-slate-950 border-2 border-slate-950 rounded-full shadow-[2px_2px_0px_0px_rgba(15,23,42,1)]">
+            Open for Collaboration
+          </span>
+          <h2 className="font-unbounded text-xl sm:text-2xl md:text-4xl font-extrabold text-slate-950 dark:text-white mb-2 sm:mb-4 tracking-tight leading-tight">
+            Let's Connect & Build!
+          </h2>
+          <p className="text-xs sm:text-base md:text-lg text-slate-700 dark:text-slate-300 font-medium mb-5 sm:mb-8 leading-normal">
+            Always excited to brainstorm new ideas, collaborate on open-source
+            projects, or chat about web development!
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-3 sm:gap-4">
+            <a
+              href="https://www.linkedin.com/in/prashanth-santhanaraman/"
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center justify-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 text-sm sm:text-base font-bold bg-blue-600 hover:bg-blue-700 text-white border-2 border-slate-950 rounded-xl shadow-[3px_3px_0px_0px_rgba(15,23,42,1)] sm:shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] active:translate-x-[0px] active:translate-y-[0px] transition-all"
+            >
+              <FaLinkedin className="text-lg sm:text-xl" /> LinkedIn
+            </a>
+            <a
+              href="https://github.com/prashanth-santhanaraman"
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center justify-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 text-sm sm:text-base font-bold bg-white dark:bg-slate-900 text-slate-950 dark:text-white border-2 border-slate-950 dark:border-white rounded-xl shadow-[3px_3px_0px_0px_rgba(15,23,42,1)] sm:shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] dark:shadow-[3px_3px_0px_0px_rgba(255,255,255,1)] sm:dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] active:translate-x-[0px] active:translate-y-[0px] transition-all"
+            >
+              <FaGithub className="text-lg sm:text-xl" /> GitHub
+            </a>
+          </div>
         </div>
       </div>
     </div>
