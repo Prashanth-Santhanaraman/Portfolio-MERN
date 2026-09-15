@@ -1,8 +1,20 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Toaster, toast } from "react-hot-toast";
+import { 
+  FaTrashAlt, 
+  FaArrowLeft, 
+  FaExclamationTriangle, 
+  FaLock, 
+  FaEye, 
+  FaEyeSlash, 
+  FaTimes,
+  FaFileAlt 
+} from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 export default function DeleteBlog() {
+  const navigate = useNavigate();
   const [blogs, setBlogs] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
@@ -50,7 +62,7 @@ export default function DeleteBlog() {
         data: { password },
       })
       .then((res) => {
-        toast.success(res.data.message);
+        toast.success(res.data.message || "Blog deleted successfully!");
         setBlogs(res.data.updatedBlogs || []);
         closeConfirm();
       })
@@ -62,108 +74,179 @@ export default function DeleteBlog() {
 
   return (
     <>
-      <div>
-        <Toaster position="top-right" />
-      </div>
+      <Toaster position="top-right" />
 
-      <div className="mx-10 md:mx-36 lg:mx-96 mt-12 mb-20">
-        <h1 className="text-center md:text-left font-unbounded text-4xl font-semibold mb-8">
-          &lt;Delete Blog /&gt;
-        </h1>
+      <div className="max-w-3xl mx-auto px-4 my-10 mb-24">
+        {/* Navigation & Header */}
+        <button
+          onClick={() => navigate("/admin")}
+          className="inline-flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors mb-4 px-1"
+        >
+          <FaArrowLeft className="text-[10px]" />
+          <span>Back to Dashboard</span>
+        </button>
 
+        <div className="flex items-center justify-between mb-8 pb-4 border-b border-slate-200 dark:border-slate-800">
+          <div>
+            <h1 className="font-unbounded text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white mt-1 flex items-center gap-2">
+              <span className="text-rose-600 dark:text-rose-400">&lt;</span>
+              Delete Blog
+              <span className="text-rose-600 dark:text-rose-400">/&gt;</span>
+            </h1>
+          </div>
+        </div>
+
+        {/* Blog Directory */}
         {isLoading ? (
-          <div className="flex justify-center items-center h-40">
-            <span className="loading loading-spinner loading-lg"></span>
+          <div className="flex flex-col items-center justify-center py-20 bg-rose-50/20 dark:bg-rose-950/10 rounded-2xl border border-rose-200/40 dark:border-rose-900/20">
+            <span className="loading loading-spinner loading-md text-rose-600"></span>
+            <p className="text-xs text-slate-400 mt-2">Loading articles...</p>
           </div>
         ) : blogs.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-40 gap-3">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 opacity-30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-            <p className="text-lg opacity-50 font-semibold">No blogs found.</p>
+          <div className="flex flex-col items-center justify-center py-16 bg-rose-50/20 dark:bg-rose-950/10 rounded-2xl border border-rose-200/40 dark:border-rose-900/20">
+            <FaFileAlt className="text-3xl text-slate-300 dark:text-slate-700 mb-2" />
+            <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">No blogs found.</p>
           </div>
         ) : (
-          <div className="flex flex-col gap-4">
+          <div className="space-y-3">
+            <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 px-1">
+              Select an article to permanently remove
+            </p>
             {blogs.map((blog) => (
               <div
                 key={blog._id}
-                className="flex flex-col sm:flex-row items-start sm:items-center gap-4 border-2 border-slate-950 rounded-xl p-4 transition-all hover:shadow-lg"
+                className="group flex items-center justify-between p-3.5 md:p-4 rounded-2xl border border-rose-200/70 dark:border-rose-900/40 bg-rose-50/30 dark:bg-rose-950/10 hover:border-rose-500/50 dark:hover:border-rose-500/50 transition-all duration-200 shadow-sm hover:shadow-md"
               >
-                <img
-                  src={blog.imglink}
-                  alt={blog.title}
-                  className="h-24 w-36 object-cover rounded-lg flex-shrink-0"
-                />
-                <div className="flex-1 min-w-0">
-                  <h2 className="font-semibold text-lg leading-snug line-clamp-1">{blog.title}</h2>
-                  <p className="text-sm opacity-60 mt-1 line-clamp-2">{blog.shortdescription}</p>
+                <div className="flex items-center gap-4 min-w-0">
+                  <img
+                    src={blog.imglink}
+                    alt={blog.title}
+                    className="w-16 h-16 md:w-20 md:h-14 rounded-xl object-cover border border-slate-200 dark:border-slate-800 shrink-0"
+                    onError={(e) => {
+                      e.target.src = "https://via.placeholder.com/150?text=No+Img";
+                    }}
+                  />
+                  <div className="min-w-0">
+                    <h2 className="font-bold text-sm md:text-base text-slate-800 dark:text-slate-200 group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors truncate">
+                      {blog.title}
+                    </h2>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-1 mt-0.5">
+                      {blog.shortdescription || "No short description provided."}
+                    </p>
+                  </div>
                 </div>
-                <button
-                  className="btn btn-error btn-sm flex-shrink-0 gap-1"
-                  onClick={() => openConfirm(blog)}
-                  disabled={deletingId === blog._id}
-                >
-                  {deletingId === blog._id ? (
-                    <span className="loading loading-spinner loading-xs"></span>
-                  ) : (
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
-                  )}
-                  Delete
-                </button>
+
+                <div className="flex items-center gap-2 pl-3">
+                  <button
+                    onClick={() => openConfirm(blog)}
+                    disabled={deletingId === blog._id}
+                    className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-rose-100 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 hover:bg-rose-600 hover:text-white transition-all text-xs font-semibold shrink-0 disabled:opacity-50"
+                  >
+                    {deletingId === blog._id ? (
+                      <span className="loading loading-spinner loading-xs"></span>
+                    ) : (
+                      <>
+                        <FaTrashAlt className="text-xs" />
+                        <span>Delete</span>
+                      </>
+                    )}
+                  </button>
+                </div>
               </div>
             ))}
           </div>
         )}
       </div>
 
-      {/* Confirm Delete Modal */}
+      {/* Confirmation Modal */}
       {confirmModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4">
-          <div className="bg-base-100 border-2 border-slate-950 rounded-2xl p-6 w-full max-w-md shadow-2xl">
-            <h2 className="text-xl font-bold mb-1">Confirm Deletion</h2>
-            <p className="text-sm opacity-60 mb-4">
-              You're about to delete <span className="font-semibold opacity-100">"{confirmModal.title}"</span>. This action cannot be undone.
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-md p-4 animate-fade-in"
+          onClick={closeConfirm}
+        >
+          <div
+            className="relative w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl border border-rose-200/80 dark:border-rose-900/40 p-6 md:p-7 shadow-2xl overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Ambient Background Glow */}
+            <div className="absolute top-0 right-0 w-36 h-36 bg-rose-500/10 rounded-full blur-2xl pointer-events-none" />
+
+            {/* Header */}
+            <div className="flex items-start justify-between gap-4 mb-4">
+              <div className="flex items-center gap-3">
+                <div className="p-3 bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 rounded-2xl border border-rose-100 dark:border-rose-900/40">
+                  <FaExclamationTriangle className="text-xl" />
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-rose-600 dark:text-rose-400">
+                    Confirm Deletion
+                  </span>
+                  <h3 className="font-bold text-base md:text-lg text-slate-900 dark:text-white leading-tight mt-0.5">
+                    Permanent Removal
+                  </h3>
+                </div>
+              </div>
+              <button
+                onClick={closeConfirm}
+                className="p-2 rounded-full text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              >
+                <FaTimes className="text-base" />
+              </button>
+            </div>
+
+            {/* Body */}
+            <p className="text-xs md:text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+              You are about to delete <span className="font-semibold text-slate-900 dark:text-slate-100">"{confirmModal.title}"</span>. This action cannot be undone.
             </p>
 
-            <fieldset className="fieldset">
-              <legend className="fieldset-legend">Admin Password</legend>
-              <input
-                type={showPassword ? "text" : "password"}
-                className="input w-full"
-                placeholder="Enter admin password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleDelete()}
-                autoFocus
-              />
-            </fieldset>
+            {/* Password input */}
+            <div className="space-y-1.5 mb-5">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+                Admin Password <span className="text-rose-500">*</span>
+              </label>
+              <div className="relative">
+                <FaLock className="absolute left-3.5 top-3 text-slate-400 text-xs" />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  className="w-full pl-9 pr-10 py-2.5 text-xs md:text-sm rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 focus:outline-none focus:border-rose-500 transition-colors"
+                  placeholder="Enter admin password to confirm"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleDelete()}
+                  autoFocus
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3.5 top-3 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                >
+                  {showPassword ? <FaEyeSlash className="text-xs" /> : <FaEye className="text-xs" />}
+                </button>
+              </div>
+            </div>
 
-            <label className="label mt-2 cursor-pointer gap-2 justify-start">
-              <input
-                type="checkbox"
-                className="checkbox checkbox-sm"
-                checked={showPassword}
-                onChange={() => setShowPassword(!showPassword)}
-              />
-              <span className="text-sm">Show Password</span>
-            </label>
-
-            <div className="flex gap-3 mt-5">
+            {/* Actions */}
+            <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100 dark:border-slate-800">
               <button
-                className="btn btn-error flex-1"
+                onClick={closeConfirm}
+                disabled={deletingId !== null}
+                className="px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
                 onClick={handleDelete}
                 disabled={deletingId !== null}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-semibold bg-rose-600 hover:bg-rose-700 text-white transition-all shadow-md shadow-rose-600/20 disabled:opacity-50"
               >
                 {deletingId !== null ? (
-                  <span className="loading loading-spinner loading-sm"></span>
+                  <span className="loading loading-spinner loading-xs"></span>
                 ) : (
-                  "Delete Blog"
+                  <>
+                    <FaTrashAlt className="text-xs" />
+                    <span>Delete Blog</span>
+                  </>
                 )}
-              </button>
-              <button className="btn btn-outline flex-1" onClick={closeConfirm}>
-                Cancel
               </button>
             </div>
           </div>
