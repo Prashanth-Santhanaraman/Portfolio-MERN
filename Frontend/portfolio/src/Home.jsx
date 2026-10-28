@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import profileImg from "./images/prashanth_1.jpg";
 import CoverImage from "./components/CoverImage";
+import getProjectImageUrl from "./utils/projectImage";
 import {
   FaLinkedin,
   FaGithub,
@@ -232,7 +233,7 @@ export default function Home() {
                 {/* Image Container with Badges */}
                 <div className="relative h-40 md:h-48 overflow-hidden border-b-2 border-slate-950 bg-slate-100 dark:bg-slate-800">
                   <CoverImage
-                    src={project.imglink}
+                    src={getProjectImageUrl(project.imglink)}
                     alt={project.title}
                     index={idx + 1}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"

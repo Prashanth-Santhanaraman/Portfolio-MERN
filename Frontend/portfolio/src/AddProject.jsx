@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { Toaster, toast } from "react-hot-toast";
 import { 
-  FaProjectDiagram, 
   FaGlobe, 
   FaImage, 
   FaLock, 
@@ -22,8 +21,21 @@ export default function AddProject() {
   const [description, setDescription] = useState("");
   const [websiteLink, setWebsiteLink] = useState("");
   const [imageLink, setImageLink] = useState("");
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (!imageFile) {
+      setImagePreview("");
+      return undefined;
+    }
+
+    const previewUrl = URL.createObjectURL(imageFile);
+    setImagePreview(previewUrl);
+    return () => URL.revokeObjectURL(previewUrl);
+  }, [imageFile]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,16 +44,20 @@ export default function AddProject() {
       return;
     }
 
+    const projectData = new FormData();
+    projectData.append("title", title);
+    projectData.append("shortdescription", shortDescription);
+    projectData.append("description", description);
+    projectData.append("websitelink", websiteLink);
+    projectData.append("imglink", imageLink);
+    projectData.append("password", password);
+    if (imageFile) {
+      projectData.append("image", imageFile);
+    }
+
     setIsSubmitting(true);
     axios
-      .post(`${import.meta.env.VITE_BACKENDLINK}/newProject`, {
-        title: title,
-        shortdescription: shortDescription,
-        description: description,
-        websitelink: websiteLink,
-        imglink: imageLink,
-        password: password,
-      })
+      .post(`${import.meta.env.VITE_BACKENDLINK}/newProject`, projectData)
       .then((res) => {
         toast.success(res.data.message || "Project created successfully!");
         // Reset form
@@ -50,6 +66,7 @@ export default function AddProject() {
         setDescription("");
         setWebsiteLink("");
         setImageLink("");
+        setImageFile(null);
         setPassword("");
       })
       .catch((err) => {
@@ -153,15 +170,41 @@ export default function AddProject() {
                 </div>
               </div>
 
-              {/* Image Link */}
+              {/* Image Upload */}
               <div>
                 <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
-                  Thumbnail Image URL
+                  Upload Thumbnail Image
+                </label>
+                <div className="relative">
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp,image/gif"
+                    className="w-full px-3.5 py-2 text-xs md:text-sm rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 file:mr-3 file:rounded-lg file:border-0 file:bg-blue-50 file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-blue-700"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0] || null;
+                      if (file && file.size > 5 * 1024 * 1024) {
+                        toast.error("Image must be 5 MB or smaller.");
+                        e.target.value = "";
+                        return;
+                      }
+                      setImageFile(file);
+                    }}
+                  />
+                </div>
+                <p className="mt-1 text-[11px] text-slate-500 dark:text-slate-400">
+                  JPEG, PNG, WebP, or GIF; up to 5 MB. Uploading a file takes priority over the URL.
+                </p>
+              </div>
+
+              {/* Image URL fallback */}
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                  Or use a Thumbnail Image URL
                 </label>
                 <div className="relative">
                   <FaImage className="absolute left-3.5 top-3 text-slate-400 text-xs" />
                   <input
-                    type="text"
+                    type="url"
                     className="w-full pl-9 pr-3.5 py-2.5 text-xs md:text-sm rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:border-blue-500 transition-colors"
                     placeholder="https://example.com/image.jpg"
                     value={imageLink}
@@ -172,16 +215,16 @@ export default function AddProject() {
             </div>
 
             {/* Live Image Preview */}
-            {imageLink && (
+            {(imagePreview || imageLink) && (
               <div className="flex items-center gap-3 p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
                 <img
-                  src={imageLink}
+                  src={imagePreview || imageLink}
                   alt="Thumbnail Preview"
                   className="w-16 h-10 object-cover rounded-lg border border-slate-200 dark:border-slate-800"
                   onError={(e) => (e.target.style.display = "none")}
                 />
                 <span className="text-xs text-slate-500 dark:text-slate-400">
-                  Image URL verified
+                  {imageFile ? imageFile.name : "Image URL preview"}
                 </span>
               </div>
             )}

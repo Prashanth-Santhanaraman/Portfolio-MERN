@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import CoverImage from "./components/CoverImage";
+import getProjectImageUrl from "./utils/projectImage";
 
 export default function ProjectPostPage() {
   const [postInfo, setPostInfo] = useState(null);
@@ -101,7 +102,7 @@ export default function ProjectPostPage() {
         {/* Hero image */}
         <div className="relative w-full overflow-hidden rounded-2xl border-2 border-slate-950 mb-10 group">
           <CoverImage
-            src={postInfo.imglink}
+            src={getProjectImageUrl(postInfo.imglink)}
             alt={postInfo.title}
             className="w-full h-64 md:h-96 object-cover transition-transform duration-700 group-hover:scale-[1.02]"
           />

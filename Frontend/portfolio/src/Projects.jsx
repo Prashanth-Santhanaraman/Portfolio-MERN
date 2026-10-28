@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import CoverImage from "./components/CoverImage";
+import getProjectImageUrl from "./utils/projectImage";
 import {
   FaArrowRight,
   FaFolderOpen,
@@ -208,7 +209,7 @@ export default function Projects() {
             <div className="overflow-hidden h-64 md:h-96 relative">
 
               <CoverImage
-                src={featured.imglink}
+                src={getProjectImageUrl(featured.imglink)}
                 alt={featured.title}
                 index={total}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
@@ -291,7 +292,7 @@ export default function Projects() {
                     <div className="relative overflow-hidden h-44 border-b-2 border-slate-950 bg-slate-100 dark:bg-slate-800">
 
                       <CoverImage
-                        src={project.imglink}
+                        src={getProjectImageUrl(project.imglink)}
                         alt={project.title}
                         index={projectNumber}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
@@ -402,4 +403,3 @@ export default function Projects() {
     </div>
   );
 }
-

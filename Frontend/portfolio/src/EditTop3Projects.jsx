@@ -15,6 +15,7 @@ import {
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import RichTextEditor from "./components/RichTextEditor";
+import getProjectImageUrl from "./utils/projectImage";
 
 export default function EditTop3Projects() {
   const navigate = useNavigate();
@@ -149,7 +150,7 @@ export default function EditTop3Projects() {
                     <div className="flex items-center gap-4 min-w-0">
                       <div className="relative shrink-0">
                         <img
-                          src={project.imglink}
+                          src={getProjectImageUrl(project.imglink)}
                           alt={project.title}
                           className="w-16 h-16 md:w-20 md:h-14 rounded-xl object-cover border border-slate-200 dark:border-slate-800"
                           onError={(e) => {

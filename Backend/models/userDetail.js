@@ -41,6 +41,14 @@ const projectSchema = mongoose.Schema({
   imglink: {
     type: String,
   },
+  imageData: {
+    type: Buffer,
+    select: false,
+  },
+  imageContentType: {
+    type: String,
+    select: false,
+  },
 });
 
 const userSchema = mongoose.Schema({

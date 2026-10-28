@@ -4,9 +4,23 @@ const userModel = require("./models/userDetail");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const sanitizeHtml = require("sanitize-html");
+const multer = require("multer");
 require("dotenv").config();
 const cors = require("cors");
 const port = process.env.PORT || 3000;
+const uploadProjectImage = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: (req, file, callback) => {
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+    if (!allowedTypes.includes(file.mimetype)) {
+      const error = new Error("Upload a JPEG, PNG, WebP, or GIF image.");
+      error.statusCode = 400;
+      return callback(error);
+    }
+    return callback(null, true);
+  },
+});
 
 const sanitizeOptions = {
   allowedTags: [ 
@@ -181,7 +195,7 @@ app.post("/newBlog", async (req, res) => {
   }
 });
 
-app.post("/newProject", async (req, res) => {
+app.post("/newProject", uploadProjectImage.single("image"), async (req, res) => {
   let {
     title,
     shortdescription,
@@ -210,18 +224,23 @@ app.post("/newProject", async (req, res) => {
     if (!passwordCheck) {
       return res.status(400).json({ message: "Password is wrong !" });
     }
+    const projectId = new mongoose.Types.ObjectId();
+    const project = {
+      _id: projectId,
+      title,
+      shortdescription,
+      description,
+      websitelink,
+      imglink: req.file ? `/project-image/${projectId}` : imglink,
+      ...(req.file && {
+        imageData: req.file.buffer,
+        imageContentType: req.file.mimetype,
+      }),
+    };
     const updatedProject = await userModel.findByIdAndUpdate(
       `${process.env.MONGODBPROFILEID}`,
       {
-        $push: {
-          projects: {
-            title,
-            shortdescription,
-            description,
-            websitelink,
-            imglink,
-          },
-        },
+        $push: { projects: project },
       },
       { new: true }
     );
@@ -573,6 +592,44 @@ app.get("/project/post/:id", async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Server Error", error });
   }
+});
+
+app.get("/project-image/:id", async (req, res) => {
+  try {
+    const user = await userModel
+      .findOne(
+        {
+          _id: process.env.MONGODBPROFILEID,
+          "projects._id": req.params.id,
+        },
+        { "projects.$": 1 }
+      )
+      .select("+projects.imageData +projects.imageContentType");
+    const project = user?.projects?.[0];
+
+    if (!project?.imageData || !project.imageContentType) {
+      return res.status(404).json({ message: "Project image not found." });
+    }
+
+    res.set("Cache-Control", "public, max-age=86400");
+    return res.type(project.imageContentType).send(project.imageData);
+  } catch (error) {
+    console.error("Error fetching project image:", error);
+    return res.status(500).json({ message: "Error fetching project image." });
+  }
+});
+
+app.use((error, req, res, next) => {
+  if (error instanceof multer.MulterError) {
+    const status = error.code === "LIMIT_FILE_SIZE" ? 413 : 400;
+    return res.status(status).json({
+      message: status === 413 ? "Image must be 5 MB or smaller." : error.message,
+    });
+  }
+  if (error && error.statusCode === 400) {
+    return res.status(400).json({ message: error.message });
+  }
+  return next(error);
 });
 
 mongoose

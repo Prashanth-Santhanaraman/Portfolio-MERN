@@ -12,6 +12,7 @@ import {
   FaFolderOpen 
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import getProjectImageUrl from "./utils/projectImage";
 
 export default function DeleteProject() {
   const navigate = useNavigate();
@@ -119,7 +120,7 @@ export default function DeleteProject() {
               >
                 <div className="flex items-center gap-4 min-w-0">
                   <img
-                    src={project.imglink}
+                    src={getProjectImageUrl(project.imglink)}
                     alt={project.title}
                     className="w-16 h-16 md:w-20 md:h-14 rounded-xl object-cover border border-slate-200 dark:border-slate-800 shrink-0"
                     onError={(e) => {
