@@ -20,6 +20,11 @@ const blogSchema = mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  status: {
+    type: String,
+    enum: ["draft", "production"],
+    default: "production",
+  },
 });
 
 const projectSchema = mongoose.Schema({

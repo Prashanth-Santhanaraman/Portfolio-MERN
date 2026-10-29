@@ -55,13 +55,18 @@ app.get("/blogs", async (req, res) => {
   try {
     const page  = Math.max(1, parseInt(req.query.page)  || 1);
     const limit = Math.max(1, parseInt(req.query.limit) || 6);
+    const { includeDrafts } = req.query;
 
     const userData = await userModel.findOne({ _id: `${process.env.MONGODBPROFILEID}` });
     if (!userData) {
       return res.status(400).json({ message: "Error" });
     }
 
-    const allBlogs   = userData.blogs || [];
+    let allBlogs = userData.blogs || [];
+    if (includeDrafts !== "true") {
+      allBlogs = allBlogs.filter((b) => b.status !== "draft");
+    }
+
     const total      = allBlogs.length;
     const totalPages = Math.ceil(total / limit) || 1;
     const safePage   = Math.min(page, totalPages);
@@ -152,7 +157,8 @@ app.get("/getAllProjects" , async (req, res) => {
 })
 
 app.post("/newBlog", async (req, res) => {
-  let { title, shortdescription, description, imglink, password } = req.body;
+  let { title, shortdescription, description, imglink, password, status } = req.body;
+  const blogStatus = status === "draft" ? "draft" : "production";
   if (description) description = sanitizeHtml(description, sanitizeOptions);
   if (!title || !shortdescription || !description || !imglink || !password) {
     return res.status(404).json({ message: "Please fill all details !" });
@@ -165,8 +171,6 @@ app.post("/newBlog", async (req, res) => {
     const userDetail = await userModel
       .findOne({ _id: `${process.env.MONGODBPROFILEID}` })
       .select("+password");
-    // console.log(userDetail._doc.password);
-    // console.log("userDetail keys:", Object.keys(userDetail));
     const passwordCheck = await bcrypt.compare(
       password,
       userDetail._doc.password
@@ -177,7 +181,7 @@ app.post("/newBlog", async (req, res) => {
 
     const updatedBlog = await userModel.findByIdAndUpdate(
       `${process.env.MONGODBPROFILEID}`,
-      { $push: { blogs: { title, shortdescription, description, imglink } } },
+      { $push: { blogs: { title, shortdescription, description, imglink, status: blogStatus } } },
       { new: true }
     );
 
@@ -387,7 +391,7 @@ app.put("/editTop3Project/:id", async (req, res) => {
 
 app.put("/editBlog/:id", async (req, res) => {
   const { id } = req.params;
-  let { title, shortdescription, description, imglink, password } = req.body;
+  let { title, shortdescription, description, imglink, password, status } = req.body;
 
   if (!password) {
     return res.status(400).json({ message: "Password is required !" });
@@ -397,6 +401,16 @@ app.put("/editBlog/:id", async (req, res) => {
   }
 
   if (description) description = sanitizeHtml(description, sanitizeOptions);
+
+  const updateFields = {
+    "blogs.$.title": title,
+    "blogs.$.shortdescription": shortdescription,
+    "blogs.$.description": description,
+    "blogs.$.imglink": imglink,
+  };
+  if (status) {
+    updateFields["blogs.$.status"] = status === "draft" ? "draft" : "production";
+  }
 
   try {
     const userDetail = await userModel
@@ -411,12 +425,7 @@ app.put("/editBlog/:id", async (req, res) => {
     const updated = await userModel.findOneAndUpdate(
       { _id: `${process.env.MONGODBPROFILEID}`, "blogs._id": id },
       {
-        $set: {
-          "blogs.$.title": title,
-          "blogs.$.shortdescription": shortdescription,
-          "blogs.$.description": description,
-          "blogs.$.imglink": imglink,
-        },
+        $set: updateFields,
       },
       { new: true }
     );
@@ -630,6 +639,72 @@ app.use((error, req, res, next) => {
     return res.status(400).json({ message: error.message });
   }
   return next(error);
+});
+
+
+// Route to verify admin password for unlocking draft view & settings
+app.post("/verifyAdminPassword", async (req, res) => {
+  const { password } = req.body;
+  if (!password) {
+    return res.status(400).json({ message: "Password is required !" });
+  }
+  try {
+    const userDetail = await userModel
+      .findOne({ _id: `${process.env.MONGODBPROFILEID}` })
+      .select("+password");
+    if (!userDetail) {
+      return res.status(404).json({ message: "Profile not found !" });
+    }
+    const passwordCheck = await bcrypt.compare(password, userDetail.password || userDetail._doc?.password);
+    if (!passwordCheck) {
+      return res.status(401).json({ success: false, message: "Password is wrong !" });
+    }
+    return res.status(200).json({ success: true, message: "Password verified successfully !" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server error" });
+  }
+});
+
+// Quick toggle status between draft & production
+app.patch("/toggleBlogStatus/:id", async (req, res) => {
+  const { id } = req.params;
+  const { password, status } = req.body;
+
+  if (!password) {
+    return res.status(400).json({ message: "Password is required !" });
+  }
+  if (!status || !["draft", "production"].includes(status)) {
+    return res.status(400).json({ message: "Status must be 'draft' or 'production' !" });
+  }
+
+  try {
+    const userDetail = await userModel
+      .findOne({ _id: `${process.env.MONGODBPROFILEID}` })
+      .select("+password");
+    const passwordCheck = await bcrypt.compare(password, userDetail.password || userDetail._doc?.password);
+    if (!passwordCheck) {
+      return res.status(401).json({ message: "Password is wrong !" });
+    }
+
+    const updated = await userModel.findOneAndUpdate(
+      { _id: `${process.env.MONGODBPROFILEID}`, "blogs._id": id },
+      { $set: { "blogs.$.status": status } },
+      { new: true }
+    );
+
+    if (!updated) {
+      return res.status(404).json({ message: "Blog not found !" });
+    }
+
+    return res.status(200).json({
+      message: `Blog status changed to ${status}!`,
+      updatedBlogs: updated.blogs,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server error" });
+  }
 });
 
 mongoose
