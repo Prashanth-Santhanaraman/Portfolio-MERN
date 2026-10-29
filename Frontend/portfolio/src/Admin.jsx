@@ -13,7 +13,7 @@ export default function Admin() {
   const navigate = useNavigate();
 
   return (
-    <div className="max-w-5xl mx-auto px-4 my-10 mb-24">
+    <div className="max-w-5xl mx-auto px-4 my-10 mb-24 font-inter">
       {/* Header Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10 pb-5 border-b border-slate-200 dark:border-slate-800">
         <div>
@@ -22,6 +22,9 @@ export default function Admin() {
             Admin Dashboard
             <span className="dark:text-blue-400">/&gt;</span>
           </h1>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+            Manage your portfolio content, projects, blogs, and publication settings.
+          </p>
         </div>
       </div>
 
@@ -46,7 +49,7 @@ export default function Admin() {
                     Add Blog Post
                   </h3>
                   <p className="text-xs text-emerald-700/70 dark:text-emerald-300/70 mt-0.5">
-                    Publish a new article to your blog
+                    Draft or publish a new article with live preview
                   </p>
                 </div>
               </div>
@@ -85,7 +88,7 @@ export default function Admin() {
           <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-1">
             Edit & Feature Content
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Edit Blog */}
             <div
               onClick={() => navigate("/admin/editblog")}
@@ -104,7 +107,30 @@ export default function Admin() {
                   Edit Blog
                 </h3>
                 <p className="text-xs text-amber-700/70 dark:text-amber-300/70 mt-1">
-                  Modify published articles
+                  Modify published articles & drafts
+                </p>
+              </div>
+            </div>
+
+            {/* Blog Visibility Settings Card */}
+            <div
+              onClick={() => navigate("/admin/blogsettings")}
+              className="group relative flex flex-col justify-between p-5 rounded-2xl border border-teal-200 dark:border-teal-800/60 bg-teal-50/70 dark:bg-teal-950/40 backdrop-blur-md cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:border-teal-500 hover:shadow-xl hover:shadow-teal-500/10"
+            >
+              <div className="flex items-start justify-between mb-3">
+                <div className="p-3 rounded-xl bg-teal-100 dark:bg-teal-900/60 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-teal-800">
+                  <FaShieldAlt className="text-lg" />
+                </div>
+                <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-md bg-teal-200/70 dark:bg-teal-900/80 text-teal-800 dark:text-teal-200 border border-teal-300 dark:border-teal-700">
+                  Visibility
+                </span>
+              </div>
+              <div>
+                <h3 className="font-bold text-sm text-teal-950 dark:text-teal-100 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
+                  Blog Visibility
+                </h3>
+                <p className="text-xs text-teal-700/70 dark:text-teal-300/70 mt-1">
+                  Toggle Draft ⇄ Production modes
                 </p>
               </div>
             </div>
@@ -127,7 +153,7 @@ export default function Admin() {
                   Edit Project
                 </h3>
                 <p className="text-xs text-orange-700/70 dark:text-orange-300/70 mt-1">
-                  Update project descriptions and links
+                  Update project descriptions & links
                 </p>
               </div>
             </div>

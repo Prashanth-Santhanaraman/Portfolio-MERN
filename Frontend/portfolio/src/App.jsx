@@ -16,6 +16,7 @@ import EditBlog from "./EditBlog";
 import DeleteProject from "./DeleteProject";
 import EditProject from "./EditProject";
 import EditTop3Projects from "./EditTop3Projects";
+import BlogVisibilitySettings from "./BlogVisibilitySettings";
 import PageNotFound from "./PageNotFound";
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
           <Route path="/admin/addproject" element={<AddProject />} />
           <Route path="/admin/deleteblog" element={<DeleteBlog />} />
           <Route path="/admin/editblog" element={<EditBlog />} />
+          <Route path="/admin/blogsettings" element={<BlogVisibilitySettings />} />
           <Route path="/admin/deleteproject" element={<DeleteProject />} />
           <Route path="/admin/editproject" element={<EditProject />} />
           <Route path="/admin/edittop3projects" element={<EditTop3Projects />} />
