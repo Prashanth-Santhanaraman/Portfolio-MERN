@@ -46,6 +46,11 @@ const projectSchema = mongoose.Schema({
   imglink: {
     type: String,
   },
+  status: {
+    type: String,
+    enum: ["draft", "production"],
+    default: "production",
+  },
   imageData: {
     type: Buffer,
     select: false,

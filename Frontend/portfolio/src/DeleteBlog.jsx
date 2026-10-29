@@ -29,7 +29,7 @@ export default function DeleteBlog() {
   const fetchBlogs = () => {
     setIsLoading(true);
     axios
-      .get(`${import.meta.env.VITE_BACKENDLINK}/blogs`)
+      .get(`${import.meta.env.VITE_BACKENDLINK}/blogs?limit=1000&includeDrafts=true`)
       .then((res) => {
         setBlogs(res.data.blogs || []);
         setIsLoading(false);

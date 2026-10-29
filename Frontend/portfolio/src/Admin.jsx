@@ -72,7 +72,7 @@ export default function Admin() {
                     Add New Project
                   </h3>
                   <p className="text-xs text-blue-700/70 dark:text-blue-300/70 mt-0.5">
-                    Showcase a new project in your portfolio
+                    Draft or publish a new project with live preview
                   </p>
                 </div>
               </div>
@@ -88,7 +88,7 @@ export default function Admin() {
           <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-1">
             Edit & Feature Content
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {/* Edit Blog */}
             <div
               onClick={() => navigate("/admin/editblog")}
@@ -108,29 +108,6 @@ export default function Admin() {
                 </h3>
                 <p className="text-xs text-amber-700/70 dark:text-amber-300/70 mt-1">
                   Modify published articles & drafts
-                </p>
-              </div>
-            </div>
-
-            {/* Blog Visibility Settings Card */}
-            <div
-              onClick={() => navigate("/admin/blogsettings")}
-              className="group relative flex flex-col justify-between p-5 rounded-2xl border border-teal-200 dark:border-teal-800/60 bg-teal-50/70 dark:bg-teal-950/40 backdrop-blur-md cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:border-teal-500 hover:shadow-xl hover:shadow-teal-500/10"
-            >
-              <div className="flex items-start justify-between mb-3">
-                <div className="p-3 rounded-xl bg-teal-100 dark:bg-teal-900/60 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-teal-800">
-                  <FaShieldAlt className="text-lg" />
-                </div>
-                <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-md bg-teal-200/70 dark:bg-teal-900/80 text-teal-800 dark:text-teal-200 border border-teal-300 dark:border-teal-700">
-                  Visibility
-                </span>
-              </div>
-              <div>
-                <h3 className="font-bold text-sm text-teal-950 dark:text-teal-100 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
-                  Blog Visibility
-                </h3>
-                <p className="text-xs text-teal-700/70 dark:text-teal-300/70 mt-1">
-                  Toggle Draft ⇄ Production modes
                 </p>
               </div>
             </div>
@@ -177,6 +154,52 @@ export default function Admin() {
                 </h3>
                 <p className="text-xs text-indigo-700/70 dark:text-indigo-300/70 mt-1">
                   Reorder your Top 3 highlighted items
+                </p>
+              </div>
+            </div>
+
+            {/* Blog Visibility Settings Card */}
+            <div
+              onClick={() => navigate("/admin/blogsettings")}
+              className="group relative flex flex-col justify-between p-5 rounded-2xl border border-teal-200 dark:border-teal-800/60 bg-teal-50/70 dark:bg-teal-950/40 backdrop-blur-md cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:border-teal-500 hover:shadow-xl hover:shadow-teal-500/10"
+            >
+              <div className="flex items-start justify-between mb-3">
+                <div className="p-3 rounded-xl bg-teal-100 dark:bg-teal-900/60 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-teal-800">
+                  <FaShieldAlt className="text-lg" />
+                </div>
+                <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-md bg-teal-200/70 dark:bg-teal-900/80 text-teal-800 dark:text-teal-200 border border-teal-300 dark:border-teal-700">
+                  Visibility
+                </span>
+              </div>
+              <div>
+                <h3 className="font-bold text-sm text-teal-950 dark:text-teal-100 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
+                  Blog Visibility
+                </h3>
+                <p className="text-xs text-teal-700/70 dark:text-teal-300/70 mt-1">
+                  Toggle Blog Draft ⇄ Production modes
+                </p>
+              </div>
+            </div>
+
+            {/* Project Visibility Settings Card */}
+            <div
+              onClick={() => navigate("/admin/projectsettings")}
+              className="group relative flex flex-col justify-between p-5 rounded-2xl border border-cyan-200 dark:border-cyan-800/60 bg-cyan-50/70 dark:bg-cyan-950/40 backdrop-blur-md cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:border-cyan-500 hover:shadow-xl hover:shadow-cyan-500/10"
+            >
+              <div className="flex items-start justify-between mb-3">
+                <div className="p-3 rounded-xl bg-cyan-100 dark:bg-cyan-900/60 text-cyan-700 dark:text-cyan-300 border border-cyan-200 dark:border-cyan-800">
+                  <FaProjectDiagram className="text-lg" />
+                </div>
+                <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-md bg-cyan-200/70 dark:bg-cyan-900/80 text-cyan-800 dark:text-cyan-200 border border-cyan-300 dark:border-cyan-700">
+                  Visibility
+                </span>
+              </div>
+              <div>
+                <h3 className="font-bold text-sm text-cyan-950 dark:text-cyan-100 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
+                  Project Visibility
+                </h3>
+                <p className="text-xs text-cyan-700/70 dark:text-cyan-300/70 mt-1">
+                  Toggle Project Draft ⇄ Production modes
                 </p>
               </div>
             </div>

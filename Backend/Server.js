@@ -90,6 +90,7 @@ app.get("/projects", async (req, res) => {
   try {
     const page = Math.max(1, parseInt(req.query.page) || 1);
     const limit = Math.max(1, parseInt(req.query.limit) || 6);
+    const { includeDrafts } = req.query;
 
     const userData = await userModel.findOne({
       _id: `${process.env.MONGODBPROFILEID}`,
@@ -99,7 +100,10 @@ app.get("/projects", async (req, res) => {
       return res.status(400).json({ message: "Error" });
     }
 
-    const allProjects = userData.projects || [];
+    let allProjects = userData.projects || [];
+    if (includeDrafts !== "true") {
+      allProjects = allProjects.filter((p) => p.status !== "draft");
+    }
 
     const total = allProjects.length;
 
@@ -228,6 +232,8 @@ app.post("/newProject", uploadProjectImage.single("image"), async (req, res) => 
     if (!passwordCheck) {
       return res.status(400).json({ message: "Password is wrong !" });
     }
+    const { status } = req.body;
+    const projectStatus = status === "draft" ? "draft" : "production";
     const projectId = new mongoose.Types.ObjectId();
     const project = {
       _id: projectId,
@@ -235,6 +241,7 @@ app.post("/newProject", uploadProjectImage.single("image"), async (req, res) => 
       shortdescription,
       description,
       websitelink,
+      status: projectStatus,
       imglink: req.file ? `/project-image/${projectId}` : imglink,
       ...(req.file && {
         imageData: req.file.buffer,
@@ -509,17 +516,23 @@ app.put("/editProject/:id", async (req, res) => {
       return res.status(401).json({ message: "Password is wrong !" });
     }
 
+    const { status } = req.body;
+    const updateFields = {
+      "projects.$.title": title,
+      "projects.$.shortdescription": shortdescription,
+      "projects.$.description": description,
+      "projects.$.websitelink": websitelink,
+      "projects.$.imglink": imglink,
+    };
+    if (status) {
+      updateFields["projects.$.status"] = status === "draft" ? "draft" : "production";
+    }
+
     // 6. Update Project Subdocument
     const updated = await userModel.findOneAndUpdate(
       { _id: profileId, "projects._id": id },
       {
-        $set: {
-          "projects.$.title": title,
-          "projects.$.shortdescription": shortdescription,
-          "projects.$.description": description,
-          "projects.$.websitelink": websitelink,
-          "projects.$.imglink": imglink,
-        },
+        $set: updateFields,
       },
       { new: true }
     );
@@ -667,6 +680,48 @@ app.post("/verifyAdminPassword", async (req, res) => {
 });
 
 // Quick toggle status between draft & production
+
+// Quick toggle project status between draft & production
+app.patch("/toggleProjectStatus/:id", async (req, res) => {
+  const { id } = req.params;
+  const { password, status } = req.body;
+
+  if (!password) {
+    return res.status(400).json({ message: "Password is required !" });
+  }
+  if (!status || !["draft", "production"].includes(status)) {
+    return res.status(400).json({ message: "Status must be 'draft' or 'production' !" });
+  }
+
+  try {
+    const userDetail = await userModel
+      .findOne({ _id: `${process.env.MONGODBPROFILEID}` })
+      .select("+password");
+    const passwordCheck = await bcrypt.compare(password, userDetail.password || userDetail._doc?.password);
+    if (!passwordCheck) {
+      return res.status(401).json({ message: "Password is wrong !" });
+    }
+
+    const updated = await userModel.findOneAndUpdate(
+      { _id: `${process.env.MONGODBPROFILEID}`, "projects._id": id },
+      { $set: { "projects.$.status": status } },
+      { new: true }
+    );
+
+    if (!updated) {
+      return res.status(404).json({ message: "Project not found !" });
+    }
+
+    return res.status(200).json({
+      message: `Project status changed to ${status}!`,
+      updatedProjects: updated.projects,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server error" });
+  }
+});
+
 app.patch("/toggleBlogStatus/:id", async (req, res) => {
   const { id } = req.params;
   const { password, status } = req.body;
