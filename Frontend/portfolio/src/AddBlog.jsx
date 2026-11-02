@@ -13,12 +13,14 @@ import {
   FaCheckCircle,
   FaCompass
 } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import RichTextEditor from "./components/RichTextEditor";
 import CoverImage from "./components/CoverImage";
 
 export default function AddBlog() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const adminBasePath = location.pathname.startsWith("/admin-v2") ? "/admin-v2" : "/admin";
   const [showPassword, setShowPassword] = useState(false);
   const [title, setTitle] = useState("");
   const [shortDescription, setShortDescription] = useState("");
@@ -77,7 +79,7 @@ export default function AddBlog() {
       <div className="max-w-4xl mx-auto px-4 my-10 mb-24 font-inter">
         {/* Navigation & Header */}
         <button
-          onClick={() => navigate("/admin")}
+          onClick={() => navigate(adminBasePath)}
           className="inline-flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors mb-4 px-1"
         >
           <FaArrowLeft className="text-[10px]" />
@@ -283,7 +285,7 @@ export default function AddBlog() {
                 <div className="flex items-center gap-3">
                   <button
                     type="button"
-                    onClick={() => navigate("/admin")}
+                    onClick={() => navigate(adminBasePath)}
                     disabled={isSubmitting}
                     className="px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-slate-800 transition-colors"
                   >

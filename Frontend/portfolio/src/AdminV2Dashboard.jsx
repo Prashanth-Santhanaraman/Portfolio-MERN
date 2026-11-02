@@ -66,7 +66,7 @@ export default function AdminV2Dashboard() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Add Blog */}
             <div
-              onClick={() => navigate("/admin/addblog")}
+              onClick={() => navigate("/admin-v2/addblog")}
               className="group relative flex items-center justify-between p-5 rounded-2xl border border-emerald-200 dark:border-emerald-800/60 bg-emerald-50/70 dark:bg-emerald-950/40 backdrop-blur-md cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald-500 hover:shadow-xl hover:shadow-emerald-500/10 overflow-hidden"
             >
               <div className="flex items-center gap-4">
@@ -89,7 +89,7 @@ export default function AdminV2Dashboard() {
 
             {/* Add Project */}
             <div
-              onClick={() => navigate("/admin/addproject")}
+              onClick={() => navigate("/admin-v2/addproject")}
               className="group relative flex items-center justify-between p-5 rounded-2xl border border-blue-200 dark:border-blue-800/60 bg-blue-50/70 dark:bg-blue-950/40 backdrop-blur-md cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-500 hover:shadow-xl hover:shadow-blue-500/10 overflow-hidden"
             >
               <div className="flex items-center gap-4">
@@ -120,7 +120,7 @@ export default function AdminV2Dashboard() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {/* Edit Blog */}
             <div
-              onClick={() => navigate("/admin/editblog")}
+              onClick={() => navigate("/admin-v2/editblog")}
               className="group relative flex flex-col justify-between p-5 rounded-2xl border border-amber-200 dark:border-amber-800/60 bg-amber-50/70 dark:bg-amber-950/40 backdrop-blur-md cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:border-amber-500 hover:shadow-xl hover:shadow-amber-500/10"
             >
               <div className="flex items-start justify-between mb-3">
@@ -143,7 +143,7 @@ export default function AdminV2Dashboard() {
 
             {/* Edit Project */}
             <div
-              onClick={() => navigate("/admin/editproject")}
+              onClick={() => navigate("/admin-v2/editproject")}
               className="group relative flex flex-col justify-between p-5 rounded-2xl border border-orange-200 dark:border-orange-800/60 bg-orange-50/70 dark:bg-orange-950/40 backdrop-blur-md cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:border-orange-500 hover:shadow-xl hover:shadow-orange-500/10"
             >
               <div className="flex items-start justify-between mb-3">
@@ -166,7 +166,7 @@ export default function AdminV2Dashboard() {
 
             {/* Edit Top 3 */}
             <div
-              onClick={() => navigate("/admin/edittop3projects")}
+              onClick={() => navigate("/admin-v2/edittop3projects")}
               className="group relative flex flex-col justify-between p-5 rounded-2xl border border-indigo-200 dark:border-indigo-800/60 bg-indigo-50/70 dark:bg-indigo-950/40 backdrop-blur-md cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:border-indigo-500 hover:shadow-xl hover:shadow-indigo-500/10"
             >
               <div className="flex items-start justify-between mb-3">
@@ -189,7 +189,7 @@ export default function AdminV2Dashboard() {
 
             {/* Blog Visibility Settings Card */}
             <div
-              onClick={() => navigate("/admin/blogsettings")}
+              onClick={() => navigate("/admin-v2/blogsettings")}
               className="group relative flex flex-col justify-between p-5 rounded-2xl border border-teal-200 dark:border-teal-800/60 bg-teal-50/70 dark:bg-teal-950/40 backdrop-blur-md cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:border-teal-500 hover:shadow-xl hover:shadow-teal-500/10"
             >
               <div className="flex items-start justify-between mb-3">
@@ -212,7 +212,7 @@ export default function AdminV2Dashboard() {
 
             {/* Project Visibility Settings Card */}
             <div
-              onClick={() => navigate("/admin/projectsettings")}
+              onClick={() => navigate("/admin-v2/projectsettings")}
               className="group relative flex flex-col justify-between p-5 rounded-2xl border border-cyan-200 dark:border-cyan-800/60 bg-cyan-50/70 dark:bg-cyan-950/40 backdrop-blur-md cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:border-cyan-500 hover:shadow-xl hover:shadow-cyan-500/10"
             >
               <div className="flex items-start justify-between mb-3">
@@ -243,7 +243,7 @@ export default function AdminV2Dashboard() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Delete Blog */}
             <div
-              onClick={() => navigate("/admin/deleteblog")}
+              onClick={() => navigate("/admin-v2/deleteblog")}
               className="group relative flex items-center justify-between p-4 md:p-5 rounded-2xl border border-rose-300 dark:border-rose-900 bg-rose-100/70 dark:bg-rose-950/40 cursor-pointer transition-all duration-200 hover:bg-rose-600 hover:border-rose-600 hover:text-white"
             >
               <div className="flex items-center gap-3.5">
@@ -263,7 +263,7 @@ export default function AdminV2Dashboard() {
 
             {/* Delete Project */}
             <div
-              onClick={() => navigate("/admin/deleteproject")}
+              onClick={() => navigate("/admin-v2/deleteproject")}
               className="group relative flex items-center justify-between p-4 md:p-5 rounded-2xl border border-red-300 dark:border-red-900 bg-red-100/70 dark:bg-red-950/40 cursor-pointer transition-all duration-200 hover:bg-red-600 hover:border-red-600 hover:text-white"
             >
               <div className="flex items-center gap-3.5">

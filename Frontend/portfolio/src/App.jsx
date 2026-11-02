@@ -62,6 +62,78 @@ function App() {
               </AdminProtectedRoute>
             }
           />
+          <Route
+            path="/admin-v2/addblog"
+            element={
+              <AdminProtectedRoute>
+                <AddBlog />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin-v2/addproject"
+            element={
+              <AdminProtectedRoute>
+                <AddProject />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin-v2/editblog"
+            element={
+              <AdminProtectedRoute>
+                <EditBlog />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin-v2/editproject"
+            element={
+              <AdminProtectedRoute>
+                <EditProject />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin-v2/edittop3projects"
+            element={
+              <AdminProtectedRoute>
+                <EditTop3Projects />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin-v2/blogsettings"
+            element={
+              <AdminProtectedRoute>
+                <BlogVisibilitySettings />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin-v2/projectsettings"
+            element={
+              <AdminProtectedRoute>
+                <ProjectVisibilitySettings />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin-v2/deleteblog"
+            element={
+              <AdminProtectedRoute>
+                <DeleteBlog />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin-v2/deleteproject"
+            element={
+              <AdminProtectedRoute>
+                <DeleteProject />
+              </AdminProtectedRoute>
+            }
+          />
 
           <Route path="*" element={<PageNotFound />} />
         </Routes>

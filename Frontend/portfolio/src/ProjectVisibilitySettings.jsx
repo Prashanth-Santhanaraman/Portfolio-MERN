@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { Toaster, toast } from "react-hot-toast";
 import { 
@@ -15,6 +15,8 @@ import getProjectImageUrl from "./utils/projectImage";
 
 export default function ProjectVisibilitySettings() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const adminBasePath = location.pathname.startsWith("/admin-v2") ? "/admin-v2" : "/admin";
 
   const [projects, setProjects] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -85,7 +87,7 @@ export default function ProjectVisibilitySettings() {
       <div className="max-w-4xl mx-auto px-4 my-10 mb-24 font-inter">
         {/* Navigation & Header */}
         <button
-          onClick={() => navigate("/admin")}
+          onClick={() => navigate(adminBasePath)}
           className="inline-flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors mb-4 px-1"
         >
           <FaArrowLeft className="text-[10px]" />
