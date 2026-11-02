@@ -41,7 +41,7 @@ function App() {
           <Route path="/blogs/post/:id" element={<PostPage />} />
           
           {/* Legacy /admin routes (100% active and untouched) */}
-          <Route path="/admin" element={<Admin />} />
+          {/* <Route path="/admin" element={<Admin />} />
           <Route path="/admin/addblog" element={<AddBlog />} />
           <Route path="/admin/addproject" element={<AddProject />} />
           <Route path="/admin/deleteblog" element={<DeleteBlog />} />
@@ -50,7 +50,7 @@ function App() {
           <Route path="/admin/projectsettings" element={<ProjectVisibilitySettings />} />
           <Route path="/admin/deleteproject" element={<DeleteProject />} />
           <Route path="/admin/editproject" element={<EditProject />} />
-          <Route path="/admin/edittop3projects" element={<EditTop3Projects />} />
+          <Route path="/admin/edittop3projects" element={<EditTop3Projects />} /> */}
 
           {/* New Admin V2 System (Protected behind Username + Password Login) */}
           <Route path="/admin-v2/login" element={<AdminLogin />} />
