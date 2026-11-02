@@ -3,6 +3,7 @@ const app = express();
 const userModel = require("./models/userDetail");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const sanitizeHtml = require("sanitize-html");
 const multer = require("multer");
 require("dotenv").config();
@@ -760,6 +761,89 @@ app.patch("/toggleBlogStatus/:id", async (req, res) => {
     console.error(error);
     return res.status(500).json({ message: "Server error" });
   }
+});
+
+
+// ── ADMIN V2 AUTH & PROTECTED ENDPOINTS ──────────────────────────────────────
+const ADMIN_JWT_SECRET = process.env.ADMIN_JWT_SECRET || "prashanth_portfolio_admin_super_secret_jwt_key_2026";
+
+// Auth Middleware: protects all new Admin endpoints
+const verifyAdminToken = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ success: false, message: "Unauthorized: No token provided" });
+  }
+
+  const token = authHeader.split(" ")[1];
+  try {
+    const decoded = jwt.verify(token, ADMIN_JWT_SECRET);
+    req.adminUser = decoded;
+    next();
+  } catch (err) {
+    return res.status(401).json({ success: false, message: "Unauthorized: Token invalid or expired" });
+  }
+};
+
+// Admin Login Route: checks username and password using bcrypt
+app.post("/api/admin/login", async (req, res) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res.status(400).json({ success: false, message: "Please provide both username and password." });
+  }
+
+  try {
+    const userDetail = await userModel
+      .findOne({ _id: `${process.env.MONGODBPROFILEID}` })
+      .select("+password");
+
+    if (!userDetail) {
+      return res.status(404).json({ success: false, message: "Admin profile not found." });
+    }
+
+    // Expected username: database userDetail.username OR env ADMIN_USERNAME (fallback 'admin')
+    const configuredUsername = (userDetail.username || process.env.ADMIN_USERNAME || "admin").trim().toLowerCase();
+    const inputUsername = username.trim().toLowerCase();
+
+    if (inputUsername !== configuredUsername) {
+      return res.status(401).json({ success: false, message: "Invalid username or password." });
+    }
+
+    // Validate password using bcrypt
+    const passwordCheck = await bcrypt.compare(
+      password,
+      userDetail.password || userDetail._doc?.password
+    );
+
+    if (!passwordCheck) {
+      return res.status(401).json({ success: false, message: "Invalid username or password." });
+    }
+
+    // Generate signed JWT valid for 24h
+    const token = jwt.sign(
+      { id: userDetail._id, username: configuredUsername, role: "admin" },
+      ADMIN_JWT_SECRET,
+      { expiresIn: "24h" }
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Login successful!",
+      token,
+      username: configuredUsername
+    });
+  } catch (error) {
+    console.error("Admin Login Error:", error);
+    return res.status(500).json({ success: false, message: "Server error during login." });
+  }
+});
+
+// Admin Verify Token: checks if current saved token is still valid
+app.get("/api/admin/verify", verifyAdminToken, (req, res) => {
+  return res.status(200).json({
+    success: true,
+    user: req.adminUser
+  });
 });
 
 mongoose

@@ -20,11 +20,17 @@ import BlogVisibilitySettings from "./BlogVisibilitySettings";
 import ProjectVisibilitySettings from "./ProjectVisibilitySettings";
 import PageNotFound from "./PageNotFound";
 
+// Admin V2 (Auth Protected)
+import { AdminAuthProvider } from "./context/AdminAuthContext";
+import AdminProtectedRoute from "./components/AdminProtectedRoute";
+import AdminLogin from "./AdminLogin";
+import AdminV2Dashboard from "./AdminV2Dashboard";
+
 function App() {
   const [count, setCount] = useState(0);
 
   return (
-    <>
+    <AdminAuthProvider>
       <Router>
         <Navbar />
         <Routes>
@@ -33,6 +39,8 @@ function App() {
           <Route path="/projects/post/:id" element={<ProjectPostPage />} />
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/blogs/post/:id" element={<PostPage />} />
+          
+          {/* Legacy /admin routes (100% active and untouched) */}
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin/addblog" element={<AddBlog />} />
           <Route path="/admin/addproject" element={<AddProject />} />
@@ -43,11 +51,23 @@ function App() {
           <Route path="/admin/deleteproject" element={<DeleteProject />} />
           <Route path="/admin/editproject" element={<EditProject />} />
           <Route path="/admin/edittop3projects" element={<EditTop3Projects />} />
+
+          {/* New Admin V2 System (Protected behind Username + Password Login) */}
+          <Route path="/admin-v2/login" element={<AdminLogin />} />
+          <Route
+            path="/admin-v2"
+            element={
+              <AdminProtectedRoute>
+                <AdminV2Dashboard />
+              </AdminProtectedRoute>
+            }
+          />
+
           <Route path="*" element={<PageNotFound />} />
         </Routes>
         <Footer />
       </Router>
-    </>
+    </AdminAuthProvider>
   );
 }
 

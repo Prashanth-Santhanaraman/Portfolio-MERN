@@ -62,6 +62,10 @@ const projectSchema = mongoose.Schema({
 });
 
 const userSchema = mongoose.Schema({
+  username: {
+    type: String,
+    trim: true,
+  },
   blogs: [blogSchema],
   projects: [projectSchema],
   top3projects: [projectSchema],
