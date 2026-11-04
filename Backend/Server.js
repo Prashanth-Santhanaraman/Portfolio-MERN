@@ -608,7 +608,13 @@ app.get("/blog/post/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
-    const user = await userModel.findOne({ "blogs._id": id }, { "blogs.$": 1 });
+    const user = await userModel.findOne(
+      {
+        _id: process.env.MONGODBPROFILEID,
+        blogs: { $elemMatch: { _id: id, status: { $ne: "draft" } } },
+      },
+      { "blogs.$": 1 }
+    );
     if (user) {
       res.status(200).json(user.blogs[0]);
     } else {
@@ -621,9 +627,15 @@ app.get("/blog/post/:id", async (req, res) => {
 
 app.get("/project/post/:id", async (req, res) => {
   const { id } = req.params;
-  console.log(id)
+
   try {
-    const user = await userModel.findOne({ "projects._id": id }, { "projects.$": 1 });
+    const user = await userModel.findOne(
+      {
+        _id: process.env.MONGODBPROFILEID,
+        projects: { $elemMatch: { _id: id, status: { $ne: "draft" } } },
+      },
+      { "projects.$": 1 }
+    );
     if (user) {
       res.status(200).json(user.projects[0]);
     } else {
