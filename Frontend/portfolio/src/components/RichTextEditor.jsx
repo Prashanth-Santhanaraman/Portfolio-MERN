@@ -9,6 +9,10 @@ export default function RichTextEditor({ value, onChange, placeholder }) {
     placeholder: placeholder || 'Write something...',
     height: 400,
     statusbar: false,
+    uploader: {
+      insertImageAsBase64URI: true,
+      imagesExtensions: ['jpg', 'jpeg', 'png', 'gif', 'webp'],
+    },
     buttons: [
       'source', '|',
       'bold', 'italic', 'underline', 'strikethrough', '|',

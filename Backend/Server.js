@@ -29,6 +29,9 @@ const sanitizeOptions = {
     'blockquote', 'pre', 'code', 'a', 'br',
     'table', 'thead', 'tbody', 'tfoot', 'tr', 'th', 'td', 'img', 's', 'del', 'sup', 'sub', 'hr'
   ],
+  allowedSchemesByTag: {
+    img: ['http', 'https', 'ftp', 'data'],
+  },
   allowedAttributes: {
     'a': [ 'href', 'target', 'rel' ],
     'img': [ 'src', 'alt', 'width', 'height' ],
@@ -36,7 +39,21 @@ const sanitizeOptions = {
     'td': [ 'colspan', 'rowspan', 'style' ],
     'th': [ 'colspan', 'rowspan', 'style' ],
     '*': [ 'style', 'class' ]
-  }
+  },
+  transformTags: {
+    img: (tagName, attributes) => {
+      const { src, ...safeAttributes } = attributes;
+      const isAllowedInlineImage = typeof src === 'string'
+        && /^data:image\/(?:png|jpe?g|gif|webp);base64,[a-z0-9+/]+=*$/i.test(src);
+
+      return {
+        tagName,
+        attribs: src?.startsWith('data:') && !isAllowedInlineImage
+          ? safeAttributes
+          : attributes,
+      };
+    },
+  },
 };
 
 app.use(express.json({ limit: '5mb' }));
