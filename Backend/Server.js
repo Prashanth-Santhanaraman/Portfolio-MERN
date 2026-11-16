@@ -58,8 +58,40 @@ const sanitizeOptions = {
 
 app.use(express.json({ limit: '5mb' }));
 app.use(express.urlencoded({ limit: '5mb', extended: true }));
+
+const allowedOrigins = [
+  process.env.CLIENT_URL, // e.g. production domain when deployed
+  ...(process.env.NODE_ENV !== "production"
+    ? [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://localhost:4000",
+        "http://127.0.0.1:4000"
+      ]
+    : [])
+].filter(Boolean);
+
 app.use(cors({
-  origin: "*",
+  origin: (origin, callback) => {
+    // Block or allow based on allowed origins list
+    // If request is from tools like curl/Postman or same-origin without an origin header
+    if (!origin) {
+      // In production, block direct requests without origin if you want strictness,
+      // or allow them for local development / testing:
+      if (process.env.NODE_ENV === "production") {
+        return callback(new Error("CORS policy: No origin provided is not allowed in production."));
+      }
+      return callback(null, true);
+    }
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error(`CORS blocked for origin: ${origin}`));
+  },
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
