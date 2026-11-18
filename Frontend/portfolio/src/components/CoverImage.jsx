@@ -111,14 +111,14 @@ export default function CoverImage({ src, alt, className, index }) {
         <div className="z-10 w-full flex items-center justify-between">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-950/40 backdrop-blur-md border border-white/15 text-white shadow-sm">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse inline-block" />
-            <span className="font-unbounded text-[10px] md:text-xs font-semibold tracking-widest uppercase">
+            {/* <span className="font-unbounded text-[10px] md:text-xs font-semibold tracking-widest uppercase">
               {displayIndex !== null ? `Project #${displayIndex}` : "Project"}
-            </span>
+            </span> */}
           </div>
-          <div className="hidden sm:flex items-center gap-1.5 opacity-60 text-white font-mono text-[10px]">
+          {/* <div className="hidden sm:flex items-center gap-1.5 opacity-60 text-white font-mono text-[10px]">
             <span>&lt;/&gt;</span>
             <span className="tracking-wider">CODE &amp; DESIGN</span>
-          </div>
+          </div> */}
         </div>
 
         {/* Center: big number or bracket */}
