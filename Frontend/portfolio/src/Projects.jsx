@@ -152,7 +152,8 @@ export default function Projects() {
           <h3 className="font-unbounded font-bold text-lg text-slate-900 dark:text-slate-100 mb-1">
             No Projects Yet
           </h3>
-
+after opening particular project post. if i open 9th project. in project page. it shows 01.
+so change that. if cover image is not there. make it some interesting.
           <p className="text-xs text-slate-500 max-w-sm">
             Check back soon for new projects and technical work!
           </p>
@@ -207,13 +208,13 @@ export default function Projects() {
           <div className="relative overflow-hidden rounded-2xl border-2 border-slate-950 bg-white dark:bg-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] hover:shadow-[10px_10px_0px_0px_rgba(37,99,235,1)] hover:-translate-y-1 transition-all duration-300">
 
             {/* Image */}
-            <div className="overflow-hidden h-64 md:h-96 relative">
+            <div className="overflow-hidden relative">
 
               <CoverImage
                 src={getProjectImageUrl(featured.imglink)}
                 alt={featured.title}
                 index={total}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                className="w-full h-64 md:h-96 object-cover transition-transform duration-700 group-hover:scale-105"
               />
 
               {/* Gradient Overlay */}
@@ -291,13 +292,13 @@ export default function Projects() {
                   <div className="border-2 border-slate-950 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] hover:shadow-[7px_7px_0px_0px_rgba(37,99,235,1)] hover:-translate-y-1.5 transition-all duration-300 h-full flex flex-col justify-between">
 
                     {/* Image */}
-                    <div className="relative overflow-hidden h-44 border-b-2 border-slate-950 bg-slate-100 dark:bg-slate-800">
+                    <div className="relative overflow-hidden border-b-2 border-slate-950 bg-slate-100 dark:bg-slate-800">
 
                       <CoverImage
                         src={getProjectImageUrl(project.imglink)}
                         alt={project.title}
                         index={projectNumber ?? project.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        className="w-full h-44 object-cover transition-transform duration-500 group-hover:scale-110"
                       />
 
                       {/* Number */}
