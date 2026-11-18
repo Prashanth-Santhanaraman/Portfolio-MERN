@@ -296,7 +296,7 @@ export default function Projects() {
                       <CoverImage
                         src={getProjectImageUrl(project.imglink)}
                         alt={project.title}
-                        index={projectNumber}
+                        index={projectNumber ?? project.title}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                       />
 
