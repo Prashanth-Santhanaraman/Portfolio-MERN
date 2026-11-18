@@ -201,6 +201,7 @@ export default function Projects() {
       {featured && currentPage === 1 && (
         <Link
           to={`/projects/post/${featured._id}`}
+          state={{ projectNumber: total }}
           className="group block mb-12"
         >
           <div className="relative overflow-hidden rounded-2xl border-2 border-slate-950 bg-white dark:bg-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] hover:shadow-[10px_10px_0px_0px_rgba(37,99,235,1)] hover:-translate-y-1 transition-all duration-300">
@@ -283,6 +284,7 @@ export default function Projects() {
                 <Link
                   key={project._id}
                   to={`/projects/post/${project._id}`}
+                  state={{ projectNumber }}
                   className="group block"
                 >
 

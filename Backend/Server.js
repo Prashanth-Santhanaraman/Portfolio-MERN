@@ -662,17 +662,28 @@ app.get("/project/post/:id", async (req, res) => {
 
   try {
     const user = await userModel.findOne(
-      {
-        _id: process.env.MONGODBPROFILEID,
-        projects: { $elemMatch: { _id: id, status: { $ne: "draft" } } },
-      },
-      { "projects.$": 1 }
+      { _id: process.env.MONGODBPROFILEID },
+      { projects: 1 }
     );
-    if (user) {
-      res.status(200).json(user.projects[0]);
-    } else {
-      res.status(404).json({ message: "Project not found" });
+    if (!user || !user.projects) {
+      return res.status(404).json({ message: "Project not found" });
     }
+
+    const publicProjects = user.projects.filter((p) => p.status !== "draft");
+    const projectIndex = publicProjects.findIndex((p) => p._id.toString() === id);
+
+    if (projectIndex === -1) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    const projectData = publicProjects[projectIndex].toObject
+      ? publicProjects[projectIndex].toObject()
+      : { ...publicProjects[projectIndex] };
+
+    // projectNumber matching the 1-based index on Projects page
+    projectData.projectNumber = projectIndex + 1;
+
+    res.status(200).json(projectData);
   } catch (error) {
     res.status(500).json({ message: "Server Error", error });
   }

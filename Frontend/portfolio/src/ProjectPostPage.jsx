@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import CoverImage from "./components/CoverImage";
 import getProjectImageUrl from "./utils/projectImage";
@@ -9,6 +9,12 @@ export default function ProjectPostPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [readProgress, setReadProgress] = useState(0);
   const { id } = useParams();
+  const location = useLocation();
+
+  // If navigated from Projects grid, location.state?.projectNumber might be passed immediately
+  const passedIndex = location.state?.projectNumber;
+  // Use passed index (from grid nav), or backend's projectNumber once loaded, or null while loading
+  const projectIndex = passedIndex ?? postInfo?.projectNumber ?? null;
 
   useEffect(() => {
     axios
@@ -87,7 +93,9 @@ export default function ProjectPostPage() {
         <div className="mb-4">
           <span className="inline-flex items-center gap-1.5 border-2 border-slate-950 rounded-full px-3 py-1 text-xs font-unbounded tracking-wider uppercase">
             <span className="w-1.5 h-1.5 rounded-full bg-black inline-block"></span>
-            Project
+            {projectIndex !== null
+              ? `Project #${String(projectIndex).padStart(2, "0")}`
+              : "Project"}
           </span>
         </div>
 
@@ -104,6 +112,7 @@ export default function ProjectPostPage() {
           <CoverImage
             src={getProjectImageUrl(postInfo.imglink)}
             alt={postInfo.title}
+            index={projectIndex ?? postInfo.title}
             className="w-full h-64 md:h-96 object-cover transition-transform duration-700 group-hover:scale-[1.02]"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl" />
