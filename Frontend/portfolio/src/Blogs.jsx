@@ -12,31 +12,56 @@ import {
 
 export default function Blogs() {
   const [blogs, setBlogs] = useState([]);
+  const [featured, setFeatured] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [total, setTotal] = useState(0);
 
-  const LIMIT = 7; // 1 featured + up to 6 grid
+  // 6 blogs per page
+  const LIMIT = 6;
 
   useEffect(() => {
-    setIsLoading(true);
-    axios
-      .get(
-        `${import.meta.env.VITE_BACKENDLINK}/blogs?page=${currentPage}&limit=${LIMIT}`
-      )
-      .then((res) => {
-        setBlogs(res.data.blogs || []);
-        setCurrentPage(res.data.currentPage || 1);
-        setTotalPages(res.data.totalPages || 1);
-        setTotal(res.data.total || 0);
+    const fetchBlogs = async () => {
+      try {
+        setIsLoading(true);
+
+        const blogsRes = await axios.get(
+          `${import.meta.env.VITE_BACKENDLINK}/blogs?page=${currentPage}&limit=${LIMIT}`
+        );
+
+        const data = blogsRes.data;
+
+        setBlogs(data.blogs || []);
+        setCurrentPage(data.currentPage || 1);
+        setTotalPages(data.totalPages || 1);
+        setTotal(data.total || 0);
+
+        // Fetch the LAST blog for Featured (matching Projects.jsx)
+        if (currentPage === 1 && data.total > 0) {
+          const lastPage = Math.ceil(data.total / LIMIT);
+
+          const lastBlogRes = await axios.get(
+            `${import.meta.env.VITE_BACKENDLINK}/blogs?page=${lastPage}&limit=${LIMIT}`
+          );
+
+          const lastBlogs = lastBlogRes.data.blogs || [];
+
+          if (lastBlogs.length > 0) {
+            const lastBlog = lastBlogs[lastBlogs.length - 1];
+            setFeatured(lastBlog);
+          }
+        }
+
         setIsLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
+      } catch (err) {
+        console.error("Error fetching blogs:", err);
         setIsLoading(false);
-      });
+      }
+    };
+
+    fetchBlogs();
   }, [currentPage]);
 
   useEffect(() => {
@@ -120,18 +145,11 @@ export default function Blogs() {
     );
   }
 
-  // ---------- Featured + Grid ----------
-  const featured =
-    currentPage === 1 && blogs.length > 0
-      ? blogs[blogs.length - 1]
-      : null;
-
+  // All blogs returned for this page are displayed (matching Projects.jsx)
   const gridBlogs = searchQuery ? filteredBlogs : blogs;
 
-  const gridOffset =
-    currentPage === 1
-      ? 1
-      : LIMIT + (currentPage - 2) * LIMIT + 1;
+  // Global blog number
+  const gridOffset = (currentPage - 1) * LIMIT;
 
   return (
     <div className="max-w-5xl mx-auto px-4 md:px-6 mt-8 md:mt-12 mb-24 animate-fade-in-up font-inter">
@@ -165,6 +183,7 @@ export default function Blogs() {
       {!searchQuery && featured && currentPage === 1 && (
         <Link
           to={`/blogs/post/${featured._id}`}
+          state={{ blogNumber: total }}
           className="group block mb-12"
         >
           <div className="relative overflow-hidden rounded-2xl border-2 border-slate-950 bg-white dark:bg-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] hover:shadow-[10px_10px_0px_0px_rgba(37,99,235,1)] hover:-translate-y-1 transition-all duration-300">
@@ -173,7 +192,7 @@ export default function Blogs() {
               <CoverImage
                 src={featured.imglink}
                 alt={featured.title}
-                index={blogs.length}
+                index={total}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
 
@@ -226,52 +245,57 @@ export default function Blogs() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-            {gridBlogs.map((blog, idx) => (
-              <Link
-                key={blog._id}
-                to={`/blogs/post/${blog._id}`}
-                className="group block"
-              >
-                <div className="border-2 border-slate-950 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] hover:shadow-[7px_7px_0px_0px_rgba(37,99,235,1)] hover:-translate-y-1.5 transition-all duration-300 h-full flex flex-col justify-between">
+            {gridBlogs.map((blog, idx) => {
+              const blogNumber = gridOffset + idx + 1;
 
-                  {/* Image */}
-                  <div className="relative overflow-hidden h-44 border-b-2 border-slate-950 bg-slate-100 dark:bg-slate-800">
+              return (
+                <Link
+                  key={blog._id}
+                  to={`/blogs/post/${blog._id}`}
+                  state={{ blogNumber }}
+                  className="group block"
+                >
+                  <div className="border-2 border-slate-950 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] hover:shadow-[7px_7px_0px_0px_rgba(37,99,235,1)] hover:-translate-y-1.5 transition-all duration-300 h-full flex flex-col justify-between">
 
-                    <CoverImage
-                      src={blog.imglink}
-                      alt={blog.title}
-                      index={idx + 1}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
+                    {/* Image */}
+                    <div className="relative overflow-hidden h-44 border-b-2 border-slate-950 bg-slate-100 dark:bg-slate-800">
 
-                    <span className="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-lg bg-slate-950/90 text-white font-unbounded text-[10px] font-bold border border-white/20 backdrop-blur-xs">
-                      #{gridOffset + idx}
-                    </span>
+                      <CoverImage
+                        src={blog.imglink}
+                        alt={blog.title}
+                        index={blogNumber ?? blog.title}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
 
-                  </div>
+                      <span className="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-lg bg-slate-950/90 text-white font-unbounded text-[10px] font-bold border border-white/20 backdrop-blur-xs">
+                        #{blogNumber}
+                      </span>
 
-                  {/* Content */}
-                  <div className="p-4 md:p-5 flex flex-col flex-1 justify-between">
-
-                    <div>
-                      <h3 className="font-unbounded font-bold text-sm md:text-base text-slate-900 dark:text-slate-100 mb-2 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug">
-                        {blog.title}
-                      </h3>
-
-                      <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed line-clamp-3 mb-4">
-                        {blog.shortdescription}
-                      </p>
                     </div>
 
-                    <div className="pt-2 flex items-center justify-between border-t border-slate-100 dark:border-slate-800 text-xs font-bold text-slate-900 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                      <span>Read Article</span>
-                      <FaArrowRight className="text-xs transition-transform group-hover:translate-x-1" />
-                    </div>
+                    {/* Content */}
+                    <div className="p-4 md:p-5 flex flex-col flex-1 justify-between">
 
+                      <div>
+                        <h3 className="font-unbounded font-bold text-sm md:text-base text-slate-900 dark:text-slate-100 mb-2 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug">
+                          {blog.title}
+                        </h3>
+
+                        <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed line-clamp-3 mb-4">
+                          {blog.shortdescription}
+                        </p>
+                      </div>
+
+                      <div className="pt-2 flex items-center justify-between border-t border-slate-100 dark:border-slate-800 text-xs font-bold text-slate-900 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                        <span>Read Article</span>
+                        <FaArrowRight className="text-xs transition-transform group-hover:translate-x-1" />
+                      </div>
+
+                    </div>
                   </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              );
+            })}
 
           </div>
         )}

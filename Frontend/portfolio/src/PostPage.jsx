@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import CoverImage from "./components/CoverImage";
 
@@ -8,6 +8,12 @@ export default function PostPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [readProgress, setReadProgress] = useState(0);
   const { id } = useParams();
+  const location = useLocation();
+
+  // If navigated from Blogs grid, location.state?.blogNumber might be passed immediately
+  const passedIndex = location.state?.blogNumber;
+  // Use passed index (from grid nav), or backend's blogNumber once loaded, or null while loading
+  const blogIndex = passedIndex ?? postInfo?.blogNumber ?? null;
 
   useEffect(() => {
     axios
@@ -80,6 +86,16 @@ export default function PostPage() {
           </button>
         </Link>
 
+        {/* Badge */}
+        <div className="mb-4">
+          <span className="inline-flex items-center gap-1.5 border-2 border-slate-950 rounded-full px-3 py-1 text-xs font-unbounded tracking-wider uppercase">
+            <span className="w-1.5 h-1.5 rounded-full bg-black inline-block"></span>
+            {blogIndex !== null
+              ? `Blog #${String(blogIndex).padStart(2, "0")}`
+              : "Blog"}
+          </span>
+        </div>
+
         {/* Title */}
         <h1 className="font-unbounded text-3xl md:text-4xl font-bold leading-tight tracking-tight mb-6">
           {postInfo.title}
@@ -93,6 +109,7 @@ export default function PostPage() {
           <CoverImage
             src={postInfo.imglink}
             alt={postInfo.title}
+            index={blogIndex ?? postInfo.title}
             className="w-full h-64 md:h-96 object-cover transition-transform duration-700 group-hover:scale-[1.02]"
           />
           {/* subtle gradient overlay at bottom */}

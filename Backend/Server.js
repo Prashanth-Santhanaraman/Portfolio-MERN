@@ -641,17 +641,28 @@ app.get("/blog/post/:id", async (req, res) => {
 
   try {
     const user = await userModel.findOne(
-      {
-        _id: process.env.MONGODBPROFILEID,
-        blogs: { $elemMatch: { _id: id, status: { $ne: "draft" } } },
-      },
-      { "blogs.$": 1 }
+      { _id: process.env.MONGODBPROFILEID },
+      { blogs: 1 }
     );
-    if (user) {
-      res.status(200).json(user.blogs[0]);
-    } else {
-      res.status(404).json({ message: "Blog not found" });
+    if (!user || !user.blogs) {
+      return res.status(404).json({ message: "Blog not found" });
     }
+
+    const publicBlogs = user.blogs.filter((b) => b.status !== "draft");
+    const blogIndex = publicBlogs.findIndex((b) => b._id.toString() === id);
+
+    if (blogIndex === -1) {
+      return res.status(404).json({ message: "Blog not found" });
+    }
+
+    const blogData = publicBlogs[blogIndex].toObject
+      ? publicBlogs[blogIndex].toObject()
+      : { ...publicBlogs[blogIndex] };
+
+    // blogNumber matching the 1-based index on Blogs page
+    blogData.blogNumber = blogIndex + 1;
+
+    res.status(200).json(blogData);
   } catch (error) {
     res.status(500).json({ message: "Server Error", error });
   }
