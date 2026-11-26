@@ -252,7 +252,7 @@ export default function ProjectPostPage() {
                   : "Case Study"}
               </span>
 
-              {postInfo.status && (
+              {/* {postInfo.status && (
                 <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold uppercase tracking-wider bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700/80">
                   <span
                     className={`w-1.5 h-1.5 rounded-full ${
@@ -264,7 +264,7 @@ export default function ProjectPostPage() {
                   />
                   {postInfo.status}
                 </span>
-              )}
+              )} */}
 
               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium text-slate-500 dark:text-slate-400 bg-slate-100/70 dark:bg-slate-800/50">
                 <LuClock className="text-xs text-slate-400" />
