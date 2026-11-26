@@ -149,17 +149,7 @@ export default function Home() {
           <div className="order-2 lg:order-1 lg:col-span-7 flex flex-col items-start gap-6">
 
             {/* Live Status Pill */}
-            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-slate-900/5 dark:bg-white/5 border border-slate-200/80 dark:border-slate-700/60 backdrop-blur-md shadow-xs">
-              <span className="relative flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
-              </span>
-              {/* <span className="text-xs font-medium text-slate-700 dark:text-slate-300">Available for Opportunities</span>
-              <span className="text-slate-300 dark:text-slate-600 font-light">•</span> */}
-              <span className="text-xs font-semibold text-blue-600 dark:text-blue-400 flex items-center gap-1">
-                <LuSparkles className="text-xs" /> Building AI Agents
-              </span>
-            </div>
+ 
 
             {/* Headline Block */}
             <div className="space-y-3">

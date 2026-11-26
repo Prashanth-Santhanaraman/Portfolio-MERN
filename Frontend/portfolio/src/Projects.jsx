@@ -152,8 +152,7 @@ export default function Projects() {
           <h3 className="font-unbounded font-bold text-lg text-slate-900 dark:text-slate-100 mb-1">
             No Projects Yet
           </h3>
-after opening particular project post. if i open 9th project. in project page. it shows 01.
-so change that. if cover image is not there. make it some interesting.
+
           <p className="text-xs text-slate-500 max-w-sm">
             Check back soon for new projects and technical work!
           </p>
