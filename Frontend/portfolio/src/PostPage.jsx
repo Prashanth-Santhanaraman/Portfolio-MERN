@@ -280,7 +280,7 @@ export default function PostPage() {
                     Prashanth Santhanaraman
                   </p>
                   <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                    Full Stack MERN Developer • Bengaluru, IN
+                    Full Stack MERN Developer
                   </p>
                 </div>
               </div>
@@ -424,40 +424,7 @@ export default function PostPage() {
             <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white font-unbounded font-bold text-xl flex items-center justify-center shadow-lg shadow-blue-500/25 shrink-0">
               P
             </div>
-            <div className="space-y-2 text-center sm:text-left">
-              <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
-                <h3 className="font-unbounded text-base font-bold text-slate-900 dark:text-white">
-                  Prashanth Santhanaraman
-                </h3>
-                <span className="hidden sm:inline text-slate-300 dark:text-slate-700">•</span>
-                <span className="text-xs text-blue-600 dark:text-blue-400 font-medium">
-                  Full Stack Engineer & Tech Writer
-                </span>
-              </div>
-              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                Passionate about developing clean, performant full-stack web applications and sharing practical knowledge on React, Node.js, and modern software development workflows.
-              </p>
-              <div className="flex items-center justify-center sm:justify-start gap-4 pt-1">
-                <a
-                  href="https://www.linkedin.com/in/prashanth-santhanaraman/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                >
-                  <FaLinkedin className="text-sm" />
-                  <span>LinkedIn</span>
-                </a>
-                <a
-                  href="https://github.com/prashanth-santhanaraman"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors"
-                >
-                  <FaGithub className="text-sm" />
-                  <span>GitHub</span>
-                </a>
-              </div>
-            </div>
+
           </div>
 
           {/* ──────────────────────────────────────────────────────── */}
