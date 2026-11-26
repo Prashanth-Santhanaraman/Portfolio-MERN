@@ -420,12 +420,7 @@ export default function PostPage() {
           {/* ──────────────────────────────────────────────────────── */}
           {/* ── AUTHOR SPOTLIGHT CARD ──────────────────────────────── */}
           {/* ──────────────────────────────────────────────────────── */}
-          <div className="mt-8 p-6 rounded-3xl border border-slate-200/90 dark:border-slate-800/90 bg-white/60 dark:bg-slate-900/60 backdrop-blur-md flex flex-col sm:flex-row items-center sm:items-start gap-5">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white font-unbounded font-bold text-xl flex items-center justify-center shadow-lg shadow-blue-500/25 shrink-0">
-              P
-            </div>
 
-          </div>
 
           {/* ──────────────────────────────────────────────────────── */}
           {/* ── FOOTER & RELATED NAVIGATION ────────────────────────── */}
